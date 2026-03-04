@@ -1,0 +1,75 @@
+/* Reset básico para consistência obsessiva – elimina margens/padding indesejados */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Georgia', serif;                  /* Serif clássico, tom documental, biblioteca antiga */
+    background-color: #f8f1e9;                      /* Off-white amarelado, papel velho exposto ao sol de Tocantins */
+    color: #2c1a0d;                                 /* Marrom escuro, quase sangue seco, tinta de caneta antiga */
+    line-height: 1.6;
+    min-height: 100vh;                              /* Garante que o fundo cubra toda a viewport */
+}
+
+/* Header – placa de arquivo oficial, como placa de inquérito em delegacia velha */
+header {
+    background-color: #3a1e0f;                      /* Marrom escuro, madeira envernizada e manchada */
+    color: #e0d4c0;                                 /* Bege claro, papel envelhecido */
+    text-align: center;
+    padding: 2rem 1rem;
+    border-bottom: 8px solid #8b0000;               /* Vermelho sangue sutil – eco de 1821 sem ser explícito */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);         /* Profundidade, como pasta sobre mesa velha */
+}
+
+header h1 {
+    font-size: 3.5rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.6);       /* Sombra para dar peso, sensação de gravura antiga */
+    letter-spacing: 0.1em;
+}
+
+header p {
+    font-size: 1.3rem;
+    opacity: 0.9;
+    font-style: italic;                             /* Leve itálico para dar tom de legenda oficial */
+}
+
+/* Main intro – área principal, como relatório desbotado dentro de uma pasta */
+main .intro {
+    max-width: 900px;
+    margin: 3rem auto;                              /* Centraliza com margem generosa – respira como documento isolado */
+    padding: 2.5rem;
+    background-color: #fffef7;                      /* Branco sujo, quase creme */
+    border: 1px solid #d2b48c;                      /* Borda bege, como borda de pasta de papelão */
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.1);     /* Sombra interna sutil – sensação de página amassada */
+}
+
+.intro h2 {
+    color: #8b0000;                                 /* Vermelho escuro para títulos – sangue seco novamente */
+    border-bottom: 2px solid #d2b48c;
+    padding-bottom: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.intro p {
+    font-size: 1.1rem;
+}
+
+/* Flex para seções futuras (timeline, galeria de evidências, depoimentos) */
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Footer – assinatura burocrática, pequena e discreta */
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 3rem;
+    border-top: 1px solid #d2b48c;
+    color: #6b4e31;
+    font-size: 0.9rem;
+}
