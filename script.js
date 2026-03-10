@@ -1,0 +1,1 @@
+console.log("O JavaScript está funcionando! O ARG já sabe que você chegou.");
