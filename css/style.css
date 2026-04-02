@@ -1,0 +1,191 @@
+/* =============================================
+   CSS - Caso 91-1821
+   Arquivo: css/style.css
+   ============================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Georgia', serif;
+    background-color: #1a140f;
+    color: #d4c3a8;
+    line-height: 1.7;
+    background-image: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), 
+                      url('../assets/img/textura-papel-velho.jpg'); /* opcional */
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* Container central */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* HEADER */
+header {
+    background-color: #2c1f17;
+    border-bottom: 4px solid #8b0000;
+    padding: 2.5rem 0;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+}
+
+header h1 {
+    font-size: 3.8rem;
+    color: #e8d5b8;
+    letter-spacing: 0.15em;
+    text-shadow: 2px 2px 6px rgba(139, 0, 0, 0.6);
+}
+
+header .subtitle {
+    font-size: 1.35rem;
+    color: #b89e7a;
+    margin-top: 0.8rem;
+    opacity: 0.95;
+}
+
+/* NAVEGAÇÃO COM ABAS */
+.tabs {
+    background-color: #241c16;
+    border-bottom: 2px solid #4a2f1f;
+}
+
+.tabs ul {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 1.2rem 0;
+}
+
+.tabs li {
+    position: relative;
+}
+
+.tabs a {
+    color: #b89e7a;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.6rem 1.4rem;
+    transition: all 0.3s ease;
+}
+
+.tabs a:hover {
+    color: #e8d5b8;
+}
+
+.tabs .active a {
+    color: #ffffff;
+    background-color: #8b0000;
+    border-radius: 4px;
+}
+
+/* MAIN CONTENT */
+main {
+    padding: 3rem 0;
+}
+
+.intro h2 {
+    color: #c45a3a;
+    font-size: 2.1rem;
+    margin-bottom: 1.2rem;
+    border-bottom: 2px solid #4a2f1f;
+    padding-bottom: 0.8rem;
+}
+
+.intro p {
+    font-size: 1.15rem;
+    margin-bottom: 1.4rem;
+    text-align: justify;
+}
+
+.btn-primary {
+    background-color: #8b0000;
+    color: #e8d5b8;
+    border: none;
+    padding: 1rem 2.2rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.btn-primary:hover {
+    background-color: #a52a2a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 0, 0, 0.5);
+}
+
+/* Seção oculta "O Caso" */
+#o-caso {
+    margin-top: 2.5rem;
+    padding: 2rem;
+    background-color: #241c16;
+    border: 1px solid #4a2f1f;
+    border-left: 6px solid #8b0000;
+}
+
+#o-caso h3 {
+    color: #c45a3a;
+    margin-bottom: 1rem;
+}
+
+/* RODAPÉ (estilo Happy Meat Farms) */
+footer {
+    background-color: #1a140f;
+    color: #8b6f4e;
+    text-align: center;
+    padding: 2.5rem 0;
+    font-size: 0.95rem;
+    border-top: 1px solid #3a2a1f;
+    margin-top: 4rem;
+}
+
+footer p {
+    max-width: 900px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Responsividade */
+@media screen and (max-width: 768px) {
+    header h1 {
+        font-size: 2.8rem;
+    }
+    
+    .tabs ul {
+        flex-direction: column;
+        gap: 0.8rem;
+        align-items: center;
+    }
+    
+    .container {
+        padding: 0 1.2rem;
+    }
+    
+    .intro h2 {
+        font-size: 1.8rem;
+    }
+}
+
+/* Efeitos sutis de ARG */
+.hidden {
+    display: none;
+}
+
+.btn-primary:active {
+    transform: scale(0.97);
+}
+
+/* Hover sutil em textos para sensação de "algo está errado" */
+.intro p:hover {
+    color: #d4b89a;
+    transition: color 0.4s ease;
+}

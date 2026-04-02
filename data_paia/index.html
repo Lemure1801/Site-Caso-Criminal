@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Pior Data de Nascimento do Mundo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>A Pior Maneira de Inserir uma Data de Nascimento</h1>
+        <p class="descricao">Tente colocar a data de nascimento de Antônia Gutierrez. Boa sorte.</p>
+
+        <form id="form-data">
+            <label>Ano:</label>
+            <input type="number" id="ano" value="1968" readonly>
+            
+            <button type="button" id="btn-mudar-ano">Mudar Ano</button>
+
+            <br><br>
+
+            <label>Dia:</label>
+            <input type="number" id="dia" placeholder="Dia" min="1" max="31">
+            
+            <button type="button" id="btn-resolver-conta">Resolver Conta para Confirmar Dia</button>
+
+            <div id="conta-container" class="hidden">
+                <p id="conta-texto"></p>
+                <input type="number" id="resposta-conta" placeholder="Resposta">
+                <button type="button" id="btn-confirmar-conta">Confirmar</button>
+            </div>
+
+            <br><br>
+
+            <button type="button" id="btn-salvar" class="hidden">Salvar Data no Banco</button>
+        </form>
+
+        <div id="mensagem" class="hidden"></div>
+    </div>
+
+    <script src="db.js"></script>
+    <script src="controller.js"></script>
+</body>
+</html>
