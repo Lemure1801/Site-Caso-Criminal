@@ -2,44 +2,34 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Pior Data de Nascimento do Mundo</title>
+    <title>SISTEMA DE DATAS 2.0 PREMIUM LUXE</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="chaos-container">
+        <h1>SELECIONE A DATA (POR FAVOR, NÃO CORRA)</h1>
+        
+        <div class="display">
+            DATA ATUAL: <span id="data-display">01 / 01 / 1900</span>
+        </div>
 
-    <div class="container">
-        <h1>A Pior Maneira de Inserir uma Data de Nascimento</h1>
-        <p class="descricao">Tente colocar a data de nascimento de Antônia Gutierrez. Boa sorte.</p>
-
-        <form id="form-data">
-            <label>Ano:</label>
-            <input type="number" id="ano" value="1968" readonly>
-            
-            <button type="button" id="btn-mudar-ano">Mudar Ano</button>
-
-            <br><br>
-
-            <label>Dia:</label>
-            <input type="number" id="dia" placeholder="Dia" min="1" max="31">
-            
-            <button type="button" id="btn-resolver-conta">Resolver Conta para Confirmar Dia</button>
-
-            <div id="conta-container" class="hidden">
-                <p id="conta-texto"></p>
-                <input type="number" id="resposta-conta" placeholder="Resposta">
-                <button type="button" id="btn-confirmar-conta">Confirmar</button>
+        <div class="controls">
+            <div class="control-group">
+                <label>VELOCIDADE DO DIA:</label>
+                <input type="range" id="speed-slider" min="1" max="100" value="50">
             </div>
 
-            <br><br>
+            <button id="btn-stop" class="evil-button">PARAR NO DIA CERTO</button>
+        </div>
 
-            <button type="button" id="btn-salvar" class="hidden">Salvar Data no Banco</button>
-        </form>
+        <div class="manual-entry">
+            <p>OU USE NOSSO SELETOR MANUAL:</p>
+            <button id="btn-random" class="jump-button">DIA ALEATÓRIO</button>
+        </div>
 
-        <div id="mensagem" class="hidden"></div>
+        <button id="btn-submit" onclick="alert('Erro: O fuso horário de Marte não foi detectado.')">CONFIRMAR AGENDAMENTO</button>
     </div>
 
-    <script src="db.js"></script>
     <script src="controller.js"></script>
 </body>
 </html>

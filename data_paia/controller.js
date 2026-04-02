@@ -1,62 +1,44 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const btnMudarAno = document.getElementById('btn-mudar-ano');
-    const inputAno = document.getElementById('ano');
-    const btnResolverConta = document.getElementById('btn-resolver-conta');
-    const contaContainer = document.getElementById('conta-container');
-    const contaTexto = document.getElementById('conta-texto');
-    const inputResposta = document.getElementById('resposta-conta');
-    const btnConfirmarConta = document.getElementById('btn-confirmar-conta');
-    const btnSalvar = document.getElementById('btn-salvar');
-    const mensagem = document.getElementById('mensagem');
+let dia = 1;
+let mes = 1;
+let ano = 1900;
+let rodando = true;
+let velocidade = 50;
 
-    let diaCorreto = null;
-    let contaAtual = null;
+const display = document.getElementById('data-display');
+const slider = document.getElementById('speed-slider');
+const btnStop = document.getElementById('btn-stop');
+const btnRandom = document.getElementById('btn-random');
 
-    // Botão que troca o ano para um valor aleatório (1950-2050)
-    btnMudarAno.addEventListener('click', () => {
-        const anoAleatorio = Math.floor(Math.random() * (2050 - 1950 + 1)) + 1950;
-        inputAno.value = anoAleatorio;
-    });
+// Loop de data infinita
+function atualizarData() {
+    if (rodando) {
+        dia++;
+        if (dia > 31) { dia = 1; mes++; }
+        if (mes > 12) { mes = 1; ano++; }
+        if (ano > 2100) { ano = 1900; }
+        
+        display.innerText = `${dia.toString().padStart(2, '0')} / ${mes.toString().padStart(2, '0')} / ${ano}`;
+    }
+    
+    // A velocidade é inversamente proporcional ao valor do slider (para irritar)
+    setTimeout(atualizarData, 101 - slider.value);
+}
 
-    // Botão para resolver conta e liberar o dia
-    btnResolverConta.addEventListener('click', () => {
-        // Gera uma conta simples
-        const a = Math.floor(Math.random() * 20) + 5;
-        const b = Math.floor(Math.random() * 15) + 3;
-        contaAtual = a + b;
-
-        contaTexto.textContent = `Quanto é ${a} + ${b}?`;
-        contaContainer.classList.remove('hidden');
-        inputResposta.focus();
-    });
-
-    // Verifica resposta da conta
-    btnConfirmarConta.addEventListener('click', () => {
-        if (parseInt(inputResposta.value) === contaAtual) {
-            diaCorreto = Math.floor(Math.random() * 28) + 1; // dia aleatório 1-28
-            alert(`Correto! O dia liberado é ${diaCorreto}. Agora salve a data.`);
-            btnSalvar.classList.remove('hidden');
-        } else {
-            alert('Resposta errada. Tente novamente.');
-            inputResposta.value = '';
-        }
-    });
-
-    // Salvar no IndexedDB
-    btnSalvar.addEventListener('click', () => {
-        const dataNascimento = {
-            nome: "Antônia Gutierrez",
-            data: `${diaCorreto || '??'}/${inputAno.value}`,
-            timestamp: new Date().toISOString()
-        };
-
-        if (typeof window.salvarData === 'function') {
-            window.salvarData(dataNascimento)
-                .then(() => {
-                    mensagem.classList.remove('hidden');
-                    mensagem.innerHTML = `✅ Data salva com sucesso!<br>Valor registrado: ${dataNascimento.data}`;
-                })
-                .catch(err => console.error(err));
-        }
-    });
+btnStop.addEventListener('click', () => {
+    rodando = !rodando;
+    btnStop.innerText = rodando ? "PARAR NO DIA CERTO" : "OPS, VOLTAR A RODAR";
+    if (!rodando) {
+        alert(`Você selecionou: ${display.innerText}. Tem certeza? (Não importa, o sistema vai reiniciar)`);
+        rodando = true;
+    }
 });
+
+// Faz o botão aleatório fugir quando o mouse chega perto
+btnRandom.addEventListener('mouseover', () => {
+    btnRandom.style.position = 'absolute';
+    btnRandom.style.top = Math.random() * 90 + 'vh';
+    btnRandom.style.left = Math.random() * 90 + 'vw';
+});
+
+// Inicia o caos
+atualizarData();

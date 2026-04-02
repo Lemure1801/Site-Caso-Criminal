@@ -1,50 +1,52 @@
 body {
-    font-family: 'Georgia', serif;
-    background-color: #1a140f;
-    color: #d4c3a8;
+    background-color: #ff00ff;
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    color: #00ff00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.chaos-container {
+    background: #ffff00;
+    padding: 50px;
+    border: 10px dashed red;
+    transform: rotate(-2deg);
     text-align: center;
-    padding: 3rem;
 }
 
-.container {
-    max-width: 700px;
-    margin: 0 auto;
+.display {
+    font-size: 3rem;
+    background: black;
+    color: white;
+    margin: 20px;
+    padding: 10px;
 }
 
-h1 {
-    color: #8b0000;
-    margin-bottom: 1rem;
+.evil-button {
+    padding: 20px;
+    font-size: 1.5rem;
+    cursor: wait;
+    background: blue;
+    color: white;
 }
 
-.descricao {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-    color: #b89e7a;
+.jump-button {
+    position: relative;
+    transition: all 0.1s;
 }
 
-input, button {
-    padding: 12px;
-    margin: 8px;
-    font-size: 1.1rem;
+#btn-submit {
+    margin-top: 30px;
+    background: red;
+    font-weight: bold;
 }
 
-button {
-    background-color: #4a2f1f;
-    color: #e8d5b8;
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #8b0000;
-}
-
-.hidden {
-    display: none;
-}
-
-#mensagem {
-    margin-top: 2rem;
-    font-size: 1.3rem;
-    color: #8b0000;
+/* O botão que foge */
+#btn-submit:hover {
+    position: absolute;
+    top: calc(Math.random() * 80vh);
+    left: calc(Math.random() * 80vw);
 }
