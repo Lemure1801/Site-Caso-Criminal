@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Caso 91-1821 — Arquivo Digital Independente</title>
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="imagens/favicon.ico" />
   <!-- 18/02/1965 — 18:21 — inauguração registrada — ref. Lv. 18:21 -->
   <meta name="data-interna" content="18-02-1965T18:21:00" />
   <meta name="description" content="Arquivo digital independente sobre o reaparecimento não resolvido de Antônia Gutierrez. Cariará, Tocantins, 1991." />
@@ -356,6 +356,131 @@
 
     /* ── FORUM SCREEN ── */
     #screen-forum { display: none; }
+
+    /* ── CONTRIBUTORS SCREEN ── */
+    #screen-contributors { display: none; }
+
+    .contributors-header {
+      text-align: center;
+      padding: 52px 0 36px;
+    }
+
+    .contributors-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: .18em;
+      color: var(--gold);
+    }
+
+    .contributors-subtitle {
+      font-family: var(--mono);
+      font-size: .78rem;
+      color: var(--text-dim);
+      letter-spacing: .1em;
+      margin-top: 18px;
+    }
+
+    .contributors-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      margin-top: 40px;
+    }
+
+    .contributor-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dark);
+      border-left: 3px solid var(--blood);
+      padding: 28px 32px;
+      display: flex;
+      gap: 24px;
+      box-shadow: inset 0 0 30px rgba(0,0,0,.4), -2px 0 8px rgba(122,21,21,.1);
+      transition: box-shadow .3s ease;
+    }
+
+    .contributor-card:hover {
+      box-shadow: inset 0 0 40px rgba(0,0,0,.5), -4px 0 12px rgba(122,21,21,.2);
+    }
+
+    .valentino-card {
+      border-left-color: #ff4400;
+      box-shadow: inset 0 0 30px rgba(0,0,0,.4), -2px 0 8px rgba(255,68,0,.15);
+      animation: fadeInValentino .8s ease;
+    }
+
+    .valentino-card:hover {
+      box-shadow: inset 0 0 40px rgba(0,0,0,.5), -4px 0 12px rgba(255,68,0,.25);
+    }
+
+    @keyframes fadeInValentino {
+      from { opacity: 0; transform: translateY(12px) scale(.98); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .contributor-photo {
+      width: 120px;
+      height: 120px;
+      flex-shrink: 0;
+      background: var(--bg-card-alt);
+      border: 2px solid var(--border-mid);
+      padding: 4px;
+      filter: sepia(.6) brightness(.85);
+    }
+
+    .contributor-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .contributor-photo .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0a0600;
+    }
+
+    .contributor-photo .photo-placeholder svg {
+      width: 48px;
+      height: 48px;
+    }
+
+    .contributor-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contributor-name {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      color: var(--gold);
+      letter-spacing: .08em;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .contributor-bio {
+      font-family: var(--fell);
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .valentino-bio {
+      font-family: var(--mono);
+      font-size: .75rem;
+      letter-spacing: .05em;
+      color: #ff6644;
+      line-height: 1.6;
+      word-break: break-all;
+      opacity: .9;
+    }
 
     .forum-header {
       text-align: center;
@@ -737,6 +862,121 @@
       letter-spacing: .1em;
     }
 
+    .datetime-display {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      font-family: var(--mono);
+      font-size: .55rem;
+      color: var(--text-faint);
+      letter-spacing: .06em;
+      cursor: pointer;
+      transition: color .2s;
+      padding: 4px 6px;
+    }
+
+    .datetime-display:hover {
+      color: var(--gold-dim);
+    }
+
+    /* datetime modal */
+    .datetime-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.8);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .datetime-modal.active {
+      display: flex;
+    }
+
+    .datetime-modal-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border-mid);
+      padding: 28px 32px;
+      min-width: 320px;
+      box-shadow: 0 8px 40px rgba(0,0,0,.9);
+    }
+
+    .datetime-modal-content h3 {
+      font-family: var(--mono);
+      font-size: .9rem;
+      color: var(--gold);
+      letter-spacing: .15em;
+      margin-bottom: 20px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .datetime-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .datetime-inputs label {
+      font-family: var(--mono);
+      font-size: .72rem;
+      color: var(--text-dim);
+      letter-spacing: .08em;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .datetime-inputs input {
+      background: #0d0800;
+      border: 1px solid var(--border-mid);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: .78rem;
+      padding: 8px 12px;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .datetime-inputs input:focus {
+      border-color: var(--blood);
+    }
+
+    .datetime-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .datetime-actions button {
+      background: none;
+      border: 1px solid var(--border-mid);
+      color: var(--text-dim);
+      font-family: var(--mono);
+      font-size: .72rem;
+      letter-spacing: .1em;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .datetime-actions button:hover {
+      border-color: var(--gold-dim);
+      color: var(--gold);
+    }
+
+    .datetime-actions button#datetime-apply {
+      border-color: var(--blood);
+      color: var(--gold);
+    }
+
+    .datetime-actions button#datetime-apply:hover {
+      background: rgba(122,21,21,.15);
+      box-shadow: 0 0 10px rgba(122,21,21,.25);
+    }
+
     /* ── 404 SCREEN ── */
     #screen-404 {
       display: none;
@@ -814,6 +1054,26 @@
       .case-inner, .comment-form-block { padding: 20px 16px; }
       .reply-item { padding-left: 0; }
       .err-number { font-size: 26vw; }
+      
+      .contributor-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 16px;
+        padding: 24px 20px;
+      }
+      
+      .contributor-photo {
+        width: 100px;
+        height: 100px;
+      }
+      
+      .datetime-modal-content {
+        margin: 20px;
+        min-width: auto;
+        width: calc(100% - 40px);
+        max-width: 400px;
+      }
     }
   </style>
 </head>
@@ -847,6 +1107,88 @@
     <div class="construction-card">
       [ Esta seção está em construção. Retorne em breve. ]
       <span class="construction-sig">— G.A.</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       MANTENEDORES E CONTRIBUINTES
+  ══════════════════════════════════════════════════════════ -->
+  <div id="screen-contributors" style="display:none;">
+    
+    <div class="contributors-header">
+      <h2 class="contributors-title">MANTENEDORES E CONTRIBUINTES</h2>
+      <div class="title-rule"></div>
+      <p class="contributors-subtitle">Pessoas que mantêm viva a memória e a investigação do Caso 91-1821</p>
+    </div>
+
+    <div class="contributors-grid" id="contributors-grid">
+      
+      <!-- Guilherme Azevedo -->
+      <div class="contributor-card">
+        <div class="contributor-photo">
+          <img src="imagens/guilherme.jpg" alt="Guilherme Azevedo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="photo-placeholder" style="display:none;">
+            <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="22" r="10" stroke="#c9aa7c" stroke-width="1" opacity=".3"/>
+              <path d="M8 52 Q30 36 52 52" stroke="#c9aa7c" stroke-width="1" opacity=".3" fill="none"/>
+            </svg>
+          </div>
+        </div>
+        <div class="contributor-info">
+          <h3 class="contributor-name">Guilherme Azevedo</h3>
+          <p class="contributor-bio">
+            Marido de Antônia Gutierrez e mantenedor principal do arquivo. Dedicou sua vida à investigação 
+            do que aconteceu no Hospital Santos Levíticos em março de 1991. Perdeu o processo judicial em 
+            1996, mas nunca desistiu de buscar a verdade sobre o estado de sua esposa. Criou e mantém este 
+            arquivo digital desde 1999, reunindo documentos, testemunhos e evidências sobre o caso.
+          </p>
+        </div>
+      </div>
+
+      <!-- Padre Elias Monteverde -->
+      <div class="contributor-card">
+        <div class="contributor-photo">
+          <img src="imagens/elias.jpg" alt="Padre Elias Monteverde" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="photo-placeholder" style="display:none;">
+            <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="22" r="10" stroke="#c9aa7c" stroke-width="1" opacity=".3"/>
+              <path d="M8 52 Q30 36 52 52" stroke="#c9aa7c" stroke-width="1" opacity=".3" fill="none"/>
+              <path d="M25 15 L25 30 L35 30 L35 15" stroke="#c9aa7c" stroke-width="1" opacity=".2"/>
+            </svg>
+          </div>
+        </div>
+        <div class="contributor-info">
+          <h3 class="contributor-name">Padre Elias Monteverde</h3>
+          <p class="contributor-bio">
+            Pároco de Cariará e testemunha ocular do reaparecimento de Antônia na madrugada de 21 de março. 
+            Sempre se opôs ao Hospital Santos Levíticos desde sua inauguração, alertando sobre a natureza 
+            duvidosa dos "milagres" realizados lá. Foi quem encontrou Antônia em estado catatônico após o 
+            sino da igreja abandonada badalar três vezes sem explicação. Colabora com o arquivo fornecendo 
+            seu testemunho e documentos da paróquia.
+          </p>
+        </div>
+      </div>
+
+      <!-- Valentino Braga (hidden by default, shown on date trigger) -->
+      <div class="contributor-card valentino-card" id="valentino-card" style="display:none;">
+        <div class="contributor-photo">
+          <img src="imagens/valentino.jpg" alt="Valentino Braga" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="photo-placeholder" style="display:none;">
+            <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="22" r="10" stroke="#ff4400" stroke-width="1" opacity=".4"/>
+              <path d="M8 52 Q30 36 52 52" stroke="#ff4400" stroke-width="1" opacity=".4" fill="none"/>
+              <path d="M25 15 L30 10 L35 15" stroke="#ff4400" stroke-width="1" opacity=".3"/>
+            </svg>
+          </div>
+        </div>
+        <div class="contributor-info">
+          <h3 class="contributor-name">Valentino Braga</h3>
+          <div class="contributor-bio valentino-bio" id="valentino-bio">
+            01010000 01100001 01101001 00100000 01100100 01100101 00100000 01001101 01101001 01100111 01110101 01100101 01101100 00101110 00100000 01000100 01101111 01101110 01101111 00100000 01100100 01101111 01110011 00100000 01100011 11100011 01100101 01110011 00100000 01100100 01100101 00100000 01100111 01110101 01100001 01110010 01100100 01100001 00101110 00100000 01000011 01101111 01110010 01100100 01100101 01101001 01110010 01101111 01110011 00100000 01100011 01101111 01101101 01101111 00100000 01001010 01101111 01101110 01100001 01110011 00100000 01000001 01101100 01100010 01110101 01110010 01100101 01101101 00100000 01110011 11100011 01101111 00100000 01101101 01110101 01101001 01110100 01101111 00100000 01100011 01110101 01110010 01101001 01101111 01110011 01101111 01110011 00101110
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -887,7 +1229,7 @@
         <div class="photo-inner">
           <img
             id="antonia-photo"
-            src="favicon.ico"
+            src="imagens/"
             alt="Antônia Gutierrez — fotografia anterior a 1991"
           />
           <div class="photo-fallback" id="photo-fallback" style="display:none;">
@@ -1023,7 +1365,33 @@
   </p>
   <p class="footer-version">v.1.0.0 — arquivo reconstituído — última atualização: 1999</p>
   <span id="easter18">18.02 / 18:21</span>
+  
+  <!-- datetime display -->
+  <div id="datetime-display" class="datetime-display">
+    <span id="current-datetime"></span>
+  </div>
 </footer>
+
+<!-- datetime modal -->
+<div id="datetime-modal" class="datetime-modal">
+  <div class="datetime-modal-content">
+    <h3>Ajustar Data e Hora</h3>
+    <div class="datetime-inputs">
+      <label>
+        Data:
+        <input type="date" id="date-input" />
+      </label>
+      <label>
+        Hora:
+        <input type="time" id="time-input" step="1" />
+      </label>
+    </div>
+    <div class="datetime-actions">
+      <button id="datetime-cancel">Cancelar</button>
+      <button id="datetime-apply">Aplicar</button>
+    </div>
+  </div>
+</div>
 
 <!-- 404 screen -->
 <div id="screen-404">
@@ -1148,7 +1516,7 @@
           handle: '@caso91_1821',
           initials: 'GA',
           date: '14 Mar 1991',
-          text: 'Sra. Voss, qualquer documentação que a senhora tenha sobre o programa seria de extrema importância. Minha esposa trabalhou lá de 1978 a 1983. Há algo sobre aquele período nos arquivos?'
+          text: 'Sra. Voss — qualquer documentação que a senhora tenha sobre o programa seria de extrema importância. Minha esposa trabalhou lá de 1978 a 1983. Há algo sobre aquele período nos arquivos?'
         },
         {
           user: 'Helena Voss',
@@ -1338,6 +1706,7 @@
   var mainTabs = document.querySelectorAll('#tab-nav button');
   var home     = document.getElementById('screen-home');
   var constr   = document.getElementById('screen-construction');
+  var contrib  = document.getElementById('screen-contributors');
   var forumScr = document.getElementById('screen-forum');
   var footer   = document.getElementById('site-footer');
 
@@ -1348,11 +1717,15 @@
 
       home.style.display    = 'none';
       constr.style.display  = 'none';
+      contrib.style.display = 'none';
       forumScr.style.display = 'none';
 
       var t = btn.dataset.tab;
       if (t === 'home') {
         home.style.display = 'block';
+        footer.style.display = '';
+      } else if (t === 'contrib') {
+        contrib.style.display = 'block';
         footer.style.display = '';
       } else if (t === 'forum') {
         forumScr.style.display = 'block';
@@ -1414,6 +1787,122 @@
 
   if (zero)    zero.addEventListener('click', openMiguel);
   if (overlay) overlay.addEventListener('click', closeMiguel);
+
+  /* ── DATETIME MANIPULATION ── */
+  var currentTime = null; // null = real time, Date object = custom time
+  var timeInterval = null;
+  var isPaused = false;
+
+  var dtDisplay = document.getElementById('current-datetime');
+  var dtModal   = document.getElementById('datetime-modal');
+  var dateInput = document.getElementById('date-input');
+  var timeInput = document.getElementById('time-input');
+  var cancelBtn = document.getElementById('datetime-cancel');
+  var applyBtn  = document.getElementById('datetime-apply');
+
+  function updateDateTime() {
+    var now = currentTime || new Date();
+    var dateStr = now.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    var timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    dtDisplay.textContent = dateStr + ' ' + timeStr;
+    
+    // Check for Valentino easter egg
+    checkValentinoTrigger(now);
+  }
+
+  function startTimer() {
+    if (timeInterval) clearInterval(timeInterval);
+    timeInterval = setInterval(function () {
+      if (!isPaused) {
+        if (currentTime) {
+          currentTime = new Date(currentTime.getTime() + 1000);
+        }
+        updateDateTime();
+      }
+    }, 1000);
+  }
+
+  function checkValentinoTrigger(date) {
+    var day = date.getDate();
+    var month = date.getMonth() + 1; // 0-based
+    var year = date.getFullYear();
+    var hour = date.getHours();
+    var minute = date.getMinutes();
+
+    // Check for 18/02/1965 18:21
+    if (day === 18 && month === 2 && year === 1965 && hour === 18 && minute === 21) {
+      showValentino();
+    }
+  }
+
+  function showValentino() {
+    var valCard = document.getElementById('valentino-card');
+    if (valCard && valCard.style.display === 'none') {
+      valCard.style.display = 'flex';
+    }
+  }
+
+  // Click to open modal
+  dtDisplay.addEventListener('click', function () {
+    isPaused = true;
+    var now = currentTime || new Date();
+    
+    // Format for inputs
+    var dateStr = now.getFullYear() + '-' + 
+                  String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                  String(now.getDate()).padStart(2, '0');
+    var timeStr = String(now.getHours()).padStart(2, '0') + ':' + 
+                  String(now.getMinutes()).padStart(2, '0') + ':' + 
+                  String(now.getSeconds()).padStart(2, '0');
+    
+    dateInput.value = dateStr;
+    timeInput.value = timeStr;
+    dtModal.classList.add('active');
+  });
+
+  // Cancel button
+  cancelBtn.addEventListener('click', function () {
+    isPaused = false;
+    dtModal.classList.remove('active');
+  });
+
+  // Apply button
+  applyBtn.addEventListener('click', function () {
+    var dateVal = dateInput.value;
+    var timeVal = timeInput.value;
+    
+    if (dateVal && timeVal) {
+      var dateParts = dateVal.split('-');
+      var timeParts = timeVal.split(':');
+      
+      var newDate = new Date(
+        parseInt(dateParts[0]),     // year
+        parseInt(dateParts[1]) - 1, // month (0-based)
+        parseInt(dateParts[2]),     // day
+        parseInt(timeParts[0]),     // hour
+        parseInt(timeParts[1]),     // minute
+        parseInt(timeParts[2]) || 0 // second
+      );
+      
+      currentTime = newDate;
+      updateDateTime();
+    }
+    
+    isPaused = false;
+    dtModal.classList.remove('active');
+  });
+
+  // Close modal on overlay click
+  dtModal.addEventListener('click', function (e) {
+    if (e.target === dtModal) {
+      isPaused = false;
+      dtModal.classList.remove('active');
+    }
+  });
+
+  // Initialize datetime
+  updateDateTime();
+  startTimer();
 
 }());
 </script>
