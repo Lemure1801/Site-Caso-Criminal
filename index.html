@@ -45,7 +45,6 @@
       overflow-x: hidden;
     }
 
-    /* grain overlay */
     body::before {
       content: '';
       position: fixed; inset: 0;
@@ -53,7 +52,7 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       background-size: 200px 200px;
     }
-    /* vignette */
+
     body::after {
       content: '';
       position: fixed; inset: 0;
@@ -80,12 +79,11 @@
       border-bottom: 1px solid #160a03;
     }
 
-    /* TABS — left-aligned, not stretched, matching screenshot */
     #tab-nav {
       display: flex;
       list-style: none;
-      padding: 0 0 0 0;
       border-bottom: 1px solid #1f0f04;
+      align-items: stretch;
     }
 
     #tab-nav li { display: flex; }
@@ -98,7 +96,6 @@
       font-family: var(--mono);
       font-size: .72rem;
       letter-spacing: .08em;
-      text-transform: none;
       padding: 12px 22px;
       cursor: pointer;
       text-align: center;
@@ -116,6 +113,22 @@
       background: rgba(122,21,21,.08);
     }
 
+    /* Admin button — pushed to the right */
+    #tab-nav li.admin-li { margin-left: auto; }
+
+    #tab-nav li.admin-li button {
+      color: var(--text-faint);
+      font-size: .62rem;
+      letter-spacing: .12em;
+      border-left: 1px solid #1f0f04;
+      padding: 12px 18px;
+    }
+
+    #tab-nav li.admin-li button:hover {
+      color: var(--gold-dim);
+      background: rgba(201,170,124,.04);
+    }
+
     /* ── CONTENT WRAPPER ── */
     #content-wrap {
       max-width: 880px;
@@ -123,12 +136,39 @@
       padding: 0 40px 90px;
     }
 
-    /* ── CONSTRUCTION SCREEN ── */
-    #screen-construction {
-      display: none;
-      padding: 100px 0;
+    /* ── SHARED SECTION HEADER ── */
+    .section-page-header {
       text-align: center;
+      padding: 52px 0 36px;
     }
+
+    .section-page-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: .18em;
+      color: var(--gold);
+    }
+
+    .section-page-title::after {
+      content: '';
+      display: block;
+      width: 180px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+      margin: 12px auto 0;
+    }
+
+    .section-page-subtitle {
+      font-family: var(--mono);
+      font-size: .78rem;
+      color: var(--text-dim);
+      letter-spacing: .1em;
+      margin-top: 18px;
+    }
+
+    /* ── CONSTRUCTION SCREEN ── */
+    #screen-construction { display: none; padding: 100px 0; text-align: center; }
 
     .construction-card {
       display: inline-block;
@@ -145,27 +185,15 @@
 
     .construction-card::before {
       content: '▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒';
-      display: block;
-      font-size: .45rem;
-      color: var(--text-faint);
-      margin-bottom: 16px;
+      display: block; font-size: .45rem; color: var(--text-faint); margin-bottom: 16px;
     }
 
-    .construction-sig {
-      display: block;
-      margin-top: 18px;
-      font-style: italic;
-      color: var(--gold-dim);
-    }
+    .construction-sig { display: block; margin-top: 18px; font-style: italic; color: var(--gold-dim); }
 
     /* ── HOME SCREEN ── */
     #screen-home { display: block; }
 
-    /* title block — matches screenshot spacing */
-    .title-block {
-      text-align: center;
-      padding: 64px 0 36px;
-    }
+    .title-block { text-align: center; padding: 64px 0 36px; }
 
     .case-number {
       font-family: var(--serif);
@@ -178,22 +206,17 @@
     }
 
     .title-rule {
-      width: 200px;
-      height: 1px;
+      width: 200px; height: 1px;
       background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
       margin: 16px auto 0;
     }
 
     .case-subtitle {
-      font-family: var(--mono);
-      font-size: .78rem;
-      color: var(--text-dim);
-      letter-spacing: .08em;
-      font-style: italic;
-      margin-top: 20px;
+      font-family: var(--mono); font-size: .78rem;
+      color: var(--text-dim); letter-spacing: .08em;
+      font-style: italic; margin-top: 20px;
     }
 
-    /* main text — matches screenshot: left-bordered, large body text */
     .main-text-block {
       border-left: 3px solid var(--blood);
       padding: 8px 0 8px 32px;
@@ -201,33 +224,20 @@
     }
 
     .main-text-block p {
-      font-family: var(--fell);
-      font-size: 1.18rem;
-      line-height: 1.85;
-      color: var(--text);
-      margin-bottom: 28px;
+      font-family: var(--fell); font-size: 1.18rem;
+      line-height: 1.85; color: var(--text); margin-bottom: 28px;
     }
 
     .main-text-block p:last-child { margin-bottom: 0; }
 
     .main-text-block .author-sig {
-      font-family: var(--mono);
-      font-size: .78rem;
-      color: var(--gold-dim);
-      margin-top: 32px;
-      padding-top: 14px;
+      font-family: var(--mono); font-size: .78rem; color: var(--gold-dim);
+      margin-top: 32px; padding-top: 14px;
       border-top: 1px solid var(--border-dark);
-      display: block;
-      font-style: italic;
+      display: block; font-style: italic;
     }
 
-    /* photo block — Polaroid, large, centered */
-    .photo-block {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 60px 0 50px;
-    }
+    .photo-block { display: flex; flex-direction: column; align-items: center; padding: 60px 0 50px; }
 
     .photo-frame {
       width: 320px;
@@ -237,95 +247,60 @@
     }
 
     .photo-inner {
-      width: 100%;
-      aspect-ratio: 4/5;
-      background: #060400;
-      overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-      position: relative;
+      width: 100%; aspect-ratio: 4/5; background: #060400;
+      overflow: hidden; display: flex; align-items: center;
+      justify-content: center; position: relative;
       filter: blur(1px) brightness(.3);
     }
 
-    .photo-inner img {
-      width: 100%; height: 100%;
-      object-fit: cover; display: block;
-    }
+    .photo-inner img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
     .photo-fallback {
       width: 100%; height: 100%;
       display: flex; align-items: center; justify-content: center;
-      flex-direction: column;
-      gap: 6px;
+      flex-direction: column; gap: 6px;
     }
 
     .photo-fallback svg { width: 64px; height: 64px; opacity: .2; }
 
     .photo-label {
       position: absolute; bottom: 14px; left: 0; right: 0;
-      text-align: center;
-      font-family: var(--mono);
-      font-size: .55rem;
-      color: #c9aa7c;
-      opacity: .7;
-      letter-spacing: .06em;
-      padding: 0 8px;
-      filter: blur(.5px);
+      text-align: center; font-family: var(--mono); font-size: .55rem;
+      color: #c9aa7c; opacity: .7; letter-spacing: .06em;
+      padding: 0 8px; filter: blur(.5px);
     }
 
     .photo-caption {
-      margin-top: 20px;
-      font-family: var(--mono);
-      font-size: .68rem;
-      color: var(--text-faint);
-      text-align: center;
-      letter-spacing: .08em;
+      margin-top: 20px; font-family: var(--mono); font-size: .68rem;
+      color: var(--text-faint); text-align: center; letter-spacing: .08em;
     }
 
-    /* read more btn */
     .btn-readmore {
-      display: block;
-      margin: 0 auto 0;
-      background: none;
-      border: 1px solid var(--blood);
-      color: var(--gold);
-      font-family: var(--mono);
-      font-size: .78rem;
-      letter-spacing: .22em;
-      padding: 10px 28px;
-      cursor: pointer;
+      display: block; margin: 0 auto; background: none;
+      border: 1px solid var(--blood); color: var(--gold);
+      font-family: var(--mono); font-size: .78rem; letter-spacing: .22em;
+      padding: 10px 28px; cursor: pointer;
       transition: background .25s, box-shadow .25s;
     }
 
-    .btn-readmore:hover {
-      background: rgba(122,21,21,.15);
-      box-shadow: 0 0 14px rgba(122,21,21,.3);
-    }
+    .btn-readmore:hover { background: rgba(122,21,21,.15); box-shadow: 0 0 14px rgba(122,21,21,.3); }
 
-    /* expandable section */
     #case-section {
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
+      max-height: 0; overflow: hidden; opacity: 0;
       transition: max-height .65s ease, opacity .5s ease;
     }
 
     #case-section.open { max-height: 4000px; opacity: 1; }
 
     .case-inner {
-      margin-top: 36px;
-      background: var(--bg-card-alt);
+      margin-top: 36px; background: var(--bg-card-alt);
       border-top: 2px solid var(--border-mid);
-      padding: 36px 36px 44px;
-      box-shadow: inset 0 0 50px rgba(0,0,0,.4);
+      padding: 36px 36px 44px; box-shadow: inset 0 0 50px rgba(0,0,0,.4);
     }
 
     .section-label {
-      font-family: var(--mono);
-      font-size: .6rem;
-      letter-spacing: .32em;
-      color: var(--text-dim);
-      text-transform: uppercase;
-      margin-bottom: 6px;
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .32em;
+      color: var(--text-dim); text-transform: uppercase; margin-bottom: 6px;
     }
 
     .section-divider {
@@ -335,73 +310,32 @@
     }
 
     .case-inner p {
-      font-family: var(--fell);
-      font-size: 1.05rem;
-      line-height: 1.95;
-      color: var(--text);
-      margin-bottom: 22px;
+      font-family: var(--fell); font-size: 1.05rem; line-height: 1.95;
+      color: var(--text); margin-bottom: 22px;
     }
 
     .case-inner p.italic { font-style: italic; }
 
     .case-inner .case-sig {
-      font-family: var(--mono);
-      font-size: .7rem;
-      color: var(--gold-dim);
-      border-top: 1px solid var(--border-dark);
-      padding-top: 14px;
-      margin-top: 6px;
-      display: block;
+      font-family: var(--mono); font-size: .7rem; color: var(--gold-dim);
+      border-top: 1px solid var(--border-dark); padding-top: 14px;
+      margin-top: 6px; display: block;
     }
 
-    /* ── FORUM SCREEN ── */
-    #screen-forum { display: none; }
-
-    /* ── CONTRIBUTORS SCREEN ── */
+    /* ── CONTRIBUTORS ── */
     #screen-contributors { display: none; }
 
-    .contributors-header {
-      text-align: center;
-      padding: 52px 0 36px;
-    }
-
-    .contributors-title {
-      font-family: var(--serif);
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 700;
-      letter-spacing: .18em;
-      color: var(--gold);
-    }
-
-    .contributors-subtitle {
-      font-family: var(--mono);
-      font-size: .78rem;
-      color: var(--text-dim);
-      letter-spacing: .1em;
-      margin-top: 18px;
-    }
-
-    .contributors-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 32px;
-      margin-top: 40px;
-    }
+    .contributors-grid { display: flex; flex-direction: column; gap: 32px; margin-top: 40px; }
 
     .contributor-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-dark);
-      border-left: 3px solid var(--blood);
-      padding: 28px 32px;
-      display: flex;
-      gap: 24px;
+      background: var(--bg-card); border: 1px solid var(--border-dark);
+      border-left: 3px solid var(--blood); padding: 28px 32px;
+      display: flex; gap: 24px;
       box-shadow: inset 0 0 30px rgba(0,0,0,.4), -2px 0 8px rgba(122,21,21,.1);
       transition: box-shadow .3s ease;
     }
 
-    .contributor-card:hover {
-      box-shadow: inset 0 0 40px rgba(0,0,0,.5), -4px 0 12px rgba(122,21,21,.2);
-    }
+    .contributor-card:hover { box-shadow: inset 0 0 40px rgba(0,0,0,.5), -4px 0 12px rgba(122,21,21,.2); }
 
     .valentino-card {
       border-left-color: #ff4400;
@@ -409,679 +343,417 @@
       animation: fadeInValentino .8s ease;
     }
 
-    .valentino-card:hover {
-      box-shadow: inset 0 0 40px rgba(0,0,0,.5), -4px 0 12px rgba(255,68,0,.25);
-    }
+    .valentino-card:hover { box-shadow: inset 0 0 40px rgba(0,0,0,.5), -4px 0 12px rgba(255,68,0,.25); }
 
     @keyframes fadeInValentino {
       from { opacity: 0; transform: translateY(12px) scale(.98); }
-      to { opacity: 1; transform: none; }
+      to   { opacity: 1; transform: none; }
     }
 
     .contributor-photo {
-      width: 120px;
-      height: 120px;
-      flex-shrink: 0;
-      background: var(--bg-card-alt);
-      border: 2px solid var(--border-mid);
-      padding: 4px;
-      filter: sepia(.6) brightness(.85);
+      width: 120px; height: 120px; flex-shrink: 0;
+      background: var(--bg-card-alt); border: 2px solid var(--border-mid);
+      padding: 4px; filter: sepia(.6) brightness(.85);
     }
 
-    .contributor-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+    .contributor-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
     .contributor-photo .photo-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #0a0600;
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center; background: #0a0600;
     }
 
-    .contributor-photo .photo-placeholder svg {
-      width: 48px;
-      height: 48px;
-    }
+    .contributor-photo .photo-placeholder svg { width: 48px; height: 48px; }
 
-    .contributor-info {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
+    .contributor-info { flex: 1; display: flex; flex-direction: column; }
 
     .contributor-name {
-      font-family: var(--serif);
-      font-size: 1.4rem;
-      color: var(--gold);
-      letter-spacing: .08em;
-      margin-bottom: 12px;
-      line-height: 1.2;
+      font-family: var(--serif); font-size: 1.4rem; color: var(--gold);
+      letter-spacing: .08em; margin-bottom: 12px; line-height: 1.2;
     }
 
-    .contributor-bio {
-      font-family: var(--fell);
-      font-size: 1rem;
-      line-height: 1.85;
-      color: var(--text);
-      flex: 1;
-    }
+    .contributor-bio { font-family: var(--fell); font-size: 1rem; line-height: 1.85; color: var(--text); flex: 1; }
 
     .valentino-bio {
-      font-family: var(--mono);
-      font-size: .75rem;
-      letter-spacing: .05em;
-      color: #ff6644;
-      line-height: 1.6;
-      word-break: break-all;
-      opacity: .9;
+      font-family: var(--mono); font-size: .75rem; letter-spacing: .05em;
+      color: #ff6644; line-height: 1.6; word-break: break-all; opacity: .9;
     }
 
-    .forum-header {
-      text-align: center;
-      padding: 52px 0 36px;
+    /* ── PURPOSE ── */
+    #screen-purpose { display: none; }
+
+    /* accordion button for principles */
+    .principles-toggle {
+      display: flex; align-items: center; gap: 10px;
+      background: none; border: 1px solid var(--border-mid);
+      color: var(--gold-dim); font-family: var(--mono);
+      font-size: .72rem; letter-spacing: .2em; text-transform: uppercase;
+      padding: 12px 20px; cursor: pointer; margin: 40px 0 0;
+      transition: border-color .2s, color .2s, background .2s;
+      width: 100%;
     }
 
-    .forum-title {
-      font-family: var(--serif);
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 700;
-      letter-spacing: .18em;
-      color: var(--gold);
+    .principles-toggle:hover { border-color: var(--blood); color: var(--gold); background: rgba(122,21,21,.06); }
+
+    .principles-toggle .toggle-arrow {
+      display: inline-block; transition: transform .3s ease;
+      font-style: normal; margin-left: auto;
     }
 
-    .forum-title::after {
-      content: '';
-      display: block;
-      width: 180px;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
-      margin: 12px auto 0;
+    .principles-toggle.open .toggle-arrow { transform: rotate(90deg); }
+
+    .principles-body {
+      max-height: 0; overflow: hidden; opacity: 0;
+      transition: max-height .5s ease, opacity .4s ease;
     }
 
-    .forum-subtitle {
-      font-family: var(--mono);
-      font-size: .78rem;
-      color: var(--text-dim);
-      letter-spacing: .1em;
-      margin-top: 18px;
-    }
+    .principles-body.open { max-height: 1200px; opacity: 1; }
 
-    /* forum sub-tabs */
+    /* ── FORUM ── */
+    #screen-forum { display: none; }
+
     .forum-tabs {
-      display: flex;
-      border-bottom: 1px solid var(--border-mid);
+      display: flex; border-bottom: 1px solid var(--border-mid);
       margin-bottom: 32px;
-      gap: 0;
     }
 
     .forum-tab-btn {
-      background: none;
-      border: none;
-      border-bottom: 2px solid transparent;
-      color: var(--text-dim);
-      font-family: var(--mono);
-      font-size: .75rem;
-      letter-spacing: .08em;
-      padding: 12px 24px;
-      cursor: pointer;
-      position: relative;
-      bottom: -1px;
-      transition: color .2s, border-color .2s;
+      background: none; border: none; border-bottom: 2px solid transparent;
+      color: var(--text-dim); font-family: var(--mono); font-size: .75rem;
+      letter-spacing: .08em; padding: 12px 24px; cursor: pointer;
+      position: relative; bottom: -1px; transition: color .2s, border-color .2s;
     }
 
     .forum-tab-btn:hover { color: var(--gold); }
+    .forum-tab-btn.active { color: var(--gold); border-bottom-color: var(--blood); }
 
-    .forum-tab-btn.active {
-      color: var(--gold);
-      border-bottom-color: var(--blood);
-    }
-
-    /* forum panels */
     .forum-panel { display: none; }
     .forum-panel.active { display: block; }
 
-    /* ── COMENTÁRIOS GERAIS ── */
     .comment-form-block {
-      background: var(--bg-card);
-      border: 1px solid var(--border-dark);
-      padding: 28px 28px 24px;
-      margin-bottom: 36px;
+      background: var(--bg-card); border: 1px solid var(--border-dark);
+      padding: 28px 28px 24px; margin-bottom: 36px;
     }
 
     .form-label {
-      font-family: var(--mono);
-      font-size: .72rem;
-      color: var(--text-dim);
-      letter-spacing: .1em;
-      display: block;
-      margin-bottom: 8px;
+      font-family: var(--mono); font-size: .72rem; color: var(--text-dim);
+      letter-spacing: .1em; display: block; margin-bottom: 8px;
     }
 
     .form-input {
-      width: 100%;
-      background: #0d0800;
-      border: 1px solid var(--border-mid);
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: .8rem;
-      padding: 10px 14px;
-      outline: none;
-      margin-bottom: 18px;
-      letter-spacing: .05em;
-      transition: border-color .2s;
+      width: 100%; background: #0d0800; border: 1px solid var(--border-mid);
+      color: var(--text); font-family: var(--mono); font-size: .8rem;
+      padding: 10px 14px; outline: none; margin-bottom: 18px;
+      letter-spacing: .05em; transition: border-color .2s;
     }
 
     .form-input:focus { border-color: var(--blood); }
 
     .form-textarea {
-      width: 100%;
-      background: #0d0800;
-      border: 1px solid var(--border-mid);
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: .8rem;
-      padding: 12px 14px;
-      outline: none;
-      resize: vertical;
-      min-height: 120px;
-      margin-bottom: 18px;
-      letter-spacing: .05em;
-      line-height: 1.7;
+      width: 100%; background: #0d0800; border: 1px solid var(--border-mid);
+      color: var(--text); font-family: var(--mono); font-size: .8rem;
+      padding: 12px 14px; outline: none; resize: vertical; min-height: 120px;
+      margin-bottom: 18px; letter-spacing: .05em; line-height: 1.7;
       transition: border-color .2s;
     }
 
     .form-textarea:focus { border-color: var(--blood); }
 
     .btn-enviar {
-      background: none;
-      border: 1px solid var(--blood);
-      color: var(--gold);
-      font-family: var(--mono);
-      font-size: .75rem;
-      letter-spacing: .22em;
-      padding: 10px 26px;
-      cursor: pointer;
-      transition: background .2s, box-shadow .2s;
+      background: none; border: 1px solid var(--blood); color: var(--gold);
+      font-family: var(--mono); font-size: .75rem; letter-spacing: .22em;
+      padding: 10px 26px; cursor: pointer; transition: background .2s, box-shadow .2s;
     }
 
-    .btn-enviar:hover {
-      background: rgba(122,21,21,.15);
-      box-shadow: 0 0 12px rgba(122,21,21,.3);
-    }
+    .btn-enviar:hover { background: rgba(122,21,21,.15); box-shadow: 0 0 12px rgba(122,21,21,.3); }
 
-    /* comments list */
     #comments-list { display: flex; flex-direction: column; gap: 16px; }
 
     .comment-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border-dark);
-      border-left: 2px solid var(--border-mid);
-      padding: 16px 20px;
-      position: relative;
-      animation: fadeIn .4s ease;
+      background: var(--bg-card); border: 1px solid var(--border-dark);
+      border-left: 2px solid var(--border-mid); padding: 16px 20px;
+      position: relative; animation: fadeIn .4s ease;
     }
+
+    .comment-item.permanent { border-left-color: var(--gold-dim); }
 
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
-    .comment-author {
-      font-family: var(--mono);
-      font-size: .72rem;
-      color: var(--gold-dim);
-      letter-spacing: .08em;
-      margin-bottom: 6px;
-    }
+    .comment-author { font-family: var(--mono); font-size: .72rem; color: var(--gold-dim); letter-spacing: .08em; margin-bottom: 6px; }
+    .comment-text { font-family: var(--fell); font-size: .95rem; color: var(--text); line-height: 1.75; }
 
-    .comment-text {
-      font-family: var(--fell);
-      font-size: .95rem;
-      color: var(--text);
-      line-height: 1.75;
-    }
+    .comment-warning { font-family: var(--mono); font-size: .62rem; color: var(--blood); margin-top: 8px; letter-spacing: .05em; opacity: .8; }
+    .comment-timer { font-family: var(--mono); font-size: .58rem; color: var(--text-faint); margin-top: 4px; letter-spacing: .05em; }
+    .comment-approved { font-family: var(--mono); font-size: .58rem; color: #6a9a4a; margin-top: 4px; letter-spacing: .05em; }
 
-    .comment-warning {
-      font-family: var(--mono);
-      font-size: .62rem;
-      color: var(--blood);
-      margin-top: 8px;
-      letter-spacing: .05em;
-      opacity: .8;
-    }
-
-    .comment-timer {
-      font-family: var(--mono);
-      font-size: .58rem;
-      color: var(--text-faint);
-      margin-top: 4px;
-      letter-spacing: .05em;
-    }
-
-    /* ── DISCUSSÃO E INFORMAÇÕES ── */
+    /* discussion threads */
     .discussion-list { display: flex; flex-direction: column; gap: 0; }
 
     .thread-item {
-      border-bottom: 1px solid var(--border-dark);
-      padding: 20px 4px;
-      cursor: pointer;
-      transition: background .2s;
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
+      border-bottom: 1px solid var(--border-dark); padding: 20px 4px;
+      cursor: pointer; transition: background .2s; display: flex;
+      gap: 14px; align-items: flex-start;
     }
 
     .thread-item:hover { background: rgba(201,170,124,.03); }
 
     .thread-avatar {
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      background: #1a0e04;
-      border: 1px solid var(--border-mid);
+      width: 40px; height: 40px; border-radius: 50%;
+      background: #1a0e04; border: 1px solid var(--border-mid);
       display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      font-family: var(--mono);
-      font-size: .65rem;
-      color: var(--gold-dim);
-      letter-spacing: .02em;
-      font-weight: bold;
+      flex-shrink: 0; font-family: var(--mono); font-size: .65rem;
+      color: var(--gold-dim); letter-spacing: .02em; font-weight: bold;
     }
 
     .thread-body { flex: 1; min-width: 0; }
 
     .thread-header {
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 5px;
+      display: flex; align-items: baseline; gap: 10px;
+      flex-wrap: wrap; margin-bottom: 5px;
     }
 
-    .thread-user {
-      font-family: var(--mono);
-      font-size: .75rem;
-      color: var(--gold);
-      letter-spacing: .06em;
-      font-weight: bold;
-    }
+    .thread-user { font-family: var(--mono); font-size: .75rem; color: var(--gold); letter-spacing: .06em; font-weight: bold; }
+    .thread-handle { font-family: var(--mono); font-size: .68rem; color: var(--text-faint); letter-spacing: .04em; }
+    .thread-date { font-family: var(--mono); font-size: .62rem; color: var(--text-faint); margin-left: auto; }
+    .thread-text { font-family: var(--fell); font-size: .95rem; color: var(--text-dim); line-height: 1.7; white-space: pre-line; }
+    .thread-reply-count { font-family: var(--mono); font-size: .62rem; color: var(--text-faint); margin-top: 8px; letter-spacing: .05em; }
 
-    .thread-handle {
-      font-family: var(--mono);
-      font-size: .68rem;
-      color: var(--text-faint);
-      letter-spacing: .04em;
-    }
-
-    .thread-date {
-      font-family: var(--mono);
-      font-size: .62rem;
-      color: var(--text-faint);
-      margin-left: auto;
-    }
-
-    .thread-text {
-      font-family: var(--fell);
-      font-size: .95rem;
-      color: var(--text-dim);
-      line-height: 1.7;
-      white-space: pre-line;
-    }
-
-    .thread-reply-count {
-      font-family: var(--mono);
-      font-size: .62rem;
-      color: var(--text-faint);
-      margin-top: 8px;
-      letter-spacing: .05em;
-    }
-
-    /* thread view (open) */
-    #thread-view {
-      display: none;
-    }
-
+    #thread-view { display: none; }
     #thread-view.active { display: block; }
 
     .thread-back-btn {
-      background: none;
-      border: none;
-      color: var(--gold-dim);
-      font-family: var(--mono);
-      font-size: .72rem;
-      letter-spacing: .1em;
-      cursor: pointer;
-      padding: 0 0 20px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: color .2s;
+      background: none; border: none; color: var(--gold-dim);
+      font-family: var(--mono); font-size: .72rem; letter-spacing: .1em;
+      cursor: pointer; padding: 0 0 20px; display: flex; align-items: center;
+      gap: 8px; transition: color .2s;
     }
 
     .thread-back-btn:hover { color: var(--gold); }
 
-    .thread-view-header {
-      border-bottom: 1px solid var(--border-mid);
-      padding-bottom: 20px;
-      margin-bottom: 24px;
-    }
+    .thread-view-header { border-bottom: 1px solid var(--border-mid); padding-bottom: 20px; margin-bottom: 24px; }
 
-    .thread-view-user {
-      font-family: var(--mono);
-      font-size: .78rem;
-      color: var(--gold);
-      letter-spacing: .06em;
-      margin-bottom: 4px;
-    }
+    .thread-view-user { font-family: var(--mono); font-size: .78rem; color: var(--gold); letter-spacing: .06em; margin-bottom: 4px; }
 
-    .thread-view-text {
-      font-family: var(--fell);
-      font-size: 1.05rem;
-      color: var(--text);
-      line-height: 1.85;
-      margin: 10px 0;
-      white-space: pre-line;
-    }
+    .thread-view-text { font-family: var(--fell); font-size: 1.05rem; color: var(--text); line-height: 1.85; margin: 10px 0; white-space: pre-line; }
 
-    .thread-view-date {
-      font-family: var(--mono);
-      font-size: .62rem;
-      color: var(--text-faint);
-    }
+    .thread-view-date { font-family: var(--mono); font-size: .62rem; color: var(--text-faint); }
 
     .thread-replies { display: flex; flex-direction: column; gap: 0; }
 
     .reply-item {
-      border-bottom: 1px solid #1a0e04;
-      padding: 18px 0 18px 48px;
-      display: flex;
-      gap: 14px;
+      border-bottom: 1px solid #1a0e04; padding: 18px 0 18px 48px;
+      display: flex; gap: 14px;
     }
 
-    .reply-item .thread-avatar {
-      width: 34px; height: 34px;
-      font-size: .58rem;
+    .reply-item .thread-avatar { width: 34px; height: 34px; font-size: .58rem; }
+
+    .reply-user { font-family: var(--mono); font-size: .72rem; color: var(--gold-dim); margin-bottom: 5px; }
+    .reply-user span { color: var(--text-faint); font-size: .62rem; margin-left: 6px; }
+    .reply-text { font-family: var(--fell); font-size: .95rem; color: var(--text); line-height: 1.75; white-space: pre-line; }
+
+    /* ── ADMIN LOGIN MODAL ── */
+    .admin-modal {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.88); z-index: 3000;
+      align-items: center; justify-content: center;
     }
 
-    .reply-user {
-      font-family: var(--mono);
-      font-size: .72rem;
-      color: var(--gold-dim);
-      margin-bottom: 5px;
+    .admin-modal.active { display: flex; }
+
+    .admin-modal-content {
+      background: var(--bg-card); border: 1px solid var(--border-mid);
+      padding: 36px 40px; min-width: 340px;
+      box-shadow: 0 8px 50px rgba(0,0,0,.95);
+      position: relative;
     }
 
-    .reply-user span {
-      color: var(--text-faint);
-      font-size: .62rem;
-      margin-left: 6px;
+    .admin-modal-content h3 {
+      font-family: var(--mono); font-size: .85rem; color: var(--gold);
+      letter-spacing: .2em; text-transform: uppercase;
+      margin-bottom: 8px; text-align: center;
     }
 
-    .reply-text {
-      font-family: var(--fell);
-      font-size: .95rem;
-      color: var(--text);
-      line-height: 1.75;
-      white-space: pre-line;
+    .admin-modal-content .admin-sub {
+      font-family: var(--mono); font-size: .6rem; color: var(--text-faint);
+      letter-spacing: .1em; text-align: center; margin-bottom: 28px;
+    }
+
+    .admin-close {
+      position: absolute; top: 14px; right: 16px;
+      background: none; border: none; color: var(--text-faint);
+      font-family: var(--mono); font-size: .8rem; cursor: pointer;
+      transition: color .2s;
+    }
+
+    .admin-close:hover { color: var(--gold-dim); }
+
+    .admin-error {
+      font-family: var(--mono); font-size: .65rem; color: var(--blood);
+      letter-spacing: .08em; text-align: center; margin-top: 16px;
+      min-height: 1.2em;
     }
 
     /* ── FOOTER ── */
     #site-footer {
-      background: #060300;
-      border-top: 1px solid #160a03;
-      padding: 20px 24px;
-      text-align: center;
+      background: #060300; border-top: 1px solid #160a03;
+      padding: 20px 24px; text-align: center; position: relative;
     }
 
     .footer-copy {
-      font-family: var(--mono);
-      font-size: .62rem;
-      color: var(--text-faint);
-      line-height: 1.9;
-      letter-spacing: .04em;
-      max-width: 700px;
-      margin: 0 auto;
+      font-family: var(--mono); font-size: .62rem; color: var(--text-faint);
+      line-height: 1.9; letter-spacing: .04em; max-width: 700px; margin: 0 auto;
     }
 
-    .footer-version {
-      font-family: var(--mono);
-      font-size: .5rem;
-      color: #281808;
-      margin-top: 8px;
-    }
+    .footer-version { font-family: var(--mono); font-size: .5rem; color: #281808; margin-top: 8px; }
 
+    /* easter egg dia 18 — cor idêntica ao fundo, invisível visualmente */
     #easter18 {
-      display: none;
-      position: absolute;
-      bottom: 7px; right: 14px;
-      font-family: var(--mono);
-      font-size: .45rem;
-      color: var(--gold);
-      opacity: .12;
-      letter-spacing: .1em;
+      position: absolute; bottom: 7px; right: 100px;
+      font-family: var(--mono); font-size: .42rem;
+      color: var(--bg-main); pointer-events: none; user-select: none;
     }
 
     .datetime-display {
-      position: absolute;
-      bottom: 8px;
-      right: 8px;
-      font-family: var(--mono);
-      font-size: .55rem;
-      color: var(--text-faint);
-      letter-spacing: .06em;
-      cursor: pointer;
-      transition: color .2s;
-      padding: 4px 6px;
+      position: absolute; bottom: 8px; right: 8px;
+      font-family: var(--mono); font-size: .55rem; color: var(--text-faint);
+      letter-spacing: .06em; cursor: pointer; transition: color .2s; padding: 4px 6px;
     }
 
-    .datetime-display:hover {
-      color: var(--gold-dim);
-    }
+    .datetime-display:hover { color: var(--gold-dim); }
 
-    /* datetime modal */
+    /* ── DATETIME MODAL ── */
     .datetime-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.8);
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.8); z-index: 2000;
+      align-items: center; justify-content: center;
     }
 
-    .datetime-modal.active {
-      display: flex;
-    }
+    .datetime-modal.active { display: flex; }
 
     .datetime-modal-content {
-      background: var(--bg-card);
-      border: 1px solid var(--border-mid);
-      padding: 28px 32px;
-      min-width: 320px;
-      box-shadow: 0 8px 40px rgba(0,0,0,.9);
+      background: var(--bg-card); border: 1px solid var(--border-mid);
+      padding: 28px 32px; min-width: 320px; box-shadow: 0 8px 40px rgba(0,0,0,.9);
     }
 
     .datetime-modal-content h3 {
-      font-family: var(--mono);
-      font-size: .9rem;
-      color: var(--gold);
-      letter-spacing: .15em;
-      margin-bottom: 20px;
-      text-align: center;
-      text-transform: uppercase;
+      font-family: var(--mono); font-size: .9rem; color: var(--gold);
+      letter-spacing: .15em; margin-bottom: 20px; text-align: center; text-transform: uppercase;
     }
 
-    .datetime-inputs {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
+    .datetime-inputs { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
 
     .datetime-inputs label {
-      font-family: var(--mono);
-      font-size: .72rem;
-      color: var(--text-dim);
-      letter-spacing: .08em;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+      font-family: var(--mono); font-size: .72rem; color: var(--text-dim);
+      letter-spacing: .08em; display: flex; flex-direction: column; gap: 6px;
     }
 
     .datetime-inputs input {
-      background: #0d0800;
-      border: 1px solid var(--border-mid);
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: .78rem;
-      padding: 8px 12px;
-      outline: none;
+      background: #0d0800; border: 1px solid var(--border-mid); color: var(--text);
+      font-family: var(--mono); font-size: .78rem; padding: 8px 12px; outline: none;
       transition: border-color .2s;
     }
 
-    .datetime-inputs input:focus {
-      border-color: var(--blood);
-    }
+    .datetime-inputs input:focus { border-color: var(--blood); }
 
-    .datetime-actions {
-      display: flex;
-      gap: 12px;
-      justify-content: flex-end;
-    }
+    .datetime-actions { display: flex; gap: 12px; justify-content: flex-end; }
 
     .datetime-actions button {
-      background: none;
-      border: 1px solid var(--border-mid);
-      color: var(--text-dim);
-      font-family: var(--mono);
-      font-size: .72rem;
-      letter-spacing: .1em;
-      padding: 8px 16px;
-      cursor: pointer;
-      transition: all .2s;
+      background: none; border: 1px solid var(--border-mid); color: var(--text-dim);
+      font-family: var(--mono); font-size: .72rem; letter-spacing: .1em;
+      padding: 8px 16px; cursor: pointer; transition: all .2s;
     }
 
-    .datetime-actions button:hover {
-      border-color: var(--gold-dim);
-      color: var(--gold);
-    }
-
-    .datetime-actions button#datetime-apply {
-      border-color: var(--blood);
-      color: var(--gold);
-    }
-
-    .datetime-actions button#datetime-apply:hover {
-      background: rgba(122,21,21,.15);
-      box-shadow: 0 0 10px rgba(122,21,21,.25);
-    }
+    .datetime-actions button:hover { border-color: var(--gold-dim); color: var(--gold); }
+    .datetime-actions button#datetime-apply { border-color: var(--blood); color: var(--gold); }
+    .datetime-actions button#datetime-apply:hover { background: rgba(122,21,21,.15); }
 
     /* ── 404 SCREEN ── */
     #screen-404 {
-      display: none;
-      position: fixed; inset: 0;
-      background: #000;
-      z-index: 5000;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      display: none; position: fixed; inset: 0;
+      background: #000; z-index: 5000;
+      flex-direction: column; align-items: center; justify-content: center;
     }
 
     #screen-404.active { display: flex; }
 
     .err-number {
-      font-family: var(--mono);
-      font-size: clamp(18vw, 22vw, 28vw);
-      color: var(--gold);
-      line-height: 1;
-      display: flex;
-      letter-spacing: .05em;
+      font-family: var(--mono); font-size: clamp(18vw, 22vw, 28vw);
+      color: var(--gold); line-height: 1; display: flex; letter-spacing: .05em;
     }
 
-    #zero-404 {
-      display: inline-block;
-      cursor: pointer;
-      transition: color .3s, text-shadow .3s;
-    }
-
-    #zero-404:hover {
-      color: #fff8e1;
-      text-shadow: 0 0 40px rgba(201,170,124,.6);
-    }
+    #zero-404 { display: inline-block; cursor: pointer; transition: color .3s, text-shadow .3s; }
+    #zero-404:hover { color: #fff8e1; text-shadow: 0 0 40px rgba(201,170,124,.6); }
 
     .err-sub {
-      font-family: var(--mono);
-      font-size: .82rem;
-      color: var(--text-faint);
-      text-align: center;
-      letter-spacing: .12em;
-      line-height: 2.1;
-      margin-top: 20px;
+      font-family: var(--mono); font-size: .82rem; color: var(--text-faint);
+      text-align: center; letter-spacing: .12em; line-height: 2.1; margin-top: 20px;
     }
 
-    /* ── MIGUEL OVERLAY ── */
-    #miguel-overlay {
-      display: none;
-      position: fixed; inset: 0;
-      z-index: 6000;
-      background: rgba(0,0,0,0);
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background .4s ease;
+    /* ── OMEGA PAGE ── */
+    .omega-page {
+      display: none; position: fixed; inset: 0; z-index: 6000;
+      background: #000; align-items: center; justify-content: center;
+      flex-direction: column; animation: omegaFadeIn .8s ease;
     }
 
-    #miguel-overlay.show {
-      display: flex;
-      background: rgba(0,0,0,.97);
+    .omega-page.active { display: flex; }
+
+    @keyframes omegaFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .omega-noise {
+      position: absolute; inset: 0; pointer-events: none; opacity: .06;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
     }
 
-    #miguel-overlay svg.scene {
-      opacity: 0;
-      transition: opacity .65s ease;
-      width: min(92vw, 560px);
-      height: auto;
+    .omega-inner {
+      position: relative; display: flex; flex-direction: column;
+      align-items: center; gap: 20px; padding: 40px 24px;
+      max-width: 600px; width: 100%;
     }
 
-    #miguel-overlay.reveal svg.scene { opacity: 1; }
+    .omega-label { font-family: var(--mono); font-size: .72rem; color: #ff6600; letter-spacing: .35em; text-transform: uppercase; opacity: .7; }
+
+    .omega-photo-wrap {
+      width: min(88vw, 420px); aspect-ratio: 4/5;
+      position: relative; overflow: hidden; border: 1px solid #2a1000;
+      box-shadow: 0 0 0 1px #1a0800, 0 0 60px rgba(255,80,0,.15), inset 0 0 30px rgba(0,0,0,.6);
+    }
+
+    .omega-photo {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      filter: sepia(.4) brightness(.75) contrast(1.1);
+      animation: omegaFlicker 6s ease-in-out infinite;
+    }
+
+    @keyframes omegaFlicker {
+      0%, 47%, 53%, 79%, 83%, 100% { filter: sepia(.4) brightness(.75) contrast(1.1); }
+      50%  { filter: sepia(.5) brightness(.65) contrast(1.2); }
+      81%  { filter: sepia(.6) brightness(.5) contrast(1.3); }
+    }
+
+    .omega-photo-fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #080400; }
+
+    .omega-caption { font-family: var(--fell); font-size: 1rem; color: #c8a060; letter-spacing: .06em; text-align: center; font-style: italic; opacity: .85; }
+    .omega-sub { font-family: var(--mono); font-size: .6rem; color: #4a2a0a; letter-spacing: .2em; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
       #content-wrap { padding: 0 16px 60px; }
-      #tab-nav li button { padding: 10px 12px; font-size: .62rem; }
+      #tab-nav li button { padding: 10px 10px; font-size: .6rem; }
       .main-text-block { padding-left: 18px; }
       .case-inner, .comment-form-block { padding: 20px 16px; }
       .reply-item { padding-left: 0; }
       .err-number { font-size: 26vw; }
-      
-      .contributor-card {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 16px;
-        padding: 24px 20px;
-      }
-      
-      .contributor-photo {
-        width: 100px;
-        height: 100px;
-      }
-      
-      .datetime-modal-content {
-        margin: 20px;
-        min-width: auto;
-        width: calc(100% - 40px);
-        max-width: 400px;
-      }
+      .contributor-card { flex-direction: column; align-items: center; text-align: center; gap: 16px; padding: 24px 20px; }
+      .contributor-photo { width: 100px; height: 100px; }
+      .datetime-modal-content, .admin-modal-content { margin: 20px; min-width: auto; width: calc(100% - 40px); }
     }
   </style>
 </head>
 <body>
 
-<!-- ============================================================
-     HEADER — arquivo reconstituído — G.A. 1999
-============================================================ -->
+<!-- HEADER -->
 <header id="site-header">
   <div id="header-eyebrow">Arquivo Digital Independente — Caso 91-1821 — Cariará, TO</div>
   <nav aria-label="Navegação principal">
@@ -1092,16 +764,14 @@
       <li><button role="tab" data-tab="help">Ajude-nos</button></li>
       <li><button role="tab" data-tab="invest">Investigações</button></li>
       <li><button role="tab" data-tab="forum">Fórum</button></li>
+      <li class="admin-li"><button id="btn-admin-open" type="button">Logar como admin</button></li>
     </ul>
   </nav>
 </header>
 
-<!-- ============================================================
-     MAIN
-============================================================ -->
 <main id="content-wrap">
 
-  <!-- EM CONSTRUÇÃO — seção genérica -->
+  <!-- EM CONSTRUÇÃO -->
   <!-- arquivo corrompido — seção 3b não recuperada -->
   <div id="screen-construction">
     <div class="construction-card">
@@ -1110,133 +780,114 @@
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════════════════════════
-       MANTENEDORES E CONTRIBUINTES
-  ══════════════════════════════════════════════════════════ -->
+  <!-- ══ CONTRIBUINTES ══ -->
   <div id="screen-contributors" style="display:none;">
-    
-    <div class="contributors-header">
-      <h2 class="contributors-title">MANTENEDORES E CONTRIBUINTES</h2>
-      <div class="title-rule"></div>
-      <p class="contributors-subtitle">Pessoas que mantêm viva a memória e a investigação do Caso 91-1821</p>
+    <div class="section-page-header">
+      <h2 class="section-page-title">MANTENEDORES E CONTRIBUINTES</h2>
+      <p class="section-page-subtitle">Pessoas que mantêm viva a memória e a investigação do Caso 91-1821</p>
     </div>
+    <div class="contributors-grid">
 
-    <div class="contributors-grid" id="contributors-grid">
-      
       <!-- Guilherme Azevedo -->
       <div class="contributor-card">
         <div class="contributor-photo">
-          <img src="imagens/guilherme.jpg" alt="Guilherme Azevedo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="imagens/guilherme.jpg" alt="Guilherme Azevedo"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
           <div class="photo-placeholder" style="display:none;">
-            <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="30" cy="22" r="10" stroke="#c9aa7c" stroke-width="1" opacity=".3"/>
-              <path d="M8 52 Q30 36 52 52" stroke="#c9aa7c" stroke-width="1" opacity=".3" fill="none"/>
-            </svg>
+            <svg viewBox="0 0 60 60" fill="none"><circle cx="30" cy="22" r="10" stroke="#c9aa7c" stroke-width="1" opacity=".3"/><path d="M8 52 Q30 36 52 52" stroke="#c9aa7c" stroke-width="1" opacity=".3" fill="none"/></svg>
           </div>
         </div>
         <div class="contributor-info">
           <h3 class="contributor-name">Guilherme Azevedo</h3>
-          <p class="contributor-bio">
-            Marido de Antônia Gutierrez e mantenedor principal do arquivo. Dedicou sua vida à investigação 
-            do que aconteceu no Hospital Santos Levíticos em março de 1991. Perdeu o processo judicial em 
-            1996, mas nunca desistiu de buscar a verdade sobre o estado de sua esposa. Criou e mantém este 
-            arquivo digital desde 1999, reunindo documentos, testemunhos e evidências sobre o caso.
-          </p>
+          <p class="contributor-bio">Marido de Antônia Gutierrez e mantenedor principal do arquivo. Dedicou sua vida à investigação do que aconteceu no Hospital Santos Levíticos em março de 1991. Perdeu o processo judicial em 1996, mas nunca desistiu de buscar a verdade sobre o estado de sua esposa. Criou e mantém este arquivo digital desde 1999, reunindo documentos, testemunhos e evidências sobre o caso.</p>
         </div>
       </div>
 
       <!-- Padre Elias Monteverde -->
       <div class="contributor-card">
         <div class="contributor-photo">
-          <img src="imagens/elias.jpg" alt="Padre Elias Monteverde" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="imagens/elias.jpg" alt="Padre Elias Monteverde"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
           <div class="photo-placeholder" style="display:none;">
-            <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="30" cy="22" r="10" stroke="#c9aa7c" stroke-width="1" opacity=".3"/>
-              <path d="M8 52 Q30 36 52 52" stroke="#c9aa7c" stroke-width="1" opacity=".3" fill="none"/>
-              <path d="M25 15 L25 30 L35 30 L35 15" stroke="#c9aa7c" stroke-width="1" opacity=".2"/>
-            </svg>
+            <svg viewBox="0 0 60 60" fill="none"><circle cx="30" cy="22" r="10" stroke="#c9aa7c" stroke-width="1" opacity=".3"/><path d="M8 52 Q30 36 52 52" stroke="#c9aa7c" stroke-width="1" opacity=".3" fill="none"/><path d="M25 15 L25 30 L35 30 L35 15" stroke="#c9aa7c" stroke-width="1" opacity=".2"/></svg>
           </div>
         </div>
         <div class="contributor-info">
           <h3 class="contributor-name">Padre Elias Monteverde</h3>
-          <p class="contributor-bio">
-            Pároco de Cariará e testemunha ocular do reaparecimento de Antônia na madrugada de 21 de março. 
-            Sempre se opôs ao Hospital Santos Levíticos desde sua inauguração, alertando sobre a natureza 
-            duvidosa dos "milagres" realizados lá. Foi quem encontrou Antônia em estado catatônico após o 
-            sino da igreja abandonada badalar três vezes sem explicação. Colabora com o arquivo fornecendo 
-            seu testemunho e documentos da paróquia.
-          </p>
+          <p class="contributor-bio">Pároco de Cariará e testemunha ocular do reaparecimento de Antônia na madrugada de 21 de março. Sempre se opôs ao Hospital Santos Levíticos desde sua inauguração, alertando sobre a natureza duvidosa dos "milagres" realizados lá. Foi quem encontrou Antônia em estado catatônico após o sino da igreja abandonada badalar três vezes sem explicação. Colabora com o arquivo fornecendo seu testemunho e documentos da paróquia.</p>
         </div>
       </div>
 
-      <!-- Valentino Braga (hidden by default, shown on date trigger) -->
+      <!-- Valentino Braga — oculto até trigger 18/02/1965 18:21 -->
       <div class="contributor-card valentino-card" id="valentino-card" style="display:none;">
         <div class="contributor-photo">
-          <img src="imagens/valentino.jpg" alt="Valentino Braga" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="imagens/Valentino.jpeg" alt="Valentino Braga"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
           <div class="photo-placeholder" style="display:none;">
-            <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="30" cy="22" r="10" stroke="#ff4400" stroke-width="1" opacity=".4"/>
-              <path d="M8 52 Q30 36 52 52" stroke="#ff4400" stroke-width="1" opacity=".4" fill="none"/>
-              <path d="M25 15 L30 10 L35 15" stroke="#ff4400" stroke-width="1" opacity=".3"/>
-            </svg>
+            <svg viewBox="0 0 60 60" fill="none"><circle cx="30" cy="22" r="10" stroke="#ff4400" stroke-width="1" opacity=".4"/><path d="M8 52 Q30 36 52 52" stroke="#ff4400" stroke-width="1" opacity=".4" fill="none"/><path d="M25 15 L30 10 L35 15" stroke="#ff4400" stroke-width="1" opacity=".3"/></svg>
           </div>
         </div>
         <div class="contributor-info">
           <h3 class="contributor-name">Valentino Braga</h3>
-          <div class="contributor-bio valentino-bio" id="valentino-bio">
-            01010000 01100001 01101001 00100000 01100100 01100101 00100000 01001101 01101001 01100111 01110101 01100101 01101100 00101110 00100000 01000100 01101111 01101110 01101111 00100000 01100100 01101111 01110011 00100000 01100011 11100011 01100101 01110011 00100000 01100100 01100101 00100000 01100111 01110101 01100001 01110010 01100100 01100001 00101110 00100000 01000011 01101111 01110010 01100100 01100101 01101001 01110010 01101111 01110011 00100000 01100011 01101111 01101101 01101111 00100000 01001010 01101111 01101110 01100001 01110011 00100000 01000001 01101100 01100010 01110101 01110010 01100101 01101101 00100000 01110011 11100011 01101111 00100000 01101101 01110101 01101001 01110100 01101111 00100000 01100011 01110101 01110010 01101001 01101111 01110011 01101111 01110011 00101110
-          </div>
+          <div class="contributor-bio valentino-bio">01010000 01100001 01101001 00100000 01100100 01100101 00100000 01001101 01101001 01100111 01110101 01100101 01101100 00101110 00100000 01000100 01101111 01101110 01101111 00100000 01100100 01101111 01110011 00100000 01100011 11100011 01100101 01110011 00100000 01100100 01100101 00100000 01100111 01110101 01100001 01110010 01100100 01100001 00101110 00100000 01000011 01101111 01110010 01100100 01100101 01101001 01110010 01101111 01110011 00100000 01100011 01101111 01101101 01101111 00100000 01001010 01101111 01101110 01100001 01110011 00100000 01000001 01101100 01100010 01110101 01110010 01100101 01101101 00100000 01110011 11100011 01101111 00100000 01101101 01110101 01101001 01110100 01101111 00100000 01100011 01110101 01110010 01101001 01101111 01110011 01101111 01110011 00101110</div>
         </div>
       </div>
 
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════════════════════════
-       HOME
-  ══════════════════════════════════════════════════════════ -->
-  <div id="screen-home">
+  <!-- ══ NOSSO PROPÓSITO ══ -->
+  <div id="screen-purpose" style="display:none;">
+    <div class="section-page-header">
+      <h2 class="section-page-title">NOSSO PROPÓSITO</h2>
+      <p class="section-page-subtitle">Por que este arquivo existe</p>
+    </div>
 
+    <div class="main-text-block" style="margin-top:0;">
+      <p>Este arquivo não é um memorial. Não foi feito para lembrar os mortos nem para confortar os vivos. Foi feito porque alguém precisa dizer o que aconteceu — e esse alguém sou eu.</p>
+      <p>O Caso 91-1821 diz respeito ao reaparecimento de Antônia Gutierrez em estado vegetativo, em março de 1991, após dar entrada no programa "Sem Dor às Mães" do Hospital Santos Levíticos. As causas oficiais nunca foram explicadas. O processo judicial foi encerrado sem resolução. O hospital queimou em 1999 levando consigo os registros físicos.</p>
+      <p>Mas há coisas que o fogo não apaga.</p>
+      <p>Nosso propósito é documentar, de forma pública e permanente, tudo o que foi possível reconstituir sobre os eventos ocorridos dentro do Hospital Santos Levíticos entre 1965 e 1999. Isso inclui relatos de ex-funcionários, documentos da Editora Voss, registros paroquiais cedidos pelo Padre Elias Monteverde e materiais reunidos ao longo de décadas de investigação independente.</p>
+      <p>Não buscamos julgamento popular. Não pedimos que você acredite em tudo o que está aqui. Pedimos apenas que você leia. Que você questione. E que, se souber de algo, entre em contato.</p>
+      <p>A verdade não desaparece porque ninguém quer olhar para ela. Ela apenas espera que alguém tenha coragem suficiente para encontrá-la.</p>
+      <span class="author-sig">— Guilherme Azevedo, mantenedor do arquivo — 1999</span>
+    </div>
+
+    <!-- accordion principles -->
+    <button class="principles-toggle" id="btn-principles" type="button">
+      Princípios deste arquivo
+      <span class="toggle-arrow">›</span>
+    </button>
+    <div class="principles-body" id="principles-body">
+      <div class="case-inner" style="margin-top:0; border-top: none; border: 1px solid var(--border-dark); border-top: none;">
+        <p><strong style="color:var(--gold-dim);font-family:var(--mono);font-size:.8rem;letter-spacing:.1em;">I.</strong> Nenhum documento aqui foi adulterado. O que não pôde ser verificado está devidamente sinalizado.</p>
+        <p><strong style="color:var(--gold-dim);font-family:var(--mono);font-size:.8rem;letter-spacing:.1em;">II.</strong> Testemunhos anônimos são aceitos e protegidos. A identidade de quem colabora nunca será revelada sem consentimento.</p>
+        <p style="margin-bottom:0;"><strong style="color:var(--gold-dim);font-family:var(--mono);font-size:.8rem;letter-spacing:.1em;">III.</strong> Este arquivo não possui vínculos com o Hospital Santos Levíticos, com a Yvy Pyahu ou com qualquer instituição citada nos documentos. É uma iniciativa exclusivamente independente.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ HOME ══ -->
+  <div id="screen-home">
     <section class="title-block">
       <h1 class="case-number">CASO 91-1821</h1>
       <div class="title-rule"></div>
       <p class="case-subtitle">Reaparecimento não resolvido de Antônia Gutierrez — Cariará, Tocantins — 1991</p>
     </section>
 
-    <!-- texto principal — voz de Guilherme, conforme imagem 1 -->
     <div class="main-text-block">
-      <p>
-        A nossa cidade sempre contou com uma paz indescritivelmente estável. Desde os primeiros moradores,
-        as únicas ocorrências que perturbaram a cidade foram alguns assaltos e outros casos raríssimos de
-        suicídio, mas nada que pudesse alarmar todos a esse ponto. Antônia Gutierrez, a bibliotecária e
-        antiga enfermeira do hospital, estava grávida, mas nunca pudemos conhecer o nosso filho. Para além
-        do bebê, também a perdi.
-      </p>
-      <p>
-        Esta página foi feita para tornar público o Caso 91-1821 e receber todo o apoio que pudermos.
-        Peço encarecidamente que você também não deixe a minha esposa ser esquecida.
-      </p>
-      <p>
-        Se você está aqui, talvez já tenha ouvido os rumores. Talvez já saiba que algo não está certo.
-        Eu preciso da sua ajuda para descobrir o que aconteceu com ela.
-      </p>
+      <p>A nossa cidade sempre contou com uma paz indescritivelmente estável. Desde os primeiros moradores, as únicas ocorrências que perturbaram a cidade foram alguns assaltos e outros casos raríssimos de suicídio, mas nada que pudesse alarmar todos a esse ponto. Antônia Gutierrez, a bibliotecária e antiga enfermeira do hospital, estava grávida, mas nunca pudemos conhecer o nosso filho. Para além do bebê, também a perdi.</p>
+      <p>Esta página foi feita para tornar público o Caso 91-1821 e receber todo o apoio que pudermos. Peço encarecidamente que você também não deixe a minha esposa ser esquecida.</p>
+      <p>Se você está aqui, talvez já tenha ouvido os rumores. Talvez já saiba que algo não está certo. Eu preciso da sua ajuda para descobrir o que aconteceu com ela.</p>
       <span class="author-sig">— Guilherme Azevedo, marido e mantenedor do arquivo</span>
     </div>
 
-    <!-- foto de Antônia — favicon.ico como fonte -->
     <div class="photo-block">
       <div class="photo-frame">
         <div class="photo-inner">
-          <img
-            id="antonia-photo"
-            src="imagens/favicon.ico"
-            alt="Antônia Gutierrez — fotografia anterior a 1991"
-          />
+          <img id="antonia-photo" src="imagens/Antonia.jpeg" alt="Antônia Gutierrez — fotografia anterior a 1991" />
           <div class="photo-fallback" id="photo-fallback" style="display:none;">
-            <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="40" cy="28" r="14" stroke="#c9aa7c" stroke-width="1.2" opacity=".3"/>
-              <path d="M12 72 Q40 50 68 72" stroke="#c9aa7c" stroke-width="1.2" opacity=".3" fill="none"/>
-            </svg>
+            <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="28" r="14" stroke="#c9aa7c" stroke-width="1.2" opacity=".3"/><path d="M12 72 Q40 50 68 72" stroke="#c9aa7c" stroke-width="1.2" opacity=".3" fill="none"/></svg>
           </div>
           <span class="photo-label">[ fotografia — Antônia Gutierrez — c. 1990 ]</span>
         </div>
@@ -1244,78 +895,31 @@
       <p class="photo-caption">Antônia Gutierrez, 34 anos. Última fotografia conhecida antes de 21/03/1991.</p>
     </div>
 
-    <!-- ler mais -->
-    <button class="btn-readmore" id="btn-readmore" aria-expanded="false" aria-controls="case-section">
-      [ LER MAIS ]
-    </button>
+    <button class="btn-readmore" id="btn-readmore" aria-expanded="false" aria-controls="case-section">[ LER MAIS ]</button>
 
     <div id="case-section">
       <div class="case-inner">
         <p class="section-label">O Caso</p>
         <div class="section-divider"></div>
-
-        <p>
-          Antônia Gutierrez nasceu em 30 de fevereiro de 1957, na cidade de Cariará, Tocantins.
-          Destacava-se por seus inúmeros trabalhos e ações de caridade, tendo como ocupação principal
-          o cargo de bibliotecária na Biblioteca Pública Gonçalves Ribeiro. Antes disso, foi enfermeira
-          em UTIs instaladas temporariamente na cidade durante o período da ditadura militar, época em
-          que doenças como poliomielite e febre amarela assolavam a região — chegando a ser contratada
-          pelo Hospital Santos Levíticos, onde permaneceu de 1978 a 1983.
-        </p>
-
-        <p>
-          Com a notícia da gravidez, o Padre Elias Monteverde — grande crítico do hospital desde sua
-          fundação — abençoou a criança e influenciou sua transferência para a Biblioteca Gonçalves
-          Ribeiro, a fim de afastá-la de atividades potencialmente prejudiciais ao bebê. O padre sempre
-          alertou publicamente contra o programa "Sem Dor às Mães", e a Editora Voss, em 1984, publicou
-          denúncias sobre as lavagens de dinheiro que o programa permitia.
-        </p>
-
-        <p class="italic">
-          "Blasfêmias!"
-        </p>
-
-        <p>
-          Nada disso, porém — nem os alertas do padre, nem as denúncias da Voss —, foi suficiente
-          para frear a desesperança de Antônia em ter filhos. Sua infertilidade sempre a
-          consternou profundamente.
-        </p>
-
-        <p>
-          Foi naquele fatídico dia de março, naquela madrugada. O aparecimento de Antônia em estado
-          catatônico. O Padre Elias, que sempre acordava muito antes do sol nascer, trouxe desesperado
-          a notícia aos berros. Desde então, temos tentado todos os meios legais e jurídicos para obter
-          explicações por parte do hospital, visto que minha esposa sofreu com sequelas inexplicáveis
-          para qualquer processo de parto.
-        </p>
-
-        <p>
-          Se você tem qualquer informação sobre este caso ou se trabalhou no Hospital Santos Levíticos
-          entre 1978 e 1991, entre em contato. Qualquer detalhe, por menor que seja, pode fazer a diferença.
-        </p>
-
-        <p>
-          Agradeço sua leitura até aqui. Caso seja possível, aceitamos seu suporte financeiro e seus
-          comentários para ajudar no processo contra Santos Levíticos.
-        </p>
-
+        <p>Antônia Gutierrez nasceu em 30 de fevereiro de 1957, na cidade de Cariará, Tocantins. Destacava-se por seus inúmeros trabalhos e ações de caridade, tendo como ocupação principal o cargo de bibliotecária na Biblioteca Pública Gonçalves Ribeiro. Antes disso, foi enfermeira em UTIs instaladas temporariamente na cidade durante o período da ditadura militar, época em que doenças como poliomielite e febre amarela assolavam a região — chegando a ser contratada pelo Hospital Santos Levíticos, onde permaneceu de 1978 a 1983.</p>
+        <p>Com a notícia da gravidez, o Padre Elias Monteverde — grande crítico do hospital desde sua fundação — abençoou a criança e influenciou sua transferência para a Biblioteca Gonçalves Ribeiro, a fim de afastá-la de atividades potencialmente prejudiciais ao bebê. O padre sempre alertou publicamente contra o programa "Sem Dor às Mães", e a Editora Voss, em 1984, publicou denúncias sobre as lavagens de dinheiro que o programa permitia.</p>
+        <p class="italic">"Blasfêmias!"</p>
+        <p>Nada disso, porém — nem os alertas do padre, nem as denúncias da Voss —, foi suficiente para frear a desesperança de Antônia em ter filhos. Sua infertilidade sempre a consternou profundamente.</p>
+        <p>Foi naquele fatídico dia de março, naquela madrugada. O aparecimento de Antônia em estado catatônico. O Padre Elias, que sempre acordava muito antes do sol nascer, trouxe desesperado a notícia aos berros. Desde então, temos tentado todos os meios legais e jurídicos para obter explicações por parte do hospital, visto que minha esposa sofreu com sequelas inexplicáveis para qualquer processo de parto.</p>
+        <p>Se você tem qualquer informação sobre este caso ou se trabalhou no Hospital Santos Levíticos entre 1978 e 1991, entre em contato. Qualquer detalhe, por menor que seja, pode fazer a diferença.</p>
+        <p>Agradeço sua leitura até aqui. Caso seja possível, aceitamos seu suporte financeiro e seus comentários para ajudar no processo contra Santos Levíticos.</p>
         <span class="case-sig">— G.A.</span>
       </div>
     </div>
+  </div><!-- /home -->
 
-  </div><!-- /screen-home -->
-
-  <!-- ══════════════════════════════════════════════════════════
-       FORUM
-  ══════════════════════════════════════════════════════════ -->
+  <!-- ══ FÓRUM ══ -->
   <div id="screen-forum">
-
-    <div class="forum-header">
-      <h2 class="forum-title">FÓRUM</h2>
-      <p class="forum-subtitle">Espaço para discussão e compartilhamento de informações</p>
+    <div class="section-page-header">
+      <h2 class="section-page-title">FÓRUM</h2>
+      <p class="section-page-subtitle">Espaço para discussão e compartilhamento de informações</p>
     </div>
 
-    <!-- sub-tabs -->
     <div class="forum-tabs">
       <button class="forum-tab-btn active" data-forum="comments">Comentários Gerais</button>
       <button class="forum-tab-btn" data-forum="discussion">Discussão e Informações</button>
@@ -1326,65 +930,43 @@
       <div class="comment-form-block">
         <label class="form-label" for="comment-name">Nome:</label>
         <input class="form-input" id="comment-name" type="text" placeholder="Seu nome..." autocomplete="off" />
-
         <label class="form-label" for="comment-text">Comentário:</label>
         <textarea class="form-textarea" id="comment-text" placeholder="Escreva seu comentário..."></textarea>
-
         <button class="btn-enviar" id="btn-enviar">[ ENVIAR ]</button>
       </div>
-
       <div id="comments-list"></div>
     </div>
 
     <!-- DISCUSSÃO E INFORMAÇÕES -->
     <div class="forum-panel" id="panel-discussion">
-
-      <!-- thread list view -->
       <div id="thread-list">
         <div class="discussion-list" id="discussion-list"></div>
       </div>
-
-      <!-- thread detail view -->
       <div id="thread-view">
         <button class="thread-back-btn" id="thread-back">&#8592; Voltar</button>
         <div id="thread-detail"></div>
       </div>
-
     </div>
-
-  </div><!-- /screen-forum -->
+  </div><!-- /forum -->
 
 </main>
 
 <!-- FOOTER -->
-<footer id="site-footer" style="position:relative;">
-  <p class="footer-copy">
-    © 1999–2026 Caso 91-1821. Todos os personagens, corporações e estabelecimentos que aparecem
-    nesta obra são fictícios. Qualquer semelhança com empresas ou pessoas reais é mera coincidência.
-    Não entre em contato com outras instituições que possuam nomes semelhantes.
-  </p>
+<footer id="site-footer">
+  <p class="footer-copy">© 1999–2026 Caso 91-1821. Todos os personagens, corporações e estabelecimentos que aparecem nesta obra são fictícios. Qualquer semelhança com empresas ou pessoas reais é mera coincidência. Não entre em contato com outras instituições que possuam nomes semelhantes.</p>
   <p class="footer-version">v.1.0.0 — arquivo reconstituído — última atualização: 1999</p>
-  <span id="easter18">18.02 / 18:21</span>
-  
-  <!-- datetime display -->
-  <div id="datetime-display" class="datetime-display">
-    <span id="current-datetime"></span>
-  </div>
+  <!-- dia 18 — invisível visualmente, legível apenas via inspeção de elemento -->
+  <span id="easter18" aria-hidden="true">Dia: 18 de Fevereiro, Segunda Data do Dia 20</span>
+  <div id="datetime-display" class="datetime-display"><span id="current-datetime"></span></div>
 </footer>
 
-<!-- datetime modal -->
+<!-- DATETIME MODAL -->
 <div id="datetime-modal" class="datetime-modal">
   <div class="datetime-modal-content">
     <h3>Ajustar Data e Hora</h3>
     <div class="datetime-inputs">
-      <label>
-        Data:
-        <input type="date" id="date-input" />
-      </label>
-      <label>
-        Hora:
-        <input type="time" id="time-input" step="1" />
-      </label>
+      <label>Data: <input type="date" id="date-input" /></label>
+      <label>Hora: <input type="time" id="time-input" step="1" /></label>
     </div>
     <div class="datetime-actions">
       <button id="datetime-cancel">Cancelar</button>
@@ -1393,103 +975,91 @@
   </div>
 </div>
 
-<!-- 404 screen -->
+<!-- ADMIN MODAL — login stub, não permite acesso -->
+<div id="admin-modal" class="admin-modal">
+  <div class="admin-modal-content">
+    <button class="admin-close" id="btn-admin-close">✕</button>
+    <h3>Acesso Restrito</h3>
+    <p class="admin-sub">— área administrativa — caso 91-1821 —</p>
+    <label class="form-label" for="admin-user">Usuário:</label>
+    <input class="form-input" id="admin-user" type="text" placeholder="identificador..." autocomplete="off" />
+    <label class="form-label" for="admin-pass">Senha:</label>
+    <input class="form-input" id="admin-pass" type="password" placeholder="••••••••" />
+    <div class="datetime-actions" style="margin-top:4px;">
+      <button id="btn-admin-cancel" style="border-color:var(--border-mid);">Cancelar</button>
+      <button id="btn-admin-submit" style="border-color:var(--blood);color:var(--gold);">[ ENTRAR ]</button>
+    </div>
+    <p class="admin-error" id="admin-error"></p>
+  </div>
+</div>
+
+<!-- 404 SCREEN — dia 20 -->
 <div id="screen-404">
-  <p class="err-number">
-    <span>4</span><span id="zero-404" role="button" tabindex="0">0</span><span>4</span>
-  </p>
+  <p class="err-number"><span>4</span><span id="zero-404" role="button" tabindex="0">0</span><span>4</span></p>
   <p class="err-sub">Esta página não existe.<br>Ou existiu, e foi apagada.</p>
 </div>
 
-<!-- Miguel overlay -->
-<div id="miguel-overlay" role="dialog" aria-modal="true">
-  <svg class="scene" viewBox="0 0 560 420" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <defs>
-      <radialGradient id="flameC" cx="50%" cy="80%" r="60%">
-        <stop offset="0%" stop-color="#ff8c00" stop-opacity=".95"/>
-        <stop offset="40%" stop-color="#cc3300" stop-opacity=".7"/>
-        <stop offset="100%" stop-color="#000" stop-opacity="0"/>
-      </radialGradient>
-      <radialGradient id="flameL" cx="50%" cy="70%" r="55%">
-        <stop offset="0%" stop-color="#ff6600" stop-opacity=".8"/>
-        <stop offset="100%" stop-color="#000" stop-opacity="0"/>
-      </radialGradient>
-      <radialGradient id="miGlow" cx="50%" cy="60%" r="50%">
-        <stop offset="0%" stop-color="#ff4400" stop-opacity=".35"/>
-        <stop offset="100%" stop-color="#000" stop-opacity="0"/>
-      </radialGradient>
-      <radialGradient id="vig2" cx="50%" cy="50%" r="70%">
-        <stop offset="30%" stop-color="transparent"/>
-        <stop offset="100%" stop-color="#000" stop-opacity=".92"/>
-      </radialGradient>
-      <filter id="b2"><feGaussianBlur stdDeviation="2"/></filter>
-      <filter id="b4"><feGaussianBlur stdDeviation="4"/></filter>
-    </defs>
-    <rect width="560" height="420" fill="#060200"/>
-    <polygon points="0,420 560,420 400,180 160,180" fill="#0e0800"/>
-    <polygon points="0,0 0,420 160,180" fill="#0b0600"/>
-    <polygon points="560,0 560,420 400,180" fill="#0b0600"/>
-    <polygon points="0,0 560,0 400,180 160,180" fill="#080400"/>
-    <line x1="60" y1="0" x2="185" y2="185" stroke="#1a0a04" stroke-width=".8"/>
-    <line x1="120" y1="0" x2="200" y2="182" stroke="#1a0a04" stroke-width=".8"/>
-    <line x1="500" y1="0" x2="375" y2="185" stroke="#1a0a04" stroke-width=".8"/>
-    <line x1="440" y1="0" x2="360" y2="182" stroke="#1a0a04" stroke-width=".8"/>
-    <line x1="60" y1="360" x2="500" y2="360" stroke="#140900" stroke-width=".7"/>
-    <line x1="100" y1="310" x2="460" y2="310" stroke="#140900" stroke-width=".6"/>
-    <ellipse cx="280" cy="260" rx="160" ry="120" fill="url(#miGlow)" filter="url(#b4)"/>
-    <g filter="url(#b2)">
-      <ellipse cx="80" cy="420" rx="80" ry="100" fill="url(#flameL)"/>
-      <path d="M20,420 Q40,340 60,380 Q80,300 100,360 Q120,310 130,380 Q150,350 140,420Z" fill="#cc4400" opacity=".55"/>
-      <path d="M30,420 Q55,360 70,390 Q85,330 110,370 Q120,340 125,420Z" fill="#ff6600" opacity=".45"/>
-    </g>
-    <g filter="url(#b2)">
-      <ellipse cx="480" cy="420" rx="80" ry="100" fill="url(#flameL)"/>
-      <path d="M420,420 Q430,360 450,390 Q460,320 480,370 Q500,310 510,380 Q530,350 540,420Z" fill="#cc4400" opacity=".55"/>
-    </g>
-    <g filter="url(#b4)" opacity=".6">
-      <ellipse cx="280" cy="420" rx="120" ry="90" fill="url(#flameC)"/>
-    </g>
-    <path d="M70,390 Q78,360 82,380 Q86,350 88,390Z" fill="#ffaa00" opacity=".7">
-      <animateTransform attributeName="transform" type="translate" values="0,0;2,-6;-1,-3;0,0" dur="1.2s" repeatCount="indefinite"/>
-    </path>
-    <path d="M490,385 Q498,355 502,375 Q506,345 508,385Z" fill="#ffaa00" opacity=".7">
-      <animateTransform attributeName="transform" type="translate" values="0,0;-2,-5;1,-2;0,0" dur="1.4s" repeatCount="indefinite"/>
-    </path>
-    <!-- Miguel -->
-    <line x1="268" y1="346" x2="263" y2="372" stroke="#2a1a0a" stroke-width="5" stroke-linecap="round"/>
-    <line x1="292" y1="346" x2="297" y2="372" stroke="#2a1a0a" stroke-width="5" stroke-linecap="round"/>
-    <ellipse cx="262" cy="374" rx="5" ry="3" fill="#1a0a04" transform="rotate(-8,262,374)"/>
-    <ellipse cx="298" cy="374" rx="5" ry="3" fill="#1a0a04" transform="rotate(8,298,374)"/>
-    <ellipse cx="280" cy="330" rx="26" ry="22" fill="#e8e0d0"/>
-    <circle cx="264" cy="326" r="7" fill="#ddd5c5" opacity=".9"/>
-    <circle cx="280" cy="321" r="8" fill="#e4dccc" opacity=".9"/>
-    <circle cx="295" cy="327" r="7" fill="#ddd5c5" opacity=".9"/>
-    <circle cx="270" cy="338" r="6" fill="#dad2c2" opacity=".85"/>
-    <circle cx="290" cy="337" r="6" fill="#dad2c2" opacity=".85"/>
-    <ellipse cx="272" cy="332" rx="5" ry="4" fill="#6b0f0f" opacity=".65" transform="rotate(-15,272,332)"/>
-    <ellipse cx="287" cy="340" rx="4" ry="3" fill="#8b1111" opacity=".5"/>
-    <line x1="256" y1="325" x2="242" y2="338" stroke="#2a1a0a" stroke-width="4.5" stroke-linecap="round"/>
-    <line x1="304" y1="325" x2="318" y2="338" stroke="#2a1a0a" stroke-width="4.5" stroke-linecap="round"/>
-    <rect x="275" y="303" width="10" height="10" rx="3" fill="#c8c0b0"/>
-    <ellipse cx="280" cy="294" rx="18" ry="16" fill="#e0d8c8"/>
-    <ellipse cx="274" cy="292" rx="4" ry="5" fill="#0d0600"/>
-    <ellipse cx="286" cy="292" rx="4" ry="5" fill="#0d0600"/>
-    <circle cx="275.5" cy="290.5" r="1.2" fill="#fff" opacity=".6"/>
-    <circle cx="287.5" cy="290.5" r="1.2" fill="#fff" opacity=".6"/>
-    <path d="M270,280 Q260,265 255,255 Q252,248 258,248 Q264,248 268,258 Q272,268 272,278Z" fill="#c8a060"/>
-    <path d="M290,280 Q300,265 305,255 Q308,248 302,248 Q296,248 292,258 Q288,268 288,278Z" fill="#c8a060"/>
-    <rect width="560" height="420" fill="url(#vig2)"/>
-  </svg>
+<!-- OMEGA PAGE — clique no zero do 404 -->
+<div id="omega-page" class="omega-page">
+  <div class="omega-inner">
+    <div class="omega-noise"></div>
+    <p class="omega-label">Ω — C-Ω 1956</p>
+    <div class="omega-photo-wrap">
+      <img src="imagens/miguel-bday.jpeg" alt="Miguel — Ômega — 1960" class="omega-photo"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+      <div class="omega-photo-fallback" style="display:none;">
+        <svg viewBox="0 0 120 120" fill="none" style="width:80px;opacity:.25;">
+          <ellipse cx="60" cy="42" rx="22" ry="24" stroke="#ff6600" stroke-width="1.5"/>
+          <path d="M44,38 Q52,26 48,20 Q44,14 50,14" stroke="#ff6600" stroke-width="1.5" fill="none"/>
+          <path d="M76,38 Q68,26 72,20 Q76,14 70,14" stroke="#ff6600" stroke-width="1.5" fill="none"/>
+          <path d="M24,100 Q60,72 96,100" stroke="#ff6600" stroke-width="1.5" fill="none"/>
+        </svg>
+      </div>
+    </div>
+    <p class="omega-caption">20 de setembro, 1960 — Das chamas, o primeiro.</p>
+    <p class="omega-sub">1965</p>
+  </div>
 </div>
 
-<!-- ============================================================
-     JS
-============================================================ -->
 <script>
 (function () {
   'use strict';
 
-  /* ── favicon fallback ── */
+  /* ══════════════════════════════════════════════
+     KEYWORD LIST — comentários com essas palavras-chave
+     são considerados relevantes e ficam permanentes
+  ══════════════════════════════════════════════ */
+  var KEYWORDS = [
+    // datas e referências temporais
+    '1991','1990','1989','1988','1987','1986','1985','1984','1983','1982','1981','1980',
+    '1979','1978','1965','1960','1958','1956','1999','março','setembro','fevereiro',
+    'novembro','madrugada','noite','1821','91-1821',
+    // hospital e programa
+    'santos levíticos','levíticos','santos leviticos','hospital','programa',
+    'sem dor às mães','sem dor as maes','enfermeira','médico','medico',
+    'cirurgia','corredor','laboratório','laboratorio','nível','nivel',
+    // personagens
+    'antônia','antonia','guilherme','padre elias','elias','helena voss','voss',
+    'valentino','bernardo','silas','oswaldo','ossinho','miguel','maria clara',
+    'guilherme_azevedo','guilherme azevedo',
+    // compostos e lore
+    'ypy','yvy pyahu','yvy','pyahu','ipbm','piab','lm','lírio','lirio','moloque',
+    'corpídeo','corpideo','c-delta','c-a','c-omega','bwb','composto',
+    // localização
+    'cariará','cariara','tocantins','palmas','bosque','sino','igreja',
+    // termos investigativos
+    'investigação','investigacao','processo','indenização','indenizacao',
+    'sequela','vegetativo','catatônico','catatônica','catatônico','catatonico',
+    'testemunho','testemunha','depoimento','arquivo','documento','evidência','evidencia',
+    'zelador','lavanderia','funcionário','funcionario','trabalhei','trabalhava'
+  ];
+
+  function containsKeyword(text) {
+    var lower = text.toLowerCase();
+    return KEYWORDS.some(function (kw) { return lower.indexOf(kw) !== -1; });
+  }
+
+  /* ── Foto Antônia fallback ── */
   var photoImg = document.getElementById('antonia-photo');
   var photoFB  = document.getElementById('photo-fallback');
   if (photoImg) {
@@ -1499,78 +1069,27 @@
     });
   }
 
-  /* ── DISCUSSION DATA ──────────────────────────────────────────
-     Threads escritos pelos personagens — prontos para expandir
-  ─────────────────────────────────────────────────────────────── */
+  /* ══════════════════════════════════════════════
+     DISCUSSION THREADS
+  ══════════════════════════════════════════════ */
   var threads = [
     {
-      id: 1,
-      user: 'Helena Voss',
-      handle: '@editora_voss',
-      initials: 'HV',
-      date: '14 Mar 1991',
-      text: 'Publicamos hoje uma nota de acompanhamento sobre o caso da Sra. Gutierrez. Não é a primeira vez que o programa "Sem Dor às Mães" deixa rastros que ninguém consegue explicar. Estamos arquivando. Sempre estivemos arquivando.',
-      replies: [
-        {
-          user: 'Guilherme Azevedo',
-          handle: '@caso91_1821',
-          initials: 'GA',
-          date: '14 Mar 1991',
-          text: 'Sra. Voss — qualquer documentação que a senhora tenha sobre o programa seria de extrema importância. Minha esposa trabalhou lá de 1978 a 1983. Há algo sobre aquele período nos arquivos?'
-        },
-        {
-          user: 'Helena Voss',
-          handle: '@editora_voss',
-          initials: 'HV',
-          date: '15 Mar 1991',
-          text: 'Sr. Azevedo. Há registros. Mas não posso dizer mais por aqui. Há formas mais discretas de nos comunicarmos. O senhor sabe onde nos encontrar.'
-        }
-      ]
+      id: 1, user: 'Helena Voss', handle: '@editora_voss', initials: 'HV', date: '14 Mar 1991',
+      text: 'Iremos continuar noticiando. Achamos que possivelmente temos noção de quem é o cabeça do hospital.',
+      replies: [{ user: 'Helena Voss', handle: '@editora_voss', initials: 'HV', date: '15 Mar 1991', text: 'Enviado.' }]
     },
     {
-      id: 2,
-      user: 'Padre Elias Monteverde',
-      handle: '@paroquia_cariara',
-      initials: 'PE',
-      date: '22 Mar 1991',
-      text: 'Desde a fundação daquele estabelecimento — naquele dia, naquela hora — eu soube que algo estava errado. Alertei. Rezei. E agora carrego a dor de não ter conseguido proteger Antônia.\n\nEla era uma das filhas mais luminosas desta cidade. O sino badalou três vezes, e eu corri. Deus me perdoe por ter chegado tarde.',
-      replies: [
-        {
-          user: 'Guilherme Azevedo',
-          handle: '@caso91_1821',
-          initials: 'GA',
-          date: '22 Mar 1991',
-          text: 'Padre Elias — o senhor não tem culpa. Ninguém poderia prever o que fizeram com ela. Mas preciso que me conte tudo o que viu naquela madrugada. Cada detalhe importa.'
-        }
-      ]
+      id: 2, user: 'Padre Elias Monteverde', handle: '@paroquia_cariara', initials: 'PE', date: '22 Mar 1991',
+      text: 'É imperdoável o uso do nome Levíticos para um lugar profano. Meu arcanjo Miguel é o que me mantém são, pois a minha decisão seria já ter posto o lugar abaixo!',
+      replies: []
     },
     {
-      id: 3,
-      user: 'Guilherme Azevedo',
-      handle: '@caso91_1821',
-      initials: 'GA',
-      date: '01 Abr 1991',
-      text: 'Situação atual: Antônia permanece em estado vegetativo no quarto de nossa casa. Os médicos consultados em Palmas não conseguem identificar a causa das sequelas neurológicas.\n\nO Hospital Santos Levíticos se recusa a fornecer os registros do parto. Disseram que os documentos "foram extraviados".\n\nSe alguém trabalhou lá entre 1978 e 1991, preciso da sua ajuda.',
-      replies: [
-        {
-          user: 'Anônimo',
-          handle: '@---',
-          initials: '?',
-          date: '03 Abr 1991',
-          text: 'Trabalhei na lavanderia do hospital de 1985 a 1989. Havia um andar que nunca nos deixaram limpar. Sempre trancado. Às vezes, à noite, havia sons. Não consigo assinar meu nome aqui.'
-        },
-        {
-          user: 'Guilherme Azevedo',
-          handle: '@caso91_1821',
-          initials: 'GA',
-          date: '03 Abr 1991',
-          text: 'Mensagem recebida. Se puder, entre em contato de forma particular. Não precisa se identificar. Só preciso saber o que havia naquele andar.'
-        }
-      ]
+      id: 3, user: 'Guilherme Azevedo', handle: '@caso91_1821', initials: 'GA', date: '01 Abr 1991',
+      text: 'Por favor, estou aceitando qualquer forma de ajuda. Tá acabando os remédios da Antônia, então preciso receber a indenização do hospital... O email é guilherme_azevedo@hotmail.com',
+      replies: [{ user: 'Anônimo', handle: '@---', initials: '?', date: '03 Abr 1991', text: 'Trabalhei como zelador e sei que algumas mulheres ficavam zonzas, andavam pelo hospital sem falar com ninguém e sem acompanhamento. Não consigo assinar meu nome aqui.' }]
     }
   ];
 
-  /* ── RENDER THREADS ── */
   var listEl = document.getElementById('discussion-list');
 
   function renderThreadList() {
@@ -1578,7 +1097,6 @@
     threads.forEach(function (t) {
       var item = document.createElement('div');
       item.className = 'thread-item';
-      item.setAttribute('data-id', t.id);
       item.innerHTML =
         '<div class="thread-avatar">' + t.initials + '</div>' +
         '<div class="thread-body">' +
@@ -1598,34 +1116,21 @@
   function openThread(id) {
     var t = threads.find(function (x) { return x.id === id; });
     if (!t) return;
-
-    var detail = document.getElementById('thread-detail');
     var repliesHtml = t.replies.map(function (r) {
       return '<div class="reply-item">' +
         '<div class="thread-avatar" style="width:34px;height:34px;font-size:.58rem;">' + r.initials + '</div>' +
-        '<div style="flex:1;">' +
-          '<div class="reply-user">' + r.user + '<span>' + r.handle + ' · ' + r.date + '</span></div>' +
-          '<div class="reply-text">' + r.text + '</div>' +
-        '</div>' +
-      '</div>';
+        '<div style="flex:1;"><div class="reply-user">' + r.user + '<span>' + r.handle + ' · ' + r.date + '</span></div>' +
+        '<div class="reply-text">' + r.text + '</div></div></div>';
     }).join('');
-
-    detail.innerHTML =
-      '<div class="thread-view-header">' +
-        '<div style="display:flex;gap:14px;align-items:flex-start;">' +
-          '<div class="thread-avatar">' + t.initials + '</div>' +
-          '<div>' +
-            '<div class="thread-view-user">' + t.user + ' <span style="color:var(--text-faint);font-size:.68rem;">' + t.handle + '</span></div>' +
-            '<div class="thread-view-text">' + t.text + '</div>' +
-            '<div class="thread-view-date">' + t.date + '</div>' +
-          '</div>' +
-        '</div>' +
-      '</div>' +
-      '<div class="thread-replies">' + repliesHtml + '</div>';
-
+    document.getElementById('thread-detail').innerHTML =
+      '<div class="thread-view-header"><div style="display:flex;gap:14px;align-items:flex-start;">' +
+        '<div class="thread-avatar">' + t.initials + '</div><div>' +
+        '<div class="thread-view-user">' + t.user + ' <span style="color:var(--text-faint);font-size:.68rem;">' + t.handle + '</span></div>' +
+        '<div class="thread-view-text">' + t.text + '</div>' +
+        '<div class="thread-view-date">' + t.date + '</div></div></div></div>' +
+        '<div class="thread-replies">' + repliesHtml + '</div>';
     document.getElementById('thread-list').style.display = 'none';
-    var tv = document.getElementById('thread-view');
-    tv.classList.add('active');
+    document.getElementById('thread-view').classList.add('active');
   }
 
   document.getElementById('thread-back').addEventListener('click', function () {
@@ -1636,177 +1141,210 @@
 
   renderThreadList();
 
-  /* ── FORUM SUB-TABS ── */
-  var forumBtns = document.querySelectorAll('.forum-tab-btn');
-  forumBtns.forEach(function (btn) {
+  /* forum sub-tabs */
+  document.querySelectorAll('.forum-tab-btn').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      forumBtns.forEach(function (b) { b.classList.remove('active'); });
+      document.querySelectorAll('.forum-tab-btn').forEach(function (b) { b.classList.remove('active'); });
       btn.classList.add('active');
       document.querySelectorAll('.forum-panel').forEach(function (p) { p.classList.remove('active'); });
-      var target = btn.dataset.forum === 'comments' ? 'panel-comments' : 'panel-discussion';
-      document.getElementById(target).classList.add('active');
-      // reset thread view when switching
+      document.getElementById(btn.dataset.forum === 'comments' ? 'panel-comments' : 'panel-discussion').classList.add('active');
       document.getElementById('thread-view').classList.remove('active');
       document.getElementById('thread-detail').innerHTML = '';
       document.getElementById('thread-list').style.display = '';
     });
   });
 
-  /* ── COMENTÁRIOS GERAIS — post + auto-delete 10min ── */
+  /* ══════════════════════════════════════════════
+     COMENTÁRIOS — análise por keyword
+     Aprovado  → permanece indefinidamente
+     Reprovado → aviso + remoção em 10 min
+  ══════════════════════════════════════════════ */
   var commentsList = document.getElementById('comments-list');
-  var btnEnviar    = document.getElementById('btn-enviar');
 
-  btnEnviar.addEventListener('click', function () {
+  document.getElementById('btn-enviar').addEventListener('click', function () {
     var nameVal = document.getElementById('comment-name').value.trim();
     var textVal = document.getElementById('comment-text').value.trim();
-
     if (!textVal) return;
 
-    var author = nameVal || 'Anônimo';
-    var item   = document.createElement('div');
-    item.className = 'comment-item';
+    var author    = nameVal || 'Anônimo';
+    var approved  = containsKeyword(textVal);
+    var item      = document.createElement('div');
+    item.className = 'comment-item' + (approved ? ' permanent' : '');
 
-    var expires = Date.now() + 10 * 60 * 1000; // 10 min
-    var remaining = 600; // seconds
+    var statusHtml = approved
+      ? '<p class="comment-approved">✓ Conteúdo verificado — publicação permanente.</p>'
+      : '<p class="comment-warning">Sem suporte à atualizações desta aba. Em breve este post será apagado, tente novamente mais tarde.</p>' +
+        '<p class="comment-timer">Este comentário será removido em 10:00</p>';
 
     item.innerHTML =
       '<div class="comment-author">' + escapeHtml(author) + '</div>' +
-      '<div class="comment-text">'   + escapeHtml(textVal) + '</div>' +
-      '<div class="comment-warning">Sem suporte à atualizações desta aba. Em breve este post será apagado, tente novamente mais tarde.</div>' +
-      '<div class="comment-timer" data-expires="' + expires + '">Este comentário será removido em 10:00</div>';
+      '<div class="comment-text">' + escapeHtml(textVal) + '</div>' +
+      statusHtml;
 
     commentsList.insertBefore(item, commentsList.firstChild);
-
-    // clear form
     document.getElementById('comment-name').value = '';
     document.getElementById('comment-text').value = '';
 
-    // countdown + auto-remove
-    var timerEl = item.querySelector('.comment-timer');
-    var interval = setInterval(function () {
-      remaining--;
-      if (remaining <= 0) {
-        clearInterval(interval);
-        item.style.transition = 'opacity .6s ease';
-        item.style.opacity = '0';
-        setTimeout(function () { if (item.parentNode) item.parentNode.removeChild(item); }, 700);
-        return;
-      }
-      var m = Math.floor(remaining / 60);
-      var s = remaining % 60;
-      timerEl.textContent = 'Este comentário será removido em ' + m + ':' + (s < 10 ? '0' : '') + s;
-    }, 1000);
+    if (!approved) {
+      var remaining = 600;
+      var timerEl = item.querySelector('.comment-timer');
+      var iv = setInterval(function () {
+        remaining--;
+        if (remaining <= 0) {
+          clearInterval(iv);
+          item.style.transition = 'opacity .6s ease';
+          item.style.opacity = '0';
+          setTimeout(function () { if (item.parentNode) item.parentNode.removeChild(item); }, 700);
+          return;
+        }
+        var m = Math.floor(remaining / 60);
+        var s = remaining % 60;
+        timerEl.textContent = 'Este comentário será removido em ' + m + ':' + (s < 10 ? '0' : '') + s;
+      }, 1000);
+    }
   });
 
   function escapeHtml(s) {
     return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  /* ── MAIN TABS ── */
-  var mainTabs = document.querySelectorAll('#tab-nav button');
-  var home     = document.getElementById('screen-home');
-  var constr   = document.getElementById('screen-construction');
-  var contrib  = document.getElementById('screen-contributors');
-  var forumScr = document.getElementById('screen-forum');
-  var footer   = document.getElementById('site-footer');
+  /* ══════════════════════════════════════════════
+     MAIN TABS
+  ══════════════════════════════════════════════ */
+  var screens = {
+    home:    document.getElementById('screen-home'),
+    contrib: document.getElementById('screen-contributors'),
+    purpose: document.getElementById('screen-purpose'),
+    forum:   document.getElementById('screen-forum'),
+    _other:  document.getElementById('screen-construction')
+  };
+  var footer = document.getElementById('site-footer');
 
-  mainTabs.forEach(function (btn) {
+  document.querySelectorAll('#tab-nav button[data-tab]').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      mainTabs.forEach(function (b) { b.classList.remove('active'); });
+      document.querySelectorAll('#tab-nav button[data-tab]').forEach(function (b) { b.classList.remove('active'); });
       btn.classList.add('active');
-
-      home.style.display    = 'none';
-      constr.style.display  = 'none';
-      contrib.style.display = 'none';
-      forumScr.style.display = 'none';
+      Object.values(screens).forEach(function (s) { s.style.display = 'none'; });
 
       var t = btn.dataset.tab;
-      if (t === 'home') {
-        home.style.display = 'block';
-        footer.style.display = '';
-      } else if (t === 'contrib') {
-        contrib.style.display = 'block';
-        footer.style.display = '';
-      } else if (t === 'forum') {
-        forumScr.style.display = 'block';
-        footer.style.display = 'none';
+      if (screens[t]) {
+        screens[t].style.display = 'block';
+        footer.style.display = t === 'forum' ? 'none' : '';
       } else {
-        constr.style.display = 'block';
+        screens._other.style.display = 'block';
         footer.style.display = 'none';
       }
     });
   });
 
-  /* ── LER MAIS ── */
-  var btnRM   = document.getElementById('btn-readmore');
-  var section = document.getElementById('case-section');
-  var isOpen  = false;
-
-  btnRM.addEventListener('click', function () {
+  /* ── Ler Mais ── */
+  var isOpen = false;
+  document.getElementById('btn-readmore').addEventListener('click', function () {
     isOpen = !isOpen;
-    if (isOpen) {
-      section.classList.add('open');
-      btnRM.textContent = '[ FECHAR ]';
-      btnRM.setAttribute('aria-expanded', 'true');
+    document.getElementById('case-section').classList.toggle('open', isOpen);
+    this.textContent = isOpen ? '[ FECHAR ]' : '[ LER MAIS ]';
+    this.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  /* ── Princípios accordion ── */
+  var btnPrinciples = document.getElementById('btn-principles');
+  var principlesBody = document.getElementById('principles-body');
+  if (btnPrinciples) {
+    btnPrinciples.addEventListener('click', function () {
+      var open = principlesBody.classList.toggle('open');
+      btnPrinciples.classList.toggle('open', open);
+    });
+  }
+
+  /* ══════════════════════════════════════════════
+     ADMIN MODAL — stub, rejeita sempre
+  ══════════════════════════════════════════════ */
+  var adminModal = document.getElementById('admin-modal');
+
+  document.getElementById('btn-admin-open').addEventListener('click', function () {
+    adminModal.classList.add('active');
+    document.getElementById('admin-error').textContent = '';
+    document.getElementById('admin-user').value = '';
+    document.getElementById('admin-pass').value = '';
+  });
+
+  function closeAdmin() {
+    adminModal.classList.remove('active');
+    document.getElementById('admin-error').textContent = '';
+  }
+
+  document.getElementById('btn-admin-close').addEventListener('click', closeAdmin);
+  document.getElementById('btn-admin-cancel').addEventListener('click', closeAdmin);
+
+  adminModal.addEventListener('click', function (e) {
+    if (e.target === adminModal) closeAdmin();
+  });
+
+  document.getElementById('btn-admin-submit').addEventListener('click', function () {
+    var u = document.getElementById('admin-user').value.trim();
+    var p = document.getElementById('admin-pass').value.trim();
+    var err = document.getElementById('admin-error');
+    // Sempre rejeita — acesso não liberado
+    if (!u || !p) {
+      err.textContent = 'Preencha todos os campos.';
     } else {
-      section.classList.remove('open');
-      btnRM.textContent = '[ LER MAIS ]';
-      btnRM.setAttribute('aria-expanded', 'false');
+      err.textContent = 'Acesso negado. Credenciais inválidas.';
     }
   });
 
-  /* ── DATE FEATURES ── */
-  var day = new Date().getDate();
+  /* ══════════════════════════════════════════════
+     DATE FEATURES
+  ══════════════════════════════════════════════ */
+  var todayDay = new Date().getDate();
 
-  if (day === 18) {
-    var e18 = document.getElementById('easter18');
-    if (e18) e18.style.display = 'block';
+  if (todayDay === 18) {
+    var m18 = document.createElement('meta');
+    m18.name = 'nota-18'; m18.content = 'Dia: 18 de Fevereiro, Segunda Data do Dia 20';
+    document.head.appendChild(m18);
+    var ft = document.getElementById('site-footer');
+    if (ft) ft.title = 'Dia: 18 de Fevereiro, Segunda Data do Dia 20';
   }
 
-  if (day === 20) {
+  if (todayDay === 20) {
     document.getElementById('screen-404').classList.add('active');
     document.getElementById('content-wrap').style.display = 'none';
     document.getElementById('site-footer').style.display  = 'none';
   }
 
-  /* ── MIGUEL JUMPSCARE ── */
-  var zero    = document.getElementById('zero-404');
-  var overlay = document.getElementById('miguel-overlay');
+  /* ── Zero → Omega Page ── */
+  var zero = document.getElementById('zero-404');
+  var omegaPage = document.getElementById('omega-page');
 
-  function openMiguel() {
-    overlay.classList.add('show');
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () { overlay.classList.add('reveal'); });
-    });
+  function openOmegaPage() {
+    document.title = 'Ômega Bday 1960 (1965)';
+    var snd = new Audio('sons/miguel.mp3');
+    snd.play().catch(function () {});
+    document.getElementById('screen-404').classList.remove('active');
+    omegaPage.classList.add('active');
   }
 
-  function closeMiguel() {
-    overlay.classList.remove('reveal');
-    setTimeout(function () { overlay.classList.remove('show'); }, 450);
+  if (zero) {
+    zero.addEventListener('click', openOmegaPage);
+    zero.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') openOmegaPage(); });
   }
 
-  if (zero)    zero.addEventListener('click', openMiguel);
-  if (overlay) overlay.addEventListener('click', closeMiguel);
-
-  /* ── DATETIME MANIPULATION ── */
-  var currentTime = null; // null = real time, Date object = custom time
+  /* ══════════════════════════════════════════════
+     DATETIME MANIPULATION
+  ══════════════════════════════════════════════ */
+  var currentTime = null;
   var timeInterval = null;
   var isPaused = false;
 
-  var dtDisplay = document.getElementById('current-datetime');
-  var dtModal   = document.getElementById('datetime-modal');
-  var dateInput = document.getElementById('date-input');
-  var timeInput = document.getElementById('time-input');
-  var cancelBtn = document.getElementById('datetime-cancel');
-  var applyBtn  = document.getElementById('datetime-apply');
+  var dtDisplay  = document.getElementById('current-datetime');
+  var dtModal    = document.getElementById('datetime-modal');
+  var dateInput  = document.getElementById('date-input');
+  var timeInput  = document.getElementById('time-input');
 
   function updateDateTime() {
     var now = currentTime || new Date();
-    var dateStr = now.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    var timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    dtDisplay.textContent = dateStr + ' ' + timeStr;
-    
-    // Check for Valentino easter egg
+    dtDisplay.textContent =
+      now.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' +
+      now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     checkValentinoTrigger(now);
   }
 
@@ -1814,93 +1352,46 @@
     if (timeInterval) clearInterval(timeInterval);
     timeInterval = setInterval(function () {
       if (!isPaused) {
-        if (currentTime) {
-          currentTime = new Date(currentTime.getTime() + 1000);
-        }
+        if (currentTime) currentTime = new Date(currentTime.getTime() + 1000);
         updateDateTime();
       }
     }, 1000);
   }
 
-  function checkValentinoTrigger(date) {
-    var day = date.getDate();
-    var month = date.getMonth() + 1; // 0-based
-    var year = date.getFullYear();
-    var hour = date.getHours();
-    var minute = date.getMinutes();
-
-    // Check for 18/02/1965 18:21
-    if (day === 18 && month === 2 && year === 1965 && hour === 18 && minute === 21) {
-      showValentino();
+  function checkValentinoTrigger(d) {
+    if (d.getDate() === 18 && d.getMonth() === 1 && d.getFullYear() === 1965 &&
+        d.getHours() === 18 && d.getMinutes() === 21) {
+      var vc = document.getElementById('valentino-card');
+      if (vc && vc.style.display === 'none') vc.style.display = 'flex';
     }
   }
 
-  function showValentino() {
-    var valCard = document.getElementById('valentino-card');
-    if (valCard && valCard.style.display === 'none') {
-      valCard.style.display = 'flex';
-    }
-  }
-
-  // Click to open modal
   dtDisplay.addEventListener('click', function () {
     isPaused = true;
     var now = currentTime || new Date();
-    
-    // Format for inputs
-    var dateStr = now.getFullYear() + '-' + 
-                  String(now.getMonth() + 1).padStart(2, '0') + '-' + 
-                  String(now.getDate()).padStart(2, '0');
-    var timeStr = String(now.getHours()).padStart(2, '0') + ':' + 
-                  String(now.getMinutes()).padStart(2, '0') + ':' + 
-                  String(now.getSeconds()).padStart(2, '0');
-    
-    dateInput.value = dateStr;
-    timeInput.value = timeStr;
+    dateInput.value = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+    timeInput.value = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0') + ':' + String(now.getSeconds()).padStart(2,'0');
     dtModal.classList.add('active');
   });
 
-  // Cancel button
-  cancelBtn.addEventListener('click', function () {
-    isPaused = false;
-    dtModal.classList.remove('active');
+  document.getElementById('datetime-cancel').addEventListener('click', function () {
+    isPaused = false; dtModal.classList.remove('active');
   });
 
-  // Apply button
-  applyBtn.addEventListener('click', function () {
-    var dateVal = dateInput.value;
-    var timeVal = timeInput.value;
-    
-    if (dateVal && timeVal) {
-      var dateParts = dateVal.split('-');
-      var timeParts = timeVal.split(':');
-      
-      var newDate = new Date(
-        parseInt(dateParts[0]),     // year
-        parseInt(dateParts[1]) - 1, // month (0-based)
-        parseInt(dateParts[2]),     // day
-        parseInt(timeParts[0]),     // hour
-        parseInt(timeParts[1]),     // minute
-        parseInt(timeParts[2]) || 0 // second
-      );
-      
-      currentTime = newDate;
+  document.getElementById('datetime-apply').addEventListener('click', function () {
+    var dv = dateInput.value, tv = timeInput.value;
+    if (dv && tv) {
+      var dp = dv.split('-'), tp = tv.split(':');
+      currentTime = new Date(+dp[0], +dp[1]-1, +dp[2], +tp[0], +tp[1], +(tp[2]||0));
       updateDateTime();
     }
-    
-    isPaused = false;
-    dtModal.classList.remove('active');
+    isPaused = false; dtModal.classList.remove('active');
   });
 
-  // Close modal on overlay click
   dtModal.addEventListener('click', function (e) {
-    if (e.target === dtModal) {
-      isPaused = false;
-      dtModal.classList.remove('active');
-    }
+    if (e.target === dtModal) { isPaused = false; dtModal.classList.remove('active'); }
   });
 
-  // Initialize datetime
   updateDateTime();
   startTimer();
 
