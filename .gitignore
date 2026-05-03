@@ -9,5 +9,3 @@
 /backend/*.log
 /backend/*.cache
 /backend/storage/
-
-.vscode/
