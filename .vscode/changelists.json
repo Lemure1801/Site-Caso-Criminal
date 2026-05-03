@@ -3,9 +3,9 @@
     {
       "name": "Default",
       "files": [
+        "mapeamento.txt",
         ".vscode/changelists.json",
-        "backend/src/Controller/ComentarioController.php",
-        "backend/src/Service/ComentarioService.php"
+        ".gitignore"
       ]
     }
   ],

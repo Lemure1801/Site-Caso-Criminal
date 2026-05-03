@@ -1,16 +1,13 @@
 # ── Credenciais — NUNCA subir para o repositório ──
-config/config.ini
-.env
+/backend/config/config.ini
+/backend/.env
 
 # ── Dependências ──
-vendor/
+/backend/vendor/
 
 # ── Logs e cache ──
-*.log
-*.cache
-/storage/
+/backend/*.log
+/backend/*.cache
+/backend/storage/
 
-# ── IDEs ──
-.idea/
 .vscode/
-*.DS_Store

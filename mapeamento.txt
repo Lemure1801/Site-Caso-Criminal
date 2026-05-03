@@ -1,0 +1,123 @@
+MAPEAMENTO DE DIFICULDADES — REFATORAÇÃO ARQUITETURAL
+Caso 91-1821 | Disciplina de Desenvolvimento Web
+======================================================
+
+EQUIPE: Ian, Arthur e Francisco
+DATA:   02/05/26
+COMMIT DE REFERÊNCIA: 
+
+
+──────────────────────────────────────────────────────
+1. DIFICULDADES ENCONTRADAS DURANTE A TRANSIÇÃO
+──────────────────────────────────────────────────────
+
+[RESOLVIDA] Injeção de Dependência no index.php (Container DI)
+  Dúvida inicial: onde exatamente instanciar PDO, Repository, Service
+  e Controller sem que nenhuma classe soubesse das outras?
+  Solução adotada: o index.php funciona como o único ponto de montagem
+  ("composition root"). Ele instancia na ordem:
+    $pdo        = Database::getInstance();
+    $repository = new ComentarioRepository($pdo);
+    $service    = new ComentarioService($repository);
+    $controller = new ComentarioController($service);
+  Nenhuma dessas classes cria internamente suas dependências.
+
+[RESOLVIDA] Posição correta do try-catch
+  Dúvida: o bloco try-catch deveria ficar no Service ou no Controller?
+  Conclusão: o SERVICE lança a exceção (BusinessRuleException).
+  O CONTROLLER apenas captura e decide como responder (JSON de erro).
+  O Service não conhece HTTP; o Controller não conhece regras de negócio.
+
+[RESOLVIDA] Interface vs Classe concreta no Service
+  Dúvida: o Service deveria receber IComentarioRepository ou
+  ComentarioRepository diretamente?
+  Conclusão: sempre a Interface (IComentarioRepository). Isso permite
+  trocar a implementação (ex: para testes com mock) sem alterar o Service.
+  Type hint: __construct(private readonly IComentarioRepository $repository)
+
+[RESOLVIDA] config.ini fora do webroot
+  Dúvida: onde guardar o config.ini para que o PHP consiga ler mas o
+  navegador não consiga acessar diretamente via URL?
+  Solução: pasta backend/config/ que fica fora de public/. O Database.php
+  usa __DIR__ para construir o caminho absoluto.
+
+[RESOLVIDA] MariaDB vs MySQL
+  Dúvida: o projeto usa MariaDB — precisa mudar algo no código?
+  Conclusão: não. MariaDB é compatível com o driver PDO do MySQL.
+  O DSN permanece 'mysql:host=...' mesmo usando MariaDB.
+  O event_scheduler pode precisar ser ativado no my.cnf:
+    [mysqld]
+    event_scheduler = ON
+
+[RESOLVIDA] Sanitização no Middleware vs no Service
+  Dúvida: a sanitização de XSS deveria ocorrer no Middleware ou no Service?
+  Conclusão: ambos têm papel complementar.
+  - Middleware: primeira linha de defesa, bloqueia antes de chegar ao Service.
+  - Service: segunda linha, valida internamente e lança BusinessRuleException.
+  Isso garante que qualquer chamada ao Service (mesmo sem passar pelo HTTP)
+  seja segura.
+
+[DÚVIDA RESIDUAL] Autenticação de admin
+  O sistema tem um modal de login que atualmente rejeita qualquer tentativa.
+  Ainda não foi implementada a tabela `admins` com bcrypt.
+  Pergunta ao professor: a autenticação deveria ser um novo Service separado
+  (AuthService) ou pode ficar como método adicional no ComentarioService?
+
+
+──────────────────────────────────────────────────────
+2. DECISÕES ARQUITETURAIS TOMADAS
+──────────────────────────────────────────────────────
+
+- Singleton no Database.php para evitar múltiplas conexões concorrentes.
+- Repository Pattern: todo SQL de comentários fica exclusivamente em
+  ComentarioRepository.php. Nenhum outro arquivo toca o banco diretamente,
+  exceto a consulta de threads (que ainda está no index.php por ser somente
+  leitura e não ter Service associado — ponto de melhoria futura).
+- BusinessRuleException com código HTTP embutido (getCode()) para que o
+  Controller saiba qual status retornar sem precisar de if/else.
+- Middleware com dois níveis de proteção XSS: strip_tags + htmlspecialchars.
+- config.ini adicionado ao .gitignore antes do primeiro commit.
+
+
+──────────────────────────────────────────────────────
+3. ROTEIRO PARA O CHECKPOINT COM O PROFESSOR
+──────────────────────────────────────────────────────
+
+a) Mostrar a aplicação rodando:
+   cd backend/public && php -S localhost:8000
+   Abrir index.html no navegador e demonstrar o Fórum funcionando.
+
+b) Mostrar o ComentarioService.php:
+   - Construtor recebe IComentarioRepository (não a classe concreta).
+   - Método publicar() lança BusinessRuleException sem tocar em HTTP.
+
+c) Mostrar o ComentarioController.php:
+   - store() tem apenas um bloco try-catch, sem if/else de validação.
+   - Captura BusinessRuleException → resposta JSON de erro.
+   - Captura Throwable genérico → erro 500 sem expor stack trace.
+
+d) Teste de estresse ao vivo — provocar BusinessRuleException:
+   Enviar comentário vazio via curl ou Fórum:
+     curl -X POST "http://localhost:8000/?action=post_comment" \
+          -H "Content-Type: application/json" \
+          -d '{"nome":"Teste","texto":""}'
+   Resultado esperado: {"error":"O comentário é muito curto..."}
+
+e) Teste de XSS via Middleware:
+     curl -X POST "http://localhost:8000/?action=post_comment" \
+          -H "Content-Type: application/json" \
+          -d '{"nome":"Hacker","texto":"<script>alert(1)</script>"}'
+   Resultado esperado: {"error":"Conteúdo inválido: tags HTML não são permitidas."}
+
+f) Mostrar .gitignore e confirmar que config.ini não está no repositório:
+   git status  →  config/config.ini não deve aparecer
+   git log --all -- backend/config/config.ini  →  sem resultados
+
+
+──────────────────────────────────────────────────────
+4. COMMIT SEMÂNTICO FINAL
+──────────────────────────────────────────────────────
+
+git add .
+git commit -m "refactor: implementa repository pattern, singleton PDO, injecao de dependencia e middleware XSS"
+git push origin main
