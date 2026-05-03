@@ -1359,6 +1359,8 @@
   }
 
   function checkValentinoTrigger(d) {
+    // Trigger: 18/02/1965 às 18:21 (qualquer segundo dentro do minuto)
+    // getMonth() é 0-based: janeiro=0, fevereiro=1
     if (d.getDate() === 18 && d.getMonth() === 1 && d.getFullYear() === 1965 &&
         d.getHours() === 18 && d.getMinutes() === 21) {
       var vc = document.getElementById('valentino-card');

@@ -1,0 +1,16 @@
+# ── Credenciais — NUNCA subir para o repositório ──
+config/config.ini
+.env
+
+# ── Dependências ──
+vendor/
+
+# ── Logs e cache ──
+*.log
+*.cache
+/storage/
+
+# ── IDEs ──
+.idea/
+.vscode/
+*.DS_Store
