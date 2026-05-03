@@ -1,0 +1,13 @@
+{
+  "changelists": [
+    {
+      "name": "Default",
+      "files": [
+        ".vscode/changelists.json",
+        "backend/src/Controller/ComentarioController.php",
+        "backend/src/Service/ComentarioService.php"
+      ]
+    }
+  ],
+  "active": "Default"
+}

@@ -11,9 +11,6 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../Service/ComentarioService.php';
-require_once __DIR__ . '/../Exception/BusinessRuleException.php';
-
 class ComentarioController
 {
     // ── DI via construtor ─────────────────────────────────────
