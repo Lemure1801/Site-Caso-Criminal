@@ -1,100 +1,67 @@
 <?php
-/**
- * ComentarioRepository.php — Passo 2 (Repository)
- * Implementa IComentarioRepository.
- * É o ÚNICO lugar do sistema onde existe SQL relacionado a comentários.
- * Recebe o PDO via construtor (Injeção de Dependência).
- */
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../Model/Comentario.php';
-require_once __DIR__ . '/IComentarioRepository.php';
+namespace App\Repository;
 
-class ComentarioRepository implements IComentarioRepository
+use App\Model\Comentario;
+use PDO;
+
+final class ComentarioRepository implements IComentarioRepository
 {
-    public function __construct(private readonly PDO $pdo) {}
+    public function __construct(
+        private readonly PDO $pdo
+    ) {}
 
-    // ── save ──────────────────────────────────────────────────
-    public function save(Comentario $comentario): bool
+    /**
+     * @inheritDoc
+     */
+    public function findAllAprovados(): array
     {
-        $stmt = $this->pdo->prepare(
-            'INSERT INTO comentarios (nome, texto, aprovado, expira_em, ip_hash)
-             VALUES (:nome, :texto, :aprovado, :expira, :ip)'
+        $stmt = $this->pdo->query(
+            'SELECT id, nome, texto, aprovado, criado_em 
+             FROM comentarios 
+             WHERE aprovado = 1 
+             ORDER BY criado_em DESC'
         );
 
-        $ok = $stmt->execute([
-            ':nome'     => mb_substr($comentario->nome, 0, 120),
-            ':texto'    => $comentario->texto,
-            ':aprovado' => $comentario->aprovado ? 1 : 0,
-            ':expira'   => $comentario->expiraEm,
-            ':ip'       => $comentario->ipHash,
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return array_map(
+            fn(array $row): Comentario => new Comentario(
+                id: (int) $row['id'],
+                nome: $row['nome'],
+                texto: $row['texto'],
+                aprovado: (bool) $row['aprovado'],
+                criadoEm: $row['criado_em']
+            ),
+            $rows
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function save(Comentario $comentario): Comentario
+    {
+        $stmt = $this->pdo->prepare(
+            'INSERT INTO comentarios (nome, texto, aprovado, criado_em) 
+             VALUES (:nome, :texto, :aprovado, :criado_em)'
+        );
+
+        $stmt->execute([
+            ':nome'      => $comentario->getNome(),
+            ':texto'     => $comentario->getTexto(),
+            ':aprovado'  => $comentario->isAprovado() ? 1 : 0,
+            ':criado_em' => $comentario->getCriadoEm(),
         ]);
 
-        if ($ok) {
-            $comentario->id = (int) $this->pdo->lastInsertId();
-        }
-
-        return $ok;
-    }
-
-    // ── find ──────────────────────────────────────────────────
-    public function find(int $id): ?Comentario
-    {
-        $stmt = $this->pdo->prepare(
-            'SELECT * FROM comentarios WHERE id = :id LIMIT 1'
+        return new Comentario(
+            id: (int) $this->pdo->lastInsertId(),
+            nome: $comentario->getNome(),
+            texto: $comentario->getTexto(),
+            aprovado: $comentario->isAprovado(),
+            criadoEm: $comentario->getCriadoEm()
         );
-        $stmt->execute([':id' => $id]);
-        $row = $stmt->fetch();
-
-        return $row ? $this->hydrate($row) : null;
-    }
-
-    // ── delete ────────────────────────────────────────────────
-    public function delete(int $id): bool
-    {
-        $stmt = $this->pdo->prepare(
-            'DELETE FROM comentarios WHERE id = :id'
-        );
-        return $stmt->execute([':id' => $id]);
-    }
-
-    // ── listAtivos ────────────────────────────────────────────
-    public function listAtivos(): array
-    {
-        // Purga antes de listar para garantir consistência
-        $this->purgarExpirados();
-
-        $stmt = $this->pdo->query(
-            'SELECT * FROM comentarios
-             ORDER BY criado_em DESC
-             LIMIT 200'
-        );
-
-        return array_map([$this, 'hydrate'], $stmt->fetchAll());
-    }
-
-    // ── purgarExpirados ───────────────────────────────────────
-    public function purgarExpirados(): int
-    {
-        $stmt = $this->pdo->exec(
-            "DELETE FROM comentarios
-             WHERE aprovado = 0
-               AND expira_em IS NOT NULL
-               AND expira_em < NOW()"
-        );
-        return (int) $stmt;
-    }
-
-    // ── Hydration privada ─────────────────────────────────────
-    private function hydrate(array $row): Comentario
-    {
-        $c            = new Comentario($row['nome'], $row['texto']);
-        $c->id        = (int)  $row['id'];
-        $c->aprovado  = (bool) $row['aprovado'];
-        $c->expiraEm  = $row['expira_em'];
-        $c->criadoEm  = $row['criado_em'];
-        $c->ipHash    = $row['ip_hash'];
-        return $c;
     }
 }

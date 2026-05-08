@@ -1,61 +1,83 @@
 <?php
-/**
- * Database.php — Passo 1
- * Único responsável por ler config.ini e retornar a instância PDO.
- * Padrão Singleton: garante uma única conexão durante o ciclo da requisição.
- * Nenhum outro arquivo do sistema conhece as credenciais ou sabe conectar.
- */
 
 declare(strict_types=1);
 
-class Database
+namespace App;
+
+use PDO;
+use RuntimeException;
+
+final class Database
 {
     private static ?PDO $instance = null;
 
-    /** Impede instanciação externa */
     private function __construct() {}
 
-    /** Impede clonagem */
     private function __clone() {}
 
-    /**
-     * Retorna a instância única do PDO.
-     * Lê as credenciais exclusivamente do config.ini.
-     *
-     * @throws RuntimeException se o config.ini não for encontrado
-     * @throws PDOException     se a conexão falhar
-     */
-    public static function getInstance(): PDO
+    public function __wakeup(): void
     {
-        if (self::$instance !== null) {
-            return self::$instance;
-        }
+        throw new RuntimeException('Cannot unserialize singleton');
+    }
 
-        $configPath = __DIR__ . '/../config/config.ini';
+    /**
+     * Retorna a instancia unica do PDO.
+     *
+     * @throws RuntimeException Se nao conseguir conectar ou encontrar o config.
+     */
+    public static function connect(): PDO
+    {
+        if (self::$instance === null) {
+            $configPath = self::findConfigPath();
+            $config = parse_ini_file($configPath);
 
-        if (!file_exists($configPath)) {
-            throw new RuntimeException(
-                'Arquivo config.ini não encontrado em: ' . $configPath
+            if ($config === false) {
+                throw new RuntimeException('Falha ao ler arquivo de configuracao.');
+            }
+
+            $dsn = sprintf(
+                'mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
+                $config['DB_HOST'],
+                $config['DB_PORT'] ?? '3306',
+                $config['DB_NAME']
+            );
+
+            self::$instance = new PDO(
+                $dsn,
+                $config['DB_USER'],
+                $config['DB_PASS'],
+                [
+                    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::ATTR_EMULATE_PREPARES   => false,
+                ]
             );
         }
 
-        $cfg = parse_ini_file($configPath, true);
-        $db  = $cfg['database'];
-
-        $dsn = sprintf(
-            'mysql:host=%s;port=%s;dbname=%s;charset=%s',
-            $db['host'],
-            $db['port'] ?? '3306',
-            $db['name'],
-            $db['charset'] ?? 'utf8mb4'
-        );
-
-        self::$instance = new PDO($dsn, $db['user'], $db['password'], [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES   => false,
-        ]);
-
         return self::$instance;
+    }
+
+    /**
+     * Localiza o arquivo config.ini.
+     *
+     * @throws RuntimeException Se nao encontrar o arquivo.
+     */
+    private static function findConfigPath(): string
+    {
+        // __DIR__ = backend/src
+        // config esta em backend/config/config.ini
+        $candidates = [
+            __DIR__ . '/../config/config.ini',
+        ];
+
+        foreach ($candidates as $path) {
+            if (file_exists($path)) {
+                return $path;
+            }
+        }
+
+        throw new RuntimeException(
+            'Arquivo config.ini nao encontrado. Caminhos tentados: ' . implode(', ', $candidates)
+        );
     }
 }

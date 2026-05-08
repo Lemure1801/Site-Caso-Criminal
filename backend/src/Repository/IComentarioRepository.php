@@ -1,42 +1,22 @@
 <?php
-/**
- * IComentarioRepository.php — Passo 2 (Interface / Contrato)
- * Define os métodos obrigatórios para qualquer implementação de repositório
- * de comentários. O Service depende desta interface, nunca da implementação.
- * Isso garante desacoplamento e facilita testes (mock / stub).
- */
 
 declare(strict_types=1);
+
+namespace App\Repository;
+
+use App\Model\Comentario;
 
 interface IComentarioRepository
 {
     /**
-     * Persiste um Comentario no banco.
-     * Deve preencher $comentario->id após inserção.
-     */
-    public function save(Comentario $comentario): bool;
-
-    /**
-     * Busca um comentário por ID.
-     * Retorna null se não encontrado.
-     */
-    public function find(int $id): ?Comentario;
-
-    /**
-     * Remove um comentário pelo ID.
-     */
-    public function delete(int $id): bool;
-
-    /**
-     * Lista todos os comentários ainda ativos (não expirados).
+     * Retorna todos os comentarios aprovados, ordenados do mais recente para o mais antigo.
      *
      * @return Comentario[]
      */
-    public function listAtivos(): array;
+    public function findAllAprovados(): array;
 
     /**
-     * Remove do banco todos os comentários temporários expirados.
-     * Retorna o número de registros deletados.
+     * Persiste um comentario e retorna a entidade com o ID gerado.
      */
-    public function purgarExpirados(): int;
+    public function save(Comentario $comentario): Comentario;
 }

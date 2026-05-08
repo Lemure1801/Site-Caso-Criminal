@@ -1,55 +1,41 @@
 <?php
-/**
- * Comentario.php — Passo 2 (Model / Entidade)
- * Objeto simples com propriedades. Não contém SQL.
- * Todo acesso ao banco fica no Repository.
- */
 
 declare(strict_types=1);
 
-class Comentario
+namespace App\Model;
+
+final class Comentario
 {
-    public int     $id        = 0;
-    public string  $nome      = 'Anônimo';
-    public string  $texto     = '';
-    public bool    $aprovado  = false;
-    public ?string $expiraEm  = null;   // null = permanente
-    public ?string $criadoEm  = null;
-    public ?string $ipHash    = null;
-
     public function __construct(
-        string  $nome,
-        string  $texto,
-        bool    $aprovado  = false,
-        ?string $expiraEm  = null,
-        ?string $ipHash    = null,
-    ) {
-        $this->nome     = $nome;
-        $this->texto    = $texto;
-        $this->aprovado = $aprovado;
-        $this->expiraEm = $expiraEm;
-        $this->ipHash   = $ipHash;
+        private readonly int $id,
+        private readonly string $nome,
+        private readonly string $texto,
+        private readonly bool $aprovado,
+        private readonly string $criadoEm
+    ) {}
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
-    /** Retorna true se o comentário já expirou */
-    public function expirou(): bool
+    public function getNome(): string
     {
-        if ($this->expiraEm === null) {
-            return false;
-        }
-        return new DateTime() > new DateTime($this->expiraEm);
+        return $this->nome;
     }
 
-    /** Representação para serialização / API */
-    public function toArray(): array
+    public function getTexto(): string
     {
-        return [
-            'id'        => $this->id,
-            'nome'      => $this->nome,
-            'texto'     => $this->texto,
-            'aprovado'  => $this->aprovado,
-            'expira_em' => $this->expiraEm,
-            'criado_em' => $this->criadoEm,
-        ];
+        return $this->texto;
+    }
+
+    public function isAprovado(): bool
+    {
+        return $this->aprovado;
+    }
+
+    public function getCriadoEm(): string
+    {
+        return $this->criadoEm;
     }
 }

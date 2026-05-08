@@ -737,6 +737,131 @@
     .omega-caption { font-family: var(--fell); font-size: 1rem; color: #c8a060; letter-spacing: .06em; text-align: center; font-style: italic; opacity: .85; }
     .omega-sub { font-family: var(--mono); font-size: .6rem; color: #4a2a0a; letter-spacing: .2em; }
 
+    /* ── INVESTIGAÇÕES ── */
+    #screen-invest { display: none; }
+
+    .invest-header {
+      text-align: center;
+      padding: 52px 0 36px;
+    }
+
+    /* Documento classificado — label de arquivo */
+    .invest-doc-label {
+      font-family: var(--mono);
+      font-size: .58rem;
+      letter-spacing: .28em;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .invest-doc-label::before,
+    .invest-doc-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border-mid));
+    }
+
+    .invest-doc-label::after {
+      background: linear-gradient(to left, transparent, var(--border-mid));
+    }
+
+    /* Container da imagem do hospital — mostra ~65% da largura,
+       alinhado à esquerda para esconder o canto superior direito (cabeça do boi).
+       A imagem completa ainda é src e pode ser aberta/baixada. */
+    .hospital-photo-wrap {
+      position: relative;
+      width: 100%;
+      /* aspect ratio que revela apenas a parte inferior-esquerda do original */
+      aspect-ratio: 16/6;
+      overflow: hidden;
+      border: 1px solid var(--border-dark);
+      box-shadow: 0 0 40px rgba(0,0,0,.7), inset 0 0 20px rgba(0,0,0,.4);
+      margin-bottom: 0;
+      cursor: pointer;
+    }
+
+    .hospital-photo-wrap img {
+      /* A imagem original é 1323×881.
+         Posicionamos para mostrar a região do hospital (parte inferior/central)
+         e esconder o canto superior direito onde está a cabeça do boi.
+         object-position: X Y — empurramos para a esquerda e ligeiramente para baixo. */
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 20% 62%;
+      display: block;
+      filter: brightness(.88) contrast(1.05);
+      transition: filter .4s ease;
+      /* A imagem completa está no src — download/abrir em aba revela tudo */
+    }
+
+    .hospital-photo-wrap:hover img {
+      filter: brightness(.95) contrast(1.08);
+    }
+
+    /* Vinheta direita — escurece ainda mais a borda direita
+       para que qualquer fragmento de víscera que apareça
+       pareça apenas sombra da noite, não um elemento reconhecível */
+    .hospital-photo-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to right,  transparent 55%, rgba(0,0,0,.72) 100%),
+        linear-gradient(to bottom, rgba(0,0,0,.25) 0%, transparent 30%);
+      pointer-events: none;
+    }
+
+    .hospital-photo-caption {
+      font-family: var(--mono);
+      font-size: .6rem;
+      color: var(--text-faint);
+      letter-spacing: .08em;
+      text-align: right;
+      padding: 8px 4px 0;
+      line-height: 1.6;
+    }
+
+    .hospital-photo-caption em {
+      font-style: normal;
+      color: #3a2010;
+    }
+
+    /* Bloco de texto de abertura das Investigações */
+    .invest-intro {
+      margin-top: 36px;
+      background: var(--bg-card);
+      border-left: 3px solid var(--blood);
+      padding: 24px 28px;
+      box-shadow: inset 0 0 30px rgba(0,0,0,.4);
+    }
+
+    .invest-intro p {
+      font-family: var(--fell);
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+
+    .invest-intro p:last-child { margin-bottom: 0; }
+
+    .invest-intro .invest-sig {
+      font-family: var(--mono);
+      font-size: .7rem;
+      color: var(--gold-dim);
+      display: block;
+      border-top: 1px solid var(--border-dark);
+      padding-top: 12px;
+      margin-top: 8px;
+      font-style: italic;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
       #content-wrap { padding: 0 16px 60px; }
@@ -863,6 +988,8 @@
         <p><strong style="color:var(--gold-dim);font-family:var(--mono);font-size:.8rem;letter-spacing:.1em;">I.</strong> Nenhum documento aqui foi adulterado. O que não pôde ser verificado está devidamente sinalizado.</p>
         <p><strong style="color:var(--gold-dim);font-family:var(--mono);font-size:.8rem;letter-spacing:.1em;">II.</strong> Testemunhos anônimos são aceitos e protegidos. A identidade de quem colabora nunca será revelada sem consentimento.</p>
         <p style="margin-bottom:0;"><strong style="color:var(--gold-dim);font-family:var(--mono);font-size:.8rem;letter-spacing:.1em;">III.</strong> Este arquivo não possui vínculos com o Hospital Santos Levíticos, com a Yvy Pyahu ou com qualquer instituição citada nos documentos. É uma iniciativa exclusivamente independente.</p>
+        <!-- princípio IV — visível apenas ao selecionar o texto -->
+        <p style="margin-bottom:0;margin-top:18px;"><strong style="color:transparent;font-family:var(--mono);font-size:.8rem;letter-spacing:.1em;user-select:text;">IV.</strong> <span style="color:transparent;font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;line-height:1.9;user-select:text;">Não falamos sobre a Cpc Tcenl</span></p>
       </div>
     </div>
   </div>
@@ -1021,6 +1148,61 @@
   </div>
 </div>
 
+<!-- DIA 21 — reservado para o jogo (Jonas / 12061980) -->
+<div id="screen-day21" style="display:none; position:fixed; inset:0; background:#000; z-index:5500; align-items:center; justify-content:center; flex-direction:column;">
+  <!-- conteúdo inserido futuramente -->
+</div>
+
+<!-- INVESTIGAÇÕES — seção principal -->
+<div id="screen-invest" style="display:none;">
+  <div id="content-invest" style="max-width:880px;margin:0 auto;padding:0 40px 90px;">
+
+    <div class="invest-header section-page-header">
+      <h2 class="section-page-title">INVESTIGAÇÕES</h2>
+      <p class="section-page-subtitle">Documentação de campo — Caso 91-1821</p>
+    </div>
+
+    <div class="invest-doc-label">Documento 001 — Localização</div>
+
+    <!-- Imagem do hospital: src completo, mas exibição cortada -->
+    <!-- A cabeça do boi está no canto sup. direito — escondida por overflow+object-position+vinheta -->
+    <!-- Para ver a imagem completa: clique com o botão direito → Abrir em nova aba / Salvar imagem -->
+    <figure>
+      <div class="hospital-photo-wrap" title="Clique para abrir imagem completa em nova aba">
+        <img
+          src="imagens/santosleviticos.png"
+          alt="Hospital Santos Levíticos — fotografia noturna — data desconhecida"
+          id="hospital-img"
+        />
+      </div>
+      <figcaption class="hospital-photo-caption">
+        Hospital Santos Levíticos — Cariará, TO<br>
+        <em>Fotografia de procedência não confirmada. Data estimada: entre 1975 e 1987.</em>
+      </figcaption>
+    </figure>
+
+    <div class="invest-intro">
+      <p>
+        O Hospital Santos Levíticos ficava na extremidade norte de Cariará, em um terreno que antes
+        pertencia à paróquia do Padre Elias Monteverde. A construção foi erguida rapidamente
+        entre 1964 e 1965 — rápida demais, segundo os moradores mais antigos da cidade.
+        A inauguração ocorreu em 18 de fevereiro de 1965.
+      </p>
+      <p>
+        O edifício tinha três andares visíveis e, segundo relatos que nunca foram verificados
+        oficialmente, pelo menos um andar subterrâneo. Funcionários do turno noturno descreviam
+        sons vindos de baixo da ala materna que não correspondiam a nenhuma atividade médica conhecida.
+      </p>
+      <p>
+        O hospital foi destruído por incêndio em 1999. Os registros físicos desapareceram.
+        Esta fotografia é um dos únicos registros visuais que restaram.
+        Examine-a com atenção.
+      </p>
+      <span class="invest-sig">— G.A. — documento reconstituído — 1999</span>
+    </div>
+
+  </div>
+</div>
 <script>
 (function () {
   'use strict';
@@ -1216,6 +1398,7 @@
     contrib: document.getElementById('screen-contributors'),
     purpose: document.getElementById('screen-purpose'),
     forum:   document.getElementById('screen-forum'),
+    invest:  document.getElementById('screen-invest'),
     _other:  document.getElementById('screen-construction')
   };
   var footer = document.getElementById('site-footer');
@@ -1236,6 +1419,14 @@
       }
     });
   });
+
+  /* Clique na imagem do hospital → abre imagem completa em nova aba */
+  var hospitalImg = document.getElementById('hospital-img');
+  if (hospitalImg) {
+    hospitalImg.parentElement.addEventListener('click', function () {
+      window.open(hospitalImg.src, '_blank');
+    });
+  }
 
   /* ── Ler Mais ── */
   var isOpen = false;
@@ -1293,23 +1484,111 @@
   });
 
   /* ══════════════════════════════════════════════
-     DATE FEATURES
+     DATE FEATURES — comportamentos por data
+     ─────────────────────────────────────────────
+     Dia  17 → rodapé: referência discreta ao Incidente 58-47
+     Dia  18 → mensagem oculta em meta/title/comentário HTML
+     Dia  20 → tela 404; clique no zero → Omega Page + som
+     Dia  21 → página em branco (reservada para jogo futuro)
+     Mês   3 → aba ativa pulsa em vermelho-sangue
+     ─────────────────────────────────────────────
+     Também dispara ao aplicar data manualmente no relógio.
   ══════════════════════════════════════════════ */
-  var todayDay = new Date().getDate();
 
-  if (todayDay === 18) {
-    var m18 = document.createElement('meta');
-    m18.name = 'nota-18'; m18.content = 'Dia: 18 de Fevereiro, Segunda Data do Dia 20';
-    document.head.appendChild(m18);
-    var ft = document.getElementById('site-footer');
-    if (ft) ft.title = 'Dia: 18 de Fevereiro, Segunda Data do Dia 20';
+  var day20Active  = false;
+  var day21Active  = false;
+  var marchPulse   = false;
+
+  function applyDateBehaviors(d) {
+    var day   = d.getDate();
+    var month = d.getMonth() + 1;
+
+    /* ── Dia 17 ── */
+    if (day === 17) {
+      var fv = document.querySelector('.footer-version');
+      if (fv) fv.textContent = 'v.1.0.0 — arquivo reconstituído — ref. incidente 58-47 — últ. atualização: 1999';
+    }
+
+    /* ── Dia 18 ── */
+    if (day === 18) {
+      if (!document.querySelector('meta[name="nota-18"]')) {
+        var m18 = document.createElement('meta');
+        m18.name = 'nota-18';
+        m18.content = 'Dia: 18 de Fevereiro, Segunda Data do Dia 20';
+        document.head.appendChild(m18);
+        document.body.appendChild(document.createComment(' nota-arquivo: 18/02 — ref. Lv. 18:21 — hora: 18:21 '));
+      }
+      var ft = document.getElementById('site-footer');
+      if (ft) ft.title = 'Dia: 18 de Fevereiro, Segunda Data do Dia 20';
+    }
+
+    /* ── Dia 20 ── */
+    if (day === 20 && !day20Active) {
+      day20Active = true;
+      // garante que dia 21 não esteja ativo ao mesmo tempo
+      if (day21Active) leaveDayBehaviors();
+      document.getElementById('screen-404').classList.add('active');
+      document.getElementById('content-wrap').style.display = 'none';
+      document.getElementById('site-footer').style.display  = 'none';
+    } else if (day !== 20 && day20Active) {
+      day20Active = false;
+      document.getElementById('screen-404').classList.remove('active');
+      document.getElementById('content-wrap').style.display = '';
+      document.getElementById('site-footer').style.display  = '';
+    }
+
+    /* ── Dia 21 ── */
+    if (day === 21 && !day21Active) {
+      day21Active = true;
+      if (day20Active) leaveDayBehaviors();
+      showDay21();
+    } else if (day !== 21 && day21Active) {
+      day21Active = false;
+      hideDay21();
+    }
+
+    /* ── Março ── */
+    if (month === 3 && !marchPulse) {
+      marchPulse = true;
+      var sty = document.createElement('style');
+      sty.id = 'march-pulse';
+      sty.textContent =
+        '@keyframes pulseBlood{0%,100%{border-bottom-color:#7a1515}50%{border-bottom-color:#c02020}}' +
+        '#tab-nav li button.active{animation:pulseBlood 2.4s ease-in-out infinite;}';
+      document.head.appendChild(sty);
+    } else if (month !== 3 && marchPulse) {
+      marchPulse = false;
+      var mp = document.getElementById('march-pulse');
+      if (mp) mp.remove();
+    }
   }
 
-  if (todayDay === 20) {
-    document.getElementById('screen-404').classList.add('active');
+  function leaveDayBehaviors() {
+    day20Active = false;
+    day21Active = false;
+    document.getElementById('screen-404').classList.remove('active');
+    document.getElementById('content-wrap').style.display = '';
+    document.getElementById('site-footer').style.display  = '';
+    hideDay21();
+  }
+
+  /* ── Tela do Dia 21 — em branco, reservada para o jogo ── */
+  function showDay21() {
     document.getElementById('content-wrap').style.display = 'none';
     document.getElementById('site-footer').style.display  = 'none';
+    var el = document.getElementById('screen-day21');
+    if (el) el.style.display = 'flex';
   }
+
+  function hideDay21() {
+    var el = document.getElementById('screen-day21');
+    if (el) el.style.display = 'none';
+    document.getElementById('content-wrap').style.display = '';
+    document.getElementById('site-footer').style.display  = '';
+  }
+
+  /* Dispara com a data real no carregamento */
+  applyDateBehaviors(new Date());
 
   /* ── Zero → Omega Page ── */
   var zero = document.getElementById('zero-404');
@@ -1346,6 +1625,7 @@
       now.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' +
       now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     checkValentinoTrigger(now);
+    applyDateBehaviors(now);
   }
 
   function startTimer() {
@@ -1359,9 +1639,9 @@
   }
 
   function checkValentinoTrigger(d) {
-    // Trigger: 18/02/1965 às 18:21 (qualquer segundo dentro do minuto)
+    // Trigger: 18/01/1965 às 18:21 (qualquer segundo dentro do minuto)
     // getMonth() é 0-based: janeiro=0, fevereiro=1
-    if (d.getDate() === 18 && d.getMonth() === 1 && d.getFullYear() === 1965 &&
+    if (d.getDate() === 18 && d.getMonth() === 0 && d.getFullYear() === 1965 &&
         d.getHours() === 18 && d.getMinutes() === 21) {
       var vc = document.getElementById('valentino-card');
       if (vc && vc.style.display === 'none') vc.style.display = 'flex';
