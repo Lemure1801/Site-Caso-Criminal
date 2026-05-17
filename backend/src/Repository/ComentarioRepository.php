@@ -13,40 +13,37 @@ final class ComentarioRepository implements IComentarioRepository
         private readonly PDO $pdo
     ) {}
 
-    /**
-     * @inheritDoc
-     */
     public function findAllAprovados(): array
     {
+        // Purga expirados antes de listar
+        $this->purgarExpirados();
+
         $stmt = $this->pdo->query(
-            'SELECT id, nome, texto, aprovado, criado_em 
-             FROM comentarios 
-             WHERE aprovado = 1 
+            'SELECT id, nome, texto, aprovado, criado_em, expira_em, ip_hash
+             FROM comentarios
+             WHERE aprovado = 1
              ORDER BY criado_em DESC'
         );
 
-        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
         return array_map(
             fn(array $row): Comentario => new Comentario(
-                id: (int) $row['id'],
-                nome: $row['nome'],
-                texto: $row['texto'],
-                aprovado: (bool) $row['aprovado'],
-                criadoEm: $row['criado_em']
+                id:        (int)  $row['id'],
+                nome:             $row['nome'],
+                texto:            $row['texto'],
+                aprovado:  (bool) $row['aprovado'],
+                criadoEm:         $row['criado_em'],
+                expiraEm:         $row['expira_em']  ?? null,
+                ipHash:           $row['ip_hash']    ?? null,
             ),
-            $rows
+            $stmt->fetchAll(PDO::FETCH_ASSOC)
         );
     }
 
-    /**
-     * @inheritDoc
-     */
     public function save(Comentario $comentario): Comentario
     {
         $stmt = $this->pdo->prepare(
-            'INSERT INTO comentarios (nome, texto, aprovado, criado_em) 
-             VALUES (:nome, :texto, :aprovado, :criado_em)'
+            'INSERT INTO comentarios (nome, texto, aprovado, criado_em, expira_em, ip_hash)
+             VALUES (:nome, :texto, :aprovado, :criado_em, :expira_em, :ip_hash)'
         );
 
         $stmt->execute([
@@ -54,14 +51,28 @@ final class ComentarioRepository implements IComentarioRepository
             ':texto'     => $comentario->getTexto(),
             ':aprovado'  => $comentario->isAprovado() ? 1 : 0,
             ':criado_em' => $comentario->getCriadoEm(),
+            ':expira_em' => $comentario->getExpiraEm(),
+            ':ip_hash'   => $comentario->getIpHash(),
         ]);
 
         return new Comentario(
-            id: (int) $this->pdo->lastInsertId(),
-            nome: $comentario->getNome(),
-            texto: $comentario->getTexto(),
-            aprovado: $comentario->isAprovado(),
-            criadoEm: $comentario->getCriadoEm()
+            id:       (int) $this->pdo->lastInsertId(),
+            nome:           $comentario->getNome(),
+            texto:          $comentario->getTexto(),
+            aprovado:       $comentario->isAprovado(),
+            criadoEm:       $comentario->getCriadoEm(),
+            expiraEm:       $comentario->getExpiraEm(),
+            ipHash:         $comentario->getIpHash(),
+        );
+    }
+
+    public function purgarExpirados(): int
+    {
+        return (int) $this->pdo->exec(
+            "DELETE FROM comentarios
+             WHERE aprovado = 0
+               AND expira_em IS NOT NULL
+               AND expira_em < NOW()"
         );
     }
 }
