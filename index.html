@@ -737,12 +737,116 @@
     .omega-caption { font-family: var(--fell); font-size: 1rem; color: #c8a060; letter-spacing: .06em; text-align: center; font-style: italic; opacity: .85; }
     .omega-sub { font-family: var(--mono); font-size: .6rem; color: #4a2a0a; letter-spacing: .2em; }
 
-    /* ── INVESTIGAÇÕES ── */
+    /* ── INVESTIGAÇÕES — sub-navegação ── */
     #screen-invest { display: none; }
 
-    .invest-header {
-      text-align: center;
-      padding: 52px 0 36px;
+    .invest-subnav {
+      display: flex;
+      border-bottom: 1px solid var(--border-mid);
+      margin-bottom: 36px;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+
+    .invest-subnav-btn {
+      background: none; border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-dim); font-family: var(--mono);
+      font-size: .7rem; letter-spacing: .1em;
+      padding: 11px 20px; cursor: pointer;
+      position: relative; bottom: -1px;
+      transition: color .2s, border-color .2s;
+      white-space: nowrap;
+    }
+
+    .invest-subnav-btn:hover { color: var(--gold); }
+
+    .invest-subnav-btn.active {
+      color: var(--gold);
+      border-bottom-color: var(--blood);
+    }
+
+    .invest-panel { display: none; }
+    .invest-panel.active { display: block; }
+
+    /* ── COMMENT INTERACTIONS ── */
+    .comment-actions {
+      display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;
+    }
+
+    .btn-reply-toggle, .btn-delete-comment {
+      background: none; border: none;
+      font-family: var(--mono); font-size: .6rem;
+      letter-spacing: .1em; cursor: pointer;
+      padding: 3px 0; transition: color .2s;
+    }
+
+    .btn-reply-toggle { color: var(--text-faint); }
+    .btn-reply-toggle:hover { color: var(--gold-dim); }
+
+    .btn-delete-comment { color: #4a1a1a; }
+    .btn-delete-comment:hover { color: var(--blood); }
+
+    .reply-form {
+      display: none; margin-top: 12px;
+      background: #0d0800; border: 1px solid var(--border-dark);
+      padding: 12px 14px;
+    }
+
+    .reply-form.open { display: block; }
+
+    .reply-form textarea {
+      width: 100%; background: none; border: none;
+      border-bottom: 1px solid var(--border-mid);
+      color: var(--text); font-family: var(--mono);
+      font-size: .78rem; line-height: 1.6; padding: 6px 0;
+      outline: none; resize: none; min-height: 64px;
+      letter-spacing: .04em;
+    }
+
+    .reply-form-actions {
+      display: flex; gap: 8px; margin-top: 10px; justify-content: flex-end;
+    }
+
+    .btn-reply-submit, .btn-reply-cancel {
+      background: none; font-family: var(--mono);
+      font-size: .65rem; letter-spacing: .15em;
+      padding: 6px 14px; cursor: pointer;
+      transition: background .2s;
+    }
+
+    .btn-reply-submit {
+      border: 1px solid var(--blood); color: var(--gold);
+    }
+
+    .btn-reply-submit:hover { background: rgba(122,21,21,.15); }
+
+    .btn-reply-cancel {
+      border: 1px solid var(--border-mid); color: var(--text-dim);
+    }
+
+    .btn-reply-cancel:hover { border-color: var(--gold-dim); color: var(--gold-dim); }
+
+    .comment-replies {
+      margin-top: 10px;
+      border-left: 2px solid var(--border-dark);
+      padding-left: 16px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+
+    .comment-reply-item {
+      background: #0c0800; padding: 10px 14px;
+      border: 1px solid #1a0e04;
+    }
+
+    .comment-reply-author {
+      font-family: var(--mono); font-size: .65rem;
+      color: var(--text-faint); letter-spacing: .06em; margin-bottom: 4px;
+    }
+
+    .comment-reply-text {
+      font-family: var(--fell); font-size: .9rem;
+      color: var(--text-dim); line-height: 1.7;
     }
 
     /* Documento classificado — label de arquivo */
@@ -782,7 +886,7 @@
       border: 1px solid var(--border-dark);
       box-shadow: 0 0 40px rgba(0,0,0,.7), inset 0 0 20px rgba(0,0,0,.4);
       margin-bottom: 0;
-      cursor: pointer;
+      cursor: default;
     }
 
     .hospital-photo-wrap img {
@@ -800,9 +904,7 @@
       /* A imagem completa está no src — download/abrir em aba revela tudo */
     }
 
-    .hospital-photo-wrap:hover img {
-      filter: brightness(.95) contrast(1.08);
-    }
+    /* hover removido — imagem não é clicável intencionalmente */
 
     /* Vinheta direita — escurece ainda mais a borda direita
        para que qualquer fragmento de víscera que apareça
@@ -1061,6 +1163,7 @@
         <textarea class="form-textarea" id="comment-text" placeholder="Escreva seu comentário..."></textarea>
         <button class="btn-enviar" id="btn-enviar">[ ENVIAR ]</button>
       </div>
+      <!-- comentários aparecem aqui — do mais recente ao mais antigo -->
       <div id="comments-list"></div>
     </div>
 
@@ -1153,7 +1256,7 @@
   <!-- conteúdo inserido futuramente -->
 </div>
 
-<!-- INVESTIGAÇÕES — seção principal -->
+<!-- INVESTIGAÇÕES — seção principal com sub-navegação -->
 <div id="screen-invest" style="display:none;">
   <div id="content-invest" style="max-width:880px;margin:0 auto;padding:0 40px 90px;">
 
@@ -1162,44 +1265,79 @@
       <p class="section-page-subtitle">Documentação de campo — Caso 91-1821</p>
     </div>
 
-    <div class="invest-doc-label">Documento 001 — Localização</div>
+    <!-- Sub-navegação -->
+    <nav class="invest-subnav" aria-label="Navegação de investigações">
+      <button class="invest-subnav-btn active" data-invest="hospital">Hospital Santos Levíticos</button>
+      <button class="invest-subnav-btn" data-invest="docs">Documentos e Arquivos</button>
+      <button class="invest-subnav-btn" data-invest="desaparecimentos">Desaparecimentos de 12/06/1980</button>
+    </nav>
 
-    <!-- Imagem do hospital: src completo, mas exibição cortada -->
-    <!-- A cabeça do boi está no canto sup. direito — escondida por overflow+object-position+vinheta -->
-    <!-- Para ver a imagem completa: clique com o botão direito → Abrir em nova aba / Salvar imagem -->
-    <figure>
-      <div class="hospital-photo-wrap" title="Clique para abrir imagem completa em nova aba">
-        <img
-          src="imagens/santosleviticos.png"
-          alt="Hospital Santos Levíticos — fotografia noturna — data desconhecida"
-          id="hospital-img"
-        />
+    <!-- PAINEL 1 — Hospital Santos Levíticos -->
+    <div class="invest-panel active" id="invest-hospital">
+
+      <div class="invest-doc-label">Documento 001 — Localização</div>
+
+      <!-- Imagem sem click handler — botão direito para abrir/salvar -->
+      <!-- cabeça do boi escondida por overflow + object-position + vinheta direita -->
+      <figure>
+        <div class="hospital-photo-wrap">
+          <img
+            src="imagens/santosleviticos.png"
+            alt="Hospital Santos Levíticos — fotografia noturna — data desconhecida"
+            id="hospital-img"
+            draggable="true"
+          />
+        </div>
+        <figcaption class="hospital-photo-caption">
+          Hospital Santos Levíticos — Cariará, TO<br>
+          <em>Fotografia de procedência não confirmada. Data estimada: entre 1975 e 1987.</em>
+        </figcaption>
+      </figure>
+
+      <div class="invest-intro">
+        <p>
+          O Hospital Santos Levíticos ficava na extremidade norte de Cariará, em um terreno que antes
+          pertencia à paróquia do Padre Elias Monteverde. A construção foi erguida rapidamente
+          entre 1964 e 1965, bem rápida. Houve um pessoal que foi atrás das notas fiscais e as
+          correlações com a prefeitura, mas incrivelmente nada fora da regulamentação.
+          A inauguração ocorreu em 18 de fevereiro de 1965.
+        </p>
+        <p>
+          O hospital foi destruído por incêndio em 1999. Os registros físicos desapareceram.
+          Esta fotografia é um dos únicos registros visuais que restaram.
+        </p>
+        <span class="invest-sig">— G.A. — documento reconstituído — 1999</span>
       </div>
-      <figcaption class="hospital-photo-caption">
-        Hospital Santos Levíticos — Cariará, TO<br>
-        <em>Fotografia de procedência não confirmada. Data estimada: entre 1975 e 1987.</em>
-      </figcaption>
-    </figure>
 
-    <div class="invest-intro">
-      <p>
-        O Hospital Santos Levíticos ficava na extremidade norte de Cariará, em um terreno que antes
-        pertencia à paróquia do Padre Elias Monteverde. A construção foi erguida rapidamente
-        entre 1964 e 1965 — rápida demais, segundo os moradores mais antigos da cidade.
-        A inauguração ocorreu em 18 de fevereiro de 1965.
-      </p>
-      <p>
-        O edifício tinha três andares visíveis e, segundo relatos que nunca foram verificados
-        oficialmente, pelo menos um andar subterrâneo. Funcionários do turno noturno descreviam
-        sons vindos de baixo da ala materna que não correspondiam a nenhuma atividade médica conhecida.
-      </p>
-      <p>
-        O hospital foi destruído por incêndio em 1999. Os registros físicos desapareceram.
-        Esta fotografia é um dos únicos registros visuais que restaram.
-        Examine-a com atenção.
-      </p>
-      <span class="invest-sig">— G.A. — documento reconstituído — 1999</span>
-    </div>
+    </div><!-- /invest-hospital -->
+
+    <!-- PAINEL 2 — Documentos e Arquivos -->
+    <div class="invest-panel" id="invest-docs">
+      <div class="invest-doc-label">Documentos — em organização</div>
+      <div class="invest-intro">
+        <p style="color:var(--text-faint); font-family:var(--mono); font-size:.78rem; letter-spacing:.08em; font-style:italic;">
+          [ Esta seção está sendo reconstituída. Os arquivos, documentos e notas fiscais
+          obtidos do Hospital Santos Levíticos serão disponibilizados aqui assim que
+          forem verificados. ]
+        </p>
+        <span class="invest-sig">— G.A.</span>
+      </div>
+    </div><!-- /invest-docs -->
+
+    <!-- PAINEL 3 — Desaparecimentos de 12/06/1980 -->
+    <div class="invest-panel" id="invest-desaparecimentos">
+      <div class="invest-doc-label">Caso Anexo — 12/06/1980</div>
+      <div class="invest-intro">
+        <h3 style="font-family:var(--serif);font-size:1.4rem;color:var(--gold);letter-spacing:.08em;margin-bottom:20px;">
+          Desaparecimentos de 12 de Junho de 1980
+        </h3>
+        <p style="color:var(--text-faint); font-family:var(--mono); font-size:.78rem; letter-spacing:.06em; line-height:1.8;">
+          Jonas Alburem · Ravena de Oliveira
+        </p>
+        <!-- texto será inserido futuramente pelo mantenedor -->
+        <span class="invest-sig" style="margin-top:28px;">— G.A. — arquivo pendente de reconstituição</span>
+      </div>
+    </div><!-- /invest-desaparecimentos -->
 
   </div>
 </div>
@@ -1338,36 +1476,68 @@
 
   /* ══════════════════════════════════════════════
      COMENTÁRIOS — análise por keyword
-     Aprovado  → permanece indefinidamente
-     Reprovado → aviso + remoção em 10 min
+     ─────────────────────────────────────────────
+     Aprovado  → permanente, pode receber respostas (sem filtro)
+                 o autor pode apagar se não houver respostas
+     Reprovado → aviso + remoção em 10 min, sem opção de resposta
   ══════════════════════════════════════════════ */
   var commentsList = document.getElementById('comments-list');
+
+  // Contador de IDs para comentários criados nesta sessão
+  var commentIdCounter = 0;
 
   document.getElementById('btn-enviar').addEventListener('click', function () {
     var nameVal = document.getElementById('comment-name').value.trim();
     var textVal = document.getElementById('comment-text').value.trim();
     if (!textVal) return;
 
-    var author    = nameVal || 'Anônimo';
-    var approved  = containsKeyword(textVal);
-    var item      = document.createElement('div');
+    var author   = nameVal || 'Anônimo';
+    var approved = containsKeyword(textVal);
+    var cid      = 'c-' + (++commentIdCounter);
+
+    var item = document.createElement('div');
     item.className = 'comment-item' + (approved ? ' permanent' : '');
+    item.id = cid;
 
-    var statusHtml = approved
-      ? '<p class="comment-approved">✓ Conteúdo verificado — publicação permanente.</p>'
-      : '<p class="comment-warning">Sem suporte à atualizações desta aba. Em breve este post será apagado, tente novamente mais tarde.</p>' +
+    var now = new Date();
+    var timestamp = now.toLocaleDateString('pt-BR') + ' ' +
+                    now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+
+    if (approved) {
+      item.innerHTML =
+        '<div class="comment-author">' + escapeHtml(author) +
+          ' <span style="color:var(--text-faint);font-size:.58rem;">· ' + timestamp + '</span></div>' +
+        '<div class="comment-text">' + escapeHtml(textVal) + '</div>' +
+        '<p class="comment-approved">✓ Conteúdo verificado — publicação permanente.</p>' +
+        '<div class="comment-actions">' +
+          '<button class="btn-reply-toggle" data-target="' + cid + '-reply">↩ Responder</button>' +
+          '<button class="btn-delete-comment" data-target="' + cid + '">✕ Apagar</button>' +
+        '</div>' +
+        '<div class="reply-form" id="' + cid + '-reply">' +
+          '<textarea placeholder="Escreva uma resposta..."></textarea>' +
+          '<div class="reply-form-actions">' +
+            '<button class="btn-reply-cancel">Cancelar</button>' +
+            '<button class="btn-reply-submit">[ RESPONDER ]</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="comment-replies" id="' + cid + '-replies"></div>';
+    } else {
+      item.innerHTML =
+        '<div class="comment-author">' + escapeHtml(author) + '</div>' +
+        '<div class="comment-text">' + escapeHtml(textVal) + '</div>' +
+        '<p class="comment-warning">Sem suporte à atualizações desta aba. Em breve este post será apagado, tente novamente mais tarde.</p>' +
         '<p class="comment-timer">Este comentário será removido em 10:00</p>';
-
-    item.innerHTML =
-      '<div class="comment-author">' + escapeHtml(author) + '</div>' +
-      '<div class="comment-text">' + escapeHtml(textVal) + '</div>' +
-      statusHtml;
+    }
 
     commentsList.insertBefore(item, commentsList.firstChild);
     document.getElementById('comment-name').value = '';
     document.getElementById('comment-text').value = '';
 
-    if (!approved) {
+    // Bind actions para comentários aprovados
+    if (approved) {
+      bindCommentActions(item);
+    } else {
+      // Countdown e remoção automática
       var remaining = 600;
       var timerEl = item.querySelector('.comment-timer');
       var iv = setInterval(function () {
@@ -1384,6 +1554,85 @@
         timerEl.textContent = 'Este comentário será removido em ' + m + ':' + (s < 10 ? '0' : '') + s;
       }, 1000);
     }
+  });
+
+  function bindCommentActions(item) {
+    var cid = item.id;
+
+    // Botão responder
+    var btnReply = item.querySelector('.btn-reply-toggle');
+    var replyForm = item.querySelector('.reply-form');
+    if (btnReply && replyForm) {
+      btnReply.addEventListener('click', function () {
+        replyForm.classList.toggle('open');
+        btnReply.textContent = replyForm.classList.contains('open') ? '↩ Fechar' : '↩ Responder';
+      });
+
+      // Cancelar resposta
+      replyForm.querySelector('.btn-reply-cancel').addEventListener('click', function () {
+        replyForm.classList.remove('open');
+        btnReply.textContent = '↩ Responder';
+        replyForm.querySelector('textarea').value = '';
+      });
+
+      // Enviar resposta — SEM filtro de keyword
+      replyForm.querySelector('.btn-reply-submit').addEventListener('click', function () {
+        var txt = replyForm.querySelector('textarea').value.trim();
+        if (!txt) return;
+
+        var repliesContainer = document.getElementById(cid + '-replies');
+        var replyItem = document.createElement('div');
+        replyItem.className = 'comment-reply-item';
+
+        var rNow = new Date();
+        var rTime = rNow.toLocaleDateString('pt-BR') + ' ' +
+                    rNow.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+
+        replyItem.innerHTML =
+          '<div class="comment-reply-author">Anônimo · ' + rTime + '</div>' +
+          '<div class="comment-reply-text">' + escapeHtml(txt) + '</div>';
+
+        repliesContainer.appendChild(replyItem);
+        replyForm.querySelector('textarea').value = '';
+        replyForm.classList.remove('open');
+        btnReply.textContent = '↩ Responder';
+
+        // Esconde o botão apagar pois agora há respostas
+        var btnDel = item.querySelector('.btn-delete-comment');
+        if (btnDel) btnDel.style.display = 'none';
+      });
+    }
+
+    // Botão apagar — só funciona se não houver respostas
+    var btnDel = item.querySelector('.btn-delete-comment');
+    if (btnDel) {
+      btnDel.addEventListener('click', function () {
+        var repliesContainer = document.getElementById(cid + '-replies');
+        if (repliesContainer && repliesContainer.children.length > 0) {
+          btnDel.textContent = '✕ Não é possível apagar (há respostas)';
+          btnDel.style.color = 'var(--text-faint)';
+          setTimeout(function () {
+            btnDel.textContent = '✕ Apagar';
+            btnDel.style.color = '';
+          }, 2500);
+          return;
+        }
+        item.style.transition = 'opacity .4s ease';
+        item.style.opacity = '0';
+        setTimeout(function () { if (item.parentNode) item.parentNode.removeChild(item); }, 450);
+      });
+    }
+  }
+
+  /* ── Sub-navegação de Investigações ── */
+  document.querySelectorAll('.invest-subnav-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.invest-subnav-btn').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      document.querySelectorAll('.invest-panel').forEach(function (p) { p.classList.remove('active'); });
+      var target = document.getElementById('invest-' + btn.dataset.invest);
+      if (target) target.classList.add('active');
+    });
   });
 
   function escapeHtml(s) {
@@ -1420,13 +1669,8 @@
     });
   });
 
-  /* Clique na imagem do hospital → abre imagem completa em nova aba */
-  var hospitalImg = document.getElementById('hospital-img');
-  if (hospitalImg) {
-    hospitalImg.parentElement.addEventListener('click', function () {
-      window.open(hospitalImg.src, '_blank');
-    });
-  }
+  /* imagem do hospital — sem click handler intencional,
+     o usuário deve usar botão direito → abrir em nova aba */
 
   /* ── Ler Mais ── */
   var isOpen = false;

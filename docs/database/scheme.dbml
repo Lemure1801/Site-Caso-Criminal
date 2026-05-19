@@ -1,0 +1,96 @@
+Table usuarios {
+  id uuid [pk]
+  nome varchar(120) [not null]
+  email varchar(255) [unique, not null]
+  senha_hash varchar(255) [not null]
+  role enum('investigador', 'admin', 'testemunha_oculta') [default: 'investigador']
+  status enum('ativo', 'suspenso', 'desaparecido') [default: 'ativo']
+  criado_em timestamp [default: `now()`]
+  ultimo_acesso timestamp
+  metadata jsonb  // dados customizados por jogador (teorias salvas, etc)
+}
+
+Table casos {
+  id uuid [pk]
+  titulo varchar(200) [not null]
+  codigo_caso varchar(50) [unique, not null]  // ex: "CICADA-1987-BH"
+  descricao text
+  status enum('aberto', 'em_andamento', 'resolvido', 'arquivado', 'realidade_alternativa')
+  data_inicio timestamp
+  data_fim_prevista timestamp
+  dificuldade int [default: 5]
+  criado_em timestamp [default: `now()`]
+}
+
+Table evidencias {
+  id uuid [pk]
+  caso_id uuid [ref: > casos.id]
+  titulo varchar(180) [not null]
+  descricao text
+  tipo enum('foto', 'audio', 'video', 'documento', 'fisico', 'digital', 'deepfake')
+  url_arquivo varchar(512)
+  hash_integridade varchar(128)  // para verificar manipulação
+  data_descoberta timestamp
+  descoberta_por uuid [ref: > usuarios.id]
+  classificacao enum('confiavel', 'questionavel', 'falsa', 'red_herring')
+  metadata jsonb  // coordenadas, timestamp original, etc
+  criado_em timestamp [default: `now()`]
+}
+
+Table suspeitos {
+  id uuid [pk]
+  caso_id uuid [ref: > casos.id]
+  nome varchar(120)
+  apelido varchar(80)
+  biografia text
+  status_atual enum('livre', 'detido', 'fugitivo', 'falecido', 'desconhecido')
+  foto_url varchar(512)
+  nivel_suspeita int [default: 0]  // 0-100
+  criado_em timestamp
+}
+
+Table evidencias_suspeitos {
+  evidencia_id uuid [ref: > evidencias.id]
+  suspeito_id uuid [ref: > suspeitos.id]
+  peso int [default: 1]  // força da ligação
+  observacao text
+  primary key(evidencia_id, suspeito_id)
+}
+
+Table teorias {
+  id uuid [pk]
+  usuario_id uuid [ref: > usuarios.id]
+  caso_id uuid [ref: > casos.id]
+  titulo varchar(150)
+  conteudo text [not null]
+  status enum('pendente', 'aceita', 'rejeitada', 'genio', 'delirio')
+  nota_admin int
+  analisado_em timestamp
+  criado_em timestamp [default: `now()`]
+}
+
+Table progresso_jogador {
+  usuario_id uuid [ref: > usuarios.id]
+  caso_id uuid [ref: > casos.id]
+  evidencias_descobertas jsonb  // ou tabela N:N separada
+  teorias_submetidas int [default: 0]
+  pontuacao int [default: 0]
+  fase_atual varchar(50)
+  ultimo_update timestamp [default: `now()`]
+  primary key(usuario_id, caso_id)
+}
+
+Table logs_atividade {
+  id bigserial [pk]
+  usuario_id uuid [ref: > usuarios.id]
+  acao varchar(100) [not null]  // "visualizou_evidencia", "enviou_teoria", "decifrou_codigo"
+  entidade_tipo varchar(50)
+  entidade_id uuid
+  ip varchar(45)
+  user_agent text
+  timestamp timestamp [default: `now()`]
+}
+
+Ref: evidencias.caso_id > casos.id
+Ref: teorias.caso_id > casos.id
+Ref: progresso_jogador.caso_id > casos.id
