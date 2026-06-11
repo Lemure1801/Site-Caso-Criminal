@@ -15,9 +15,19 @@ interface IComentarioRepository
     public function findAllAprovados(): array;
 
     /**
+     * Busca um comentário pelo ID.
+     */
+    public function findById(int $id): ?Comentario;
+
+    /**
      * Persiste um comentario e retorna a entidade com o ID gerado.
      */
     public function save(Comentario $comentario): Comentario;
+
+    /**
+     * Remove um comentário pelo ID.
+     */
+    public function delete(int $id): void;
 
     /**
      * Remove comentarios temporarios ja expirados.

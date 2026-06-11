@@ -991,7 +991,7 @@
       <li><button role="tab" data-tab="help">Ajude-nos</button></li>
       <li><button role="tab" data-tab="invest">Investigações</button></li>
       <li><button role="tab" data-tab="forum">Fórum</button></li>
-      <li class="admin-li"><button id="btn-admin-open" type="button">Logar como admin</button></li>
+      <li class="admin-li" id="auth-nav-container"><button id="btn-admin-open" type="button">Entrar / Cadastrar</button></li>
     </ul>
   </nav>
 </header>
@@ -1157,11 +1157,7 @@
     <!-- COMENTÁRIOS GERAIS -->
     <div class="forum-panel active" id="panel-comments">
       <div class="comment-form-block">
-        <label class="form-label" for="comment-name">Nome:</label>
-        <input class="form-input" id="comment-name" type="text" placeholder="Seu nome..." autocomplete="off" />
-        <label class="form-label" for="comment-text">Comentário:</label>
-        <textarea class="form-textarea" id="comment-text" placeholder="Escreva seu comentário..."></textarea>
-        <button class="btn-enviar" id="btn-enviar">[ ENVIAR ]</button>
+        <!-- Populado dinamicamente via JS -->
       </div>
       <!-- comentários aparecem aqui — do mais recente ao mais antigo -->
       <div id="comments-list"></div>
@@ -1205,12 +1201,12 @@
   </div>
 </div>
 
-<!-- ADMIN MODAL — login stub, não permite acesso -->
+<!-- ADMIN MODAL — login / cadastro -->
 <div id="admin-modal" class="admin-modal">
   <div class="admin-modal-content">
     <button class="admin-close" id="btn-admin-close">✕</button>
-    <h3>Acesso Restrito</h3>
-    <p class="admin-sub">— área administrativa — caso 91-1821 —</p>
+    <h3 id="admin-modal-title">Acesso ao Fórum</h3>
+    <p class="admin-sub" id="admin-modal-sub">— identificar-se —</p>
     <label class="form-label" for="admin-user">Usuário:</label>
     <input class="form-input" id="admin-user" type="text" placeholder="identificador..." autocomplete="off" />
     <label class="form-label" for="admin-pass">Senha:</label>
@@ -1218,6 +1214,9 @@
     <div class="datetime-actions" style="margin-top:4px;">
       <button id="btn-admin-cancel" style="border-color:var(--border-mid);">Cancelar</button>
       <button id="btn-admin-submit" style="border-color:var(--blood);color:var(--gold);">[ ENTRAR ]</button>
+    </div>
+    <div style="margin-top:15px;text-align:center;">
+      <a href="#" id="link-toggle-auth" style="color:var(--gold);font-size:0.75rem;text-decoration:underline;">Não tem uma conta? Cadastre-se</a>
     </div>
     <p class="admin-error" id="admin-error"></p>
   </div>
@@ -1349,35 +1348,7 @@
      KEYWORD LIST — comentários com essas palavras-chave
      são considerados relevantes e ficam permanentes
   ══════════════════════════════════════════════ */
-  var KEYWORDS = [
-    // datas e referências temporais
-    '1991','1990','1989','1988','1987','1986','1985','1984','1983','1982','1981','1980',
-    '1979','1978','1965','1960','1958','1956','1999','março','setembro','fevereiro',
-    'novembro','madrugada','noite','1821','91-1821',
-    // hospital e programa
-    'santos levíticos','levíticos','santos leviticos','hospital','programa',
-    'sem dor às mães','sem dor as maes','enfermeira','médico','medico',
-    'cirurgia','corredor','laboratório','laboratorio','nível','nivel',
-    // personagens
-    'antônia','antonia','guilherme','padre elias','elias','helena voss','voss',
-    'valentino','bernardo','silas','oswaldo','ossinho','miguel','maria clara',
-    'guilherme_azevedo','guilherme azevedo',
-    // compostos e lore
-    'ypy','yvy pyahu','yvy','pyahu','ipbm','piab','lm','lírio','lirio','moloque',
-    'corpídeo','corpideo','c-delta','c-a','c-omega','bwb','composto',
-    // localização
-    'cariará','cariara','tocantins','palmas','bosque','sino','igreja',
-    // termos investigativos
-    'investigação','investigacao','processo','indenização','indenizacao',
-    'sequela','vegetativo','catatônico','catatônica','catatônico','catatonico',
-    'testemunho','testemunha','depoimento','arquivo','documento','evidência','evidencia',
-    'zelador','lavanderia','funcionário','funcionario','trabalhei','trabalhava'
-  ];
-
-  function containsKeyword(text) {
-    var lower = text.toLowerCase();
-    return KEYWORDS.some(function (kw) { return lower.indexOf(kw) !== -1; });
-  }
+  // Funcionalidade de keywords removida.
 
   /* ── Foto Antônia fallback ── */
   var photoImg = document.getElementById('antonia-photo');
@@ -1392,23 +1363,39 @@
   /* ══════════════════════════════════════════════
      DISCUSSION THREADS
   ══════════════════════════════════════════════ */
-  var threads = [
-    {
-      id: 1, user: 'Helena Voss', handle: '@editora_voss', initials: 'HV', date: '14 Mar 1991',
-      text: 'Iremos continuar noticiando. Achamos que possivelmente temos noção de quem é o cabeça do hospital.',
-      replies: [{ user: 'Helena Voss', handle: '@editora_voss', initials: 'HV', date: '15 Mar 1991', text: 'Enviado.' }]
-    },
-    {
-      id: 2, user: 'Padre Elias Monteverde', handle: '@paroquia_cariara', initials: 'PE', date: '22 Mar 1991',
-      text: 'É imperdoável o uso do nome Levíticos para um lugar profano. Meu arcanjo Miguel é o que me mantém são, pois a minha decisão seria já ter posto o lugar abaixo!',
-      replies: []
-    },
-    {
-      id: 3, user: 'Guilherme Azevedo', handle: '@caso91_1821', initials: 'GA', date: '01 Abr 1991',
-      text: 'Por favor, estou aceitando qualquer forma de ajuda. Tá acabando os remédios da Antônia, então preciso receber a indenização do hospital... O email é guilherme_azevedo@hotmail.com',
-      replies: [{ user: 'Anônimo', handle: '@---', initials: '?', date: '03 Abr 1991', text: 'Trabalhei como zelador e sei que algumas mulheres ficavam zonzas, andavam pelo hospital sem falar com ninguém e sem acompanhamento. Não consigo assinar meu nome aqui.' }]
-    }
-  ];
+  var threads = [];
+
+  function loadThreads() {
+    fetch('api.php?action=get_threads')
+      .then(function (res) { return res.json(); })
+      .then(function (res) {
+        if (res.success && res.threads) {
+          threads = res.threads.map(function (t) {
+            return {
+              id: parseInt(t.id),
+              user: t.usuario,
+              handle: t.handle,
+              initials: t.iniciais,
+              date: t.data_post,
+              text: t.texto,
+              replies: (t.replies || []).map(function (r) {
+                return {
+                  user: r.usuario,
+                  handle: r.handle,
+                  initials: r.iniciais,
+                  date: r.data_post,
+                  text: r.texto
+                };
+              })
+            };
+          });
+          renderThreadList();
+        }
+      })
+      .catch(function (err) {
+        console.error('Erro ao carregar threads:', err);
+      });
+  }
 
   var listEl = document.getElementById('discussion-list');
 
@@ -1459,7 +1446,8 @@
     document.getElementById('thread-list').style.display = '';
   });
 
-  renderThreadList();
+  loadThreads();
+  checkUserSession();
 
   /* forum sub-tabs */
   document.querySelectorAll('.forum-tab-btn').forEach(function (btn) {
@@ -1482,147 +1470,342 @@
      Reprovado → aviso + remoção em 10 min, sem opção de resposta
   ══════════════════════════════════════════════ */
   var commentsList = document.getElementById('comments-list');
+  var currentUser = null;
 
-  // Contador de IDs para comentários criados nesta sessão
-  var commentIdCounter = 0;
+  function checkUserSession() {
+    return fetch('api.php?action=current_user')
+      .then(function (res) { return res.json(); })
+      .then(function (res) {
+        if (res.success && res.logged_in) {
+          currentUser = res.user;
+        } else {
+          currentUser = null;
+        }
+        updateAuthUI();
+      })
+      .catch(function (err) {
+        console.error('Erro ao verificar sessão:', err);
+        currentUser = null;
+        updateAuthUI();
+      });
+  }
 
-  document.getElementById('btn-enviar').addEventListener('click', function () {
-    var nameVal = document.getElementById('comment-name').value.trim();
+  function updateAuthUI() {
+    var container = document.getElementById('auth-nav-container');
+    var commentFormBlock = document.querySelector('.comment-form-block');
+    
+    if (currentUser) {
+      if (container) {
+        container.innerHTML = '<span>Olá, <strong style="color:var(--gold);">' + escapeHtml(currentUser.username) + '</strong></span><button id="btn-logout" type="button" style="margin-left:10px;background:none;border:none;color:var(--blood);cursor:pointer;font-family:inherit;font-size:inherit;text-decoration:underline;">[ Sair ]</button>';
+        document.getElementById('btn-logout').addEventListener('click', handleLogout);
+      }
+      
+      if (commentFormBlock) {
+        commentFormBlock.innerHTML =
+          '<div style="margin-bottom:8px;font-size:0.85rem;color:var(--text-faint);">Postando como: <strong style="color:var(--gold);">' + escapeHtml(currentUser.username) + '</strong></div>' +
+          '<label class="form-label" for="comment-text">Comentário:</label>' +
+          '<textarea class="form-textarea" id="comment-text" placeholder="Escreva seu comentário..."></textarea>' +
+          '<button class="btn-enviar" id="btn-enviar">[ ENVIAR ]</button>';
+        
+        document.getElementById('btn-enviar').addEventListener('click', handlePostComment);
+      }
+    } else {
+      if (container) {
+        container.innerHTML = '<button id="btn-admin-open" type="button">Entrar / Cadastrar</button>';
+        document.getElementById('btn-admin-open').addEventListener('click', openLoginModal);
+      }
+      
+      if (commentFormBlock) {
+        commentFormBlock.innerHTML =
+          '<div style="text-align:center;padding:20px;border:1px dashed var(--border-mid);border-radius:4px;margin-bottom:15px;">' +
+            '<p style="margin-bottom:12px;color:var(--text-faint);">Você precisa estar logado para comentar.</p>' +
+            '<button class="btn-enviar" id="btn-forum-login" style="float:none;display:inline-block;">[ ENTRAR / CADASTRAR ]</button>' +
+          '</div>';
+        document.getElementById('btn-forum-login').addEventListener('click', openLoginModal);
+      }
+    }
+    
+    loadComments();
+  }
+
+  function addCommentToDOM(id, author, textVal, approved, criadoEm, isPrepend, commentUsuarioId) {
+    var cid = 'c-' + id;
+    var item = document.createElement('div');
+    item.className = 'comment-item permanent';
+    item.id = cid;
+
+    var timestamp = '';
+    if (criadoEm) {
+      var parts = criadoEm.split(' ');
+      if (parts.length === 2) {
+        var dateParts = parts[0].split('-');
+        var timeParts = parts[1].split(':');
+        if (dateParts.length === 3 && timeParts.length >= 2) {
+          timestamp = dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0] + ' ' + timeParts[0] + ':' + timeParts[1];
+        }
+      }
+    }
+    if (!timestamp) {
+      var now = new Date();
+      timestamp = now.toLocaleDateString('pt-BR') + ' ' +
+                  now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+    }
+
+    var deleteBtnHtml = '';
+    if (currentUser && currentUser.id === commentUsuarioId) {
+      deleteBtnHtml = '<button class="btn-delete-comment" data-target="' + cid + '">✕ Apagar</button>';
+    }
+
+    item.innerHTML =
+      '<div class="comment-author">' + escapeHtml(author) +
+        ' <span style="color:var(--text-faint);font-size:.58rem;">· ' + timestamp + '</span></div>' +
+      '<div class="comment-text">' + escapeHtml(textVal) + '</div>' +
+      '<div class="comment-actions">' +
+        '<button class="btn-reply-toggle" data-target="' + cid + '-reply">↩ Responder</button>' +
+        deleteBtnHtml +
+      '</div>' +
+      '<div class="reply-form" id="' + cid + '-reply">' +
+        '<textarea placeholder="Escreva uma resposta..."></textarea>' +
+        '<div class="reply-form-actions">' +
+          '<button class="btn-reply-cancel">Cancelar</button>' +
+          '<button class="btn-reply-submit">[ RESPONDER ]</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="comment-replies" id="' + cid + '-replies"></div>';
+
+    if (isPrepend) {
+      commentsList.insertBefore(item, commentsList.firstChild);
+    } else {
+      commentsList.appendChild(item);
+    }
+
+    bindCommentActions(item);
+  }
+
+  function addReplyToDOM(replyId, parentId, author, textVal, criadoEm, replyUsuarioId) {
+    var repliesContainer = document.getElementById('c-' + parentId + '-replies');
+    if (!repliesContainer) return;
+
+    var replyItem = document.createElement('div');
+    replyItem.className = 'comment-reply-item';
+    replyItem.id = 'reply-' + replyId;
+
+    var timestamp = '';
+    if (criadoEm) {
+      var parts = criadoEm.split(' ');
+      if (parts.length === 2) {
+        var dateParts = parts[0].split('-');
+        var timeParts = parts[1].split(':');
+        if (dateParts.length === 3 && timeParts.length >= 2) {
+          timestamp = dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0] + ' ' + timeParts[0] + ':' + timeParts[1];
+        }
+      }
+    }
+    if (!timestamp) {
+      var now = new Date();
+      timestamp = now.toLocaleDateString('pt-BR') + ' ' +
+                  now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+    }
+
+    var deleteBtnHtml = '';
+    if (currentUser && currentUser.id === replyUsuarioId) {
+      deleteBtnHtml = ' <button class="btn-delete-reply" data-id="' + replyId + '">✕ Apagar</button>';
+    }
+
+    replyItem.innerHTML =
+      '<div class="comment-reply-author">' + escapeHtml(author) +
+        ' <span style="color:var(--text-faint);font-size:.58rem;">· ' + timestamp + '</span>' +
+        deleteBtnHtml + '</div>' +
+      '<div class="comment-reply-text">' + escapeHtml(textVal) + '</div>';
+
+    repliesContainer.appendChild(replyItem);
+
+    var btnDelReply = replyItem.querySelector('.btn-delete-reply');
+    if (btnDelReply) {
+      btnDelReply.addEventListener('click', function () {
+        deleteComment(replyId, true);
+      });
+    }
+
+    var parentCommentEl = document.getElementById('c-' + parentId);
+    if (parentCommentEl) {
+      var parentBtnDel = parentCommentEl.querySelector('.btn-delete-comment');
+      if (parentBtnDel) {
+        parentBtnDel.style.display = 'none';
+      }
+    }
+  }
+
+  function loadComments() {
+    fetch('api.php?action=get_comments')
+      .then(function (res) { return res.json(); })
+      .then(function (res) {
+        if (res.success && res.data) {
+          commentsList.innerHTML = '';
+          var parents = [];
+          var replies = [];
+          res.data.forEach(function (c) {
+            if (c.parent_id === null) {
+              parents.push(c);
+            } else {
+              replies.push(c);
+            }
+          });
+
+          parents.forEach(function (c) {
+            addCommentToDOM(c.id, c.nome, c.texto, c.aprovado, c.criado_em, false, c.usuario_id);
+          });
+
+          replies.sort(function (a, b) {
+            return a.id - b.id;
+          });
+          replies.forEach(function (r) {
+            addReplyToDOM(r.id, r.parent_id, r.nome, r.texto, r.criado_em, r.usuario_id);
+          });
+        }
+      })
+      .catch(function (err) {
+        console.error('Erro ao carregar comentários:', err);
+      });
+  }
+
+  function handlePostComment() {
     var textVal = document.getElementById('comment-text').value.trim();
     if (!textVal) return;
 
-    var author   = nameVal || 'Anônimo';
-    var approved = containsKeyword(textVal);
-    var cid      = 'c-' + (++commentIdCounter);
+    fetch('api.php?action=post_comment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ texto: textVal })
+    })
+    .then(function (res) { return res.json(); })
+    .then(function (res) {
+      if (res.success && res.data) {
+        addCommentToDOM(res.data.id, res.data.nome, res.data.texto, res.data.aprovado, res.data.criado_em, true, res.data.usuario_id);
+        document.getElementById('comment-text').value = '';
+      } else {
+        alert(res.message || 'Erro ao publicar comentário.');
+      }
+    })
+    .catch(function (err) {
+      console.error('Erro ao enviar comentário:', err);
+    });
+  }
 
-    var item = document.createElement('div');
-    item.className = 'comment-item' + (approved ? ' permanent' : '');
-    item.id = cid;
+  function deleteComment(commentId, isReply) {
+    if (!confirm('Deseja realmente apagar este comentário?')) return;
 
-    var now = new Date();
-    var timestamp = now.toLocaleDateString('pt-BR') + ' ' +
-                    now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-
-    if (approved) {
-      item.innerHTML =
-        '<div class="comment-author">' + escapeHtml(author) +
-          ' <span style="color:var(--text-faint);font-size:.58rem;">· ' + timestamp + '</span></div>' +
-        '<div class="comment-text">' + escapeHtml(textVal) + '</div>' +
-        '<p class="comment-approved">✓ Conteúdo verificado — publicação permanente.</p>' +
-        '<div class="comment-actions">' +
-          '<button class="btn-reply-toggle" data-target="' + cid + '-reply">↩ Responder</button>' +
-          '<button class="btn-delete-comment" data-target="' + cid + '">✕ Apagar</button>' +
-        '</div>' +
-        '<div class="reply-form" id="' + cid + '-reply">' +
-          '<textarea placeholder="Escreva uma resposta..."></textarea>' +
-          '<div class="reply-form-actions">' +
-            '<button class="btn-reply-cancel">Cancelar</button>' +
-            '<button class="btn-reply-submit">[ RESPONDER ]</button>' +
-          '</div>' +
-        '</div>' +
-        '<div class="comment-replies" id="' + cid + '-replies"></div>';
-    } else {
-      item.innerHTML =
-        '<div class="comment-author">' + escapeHtml(author) + '</div>' +
-        '<div class="comment-text">' + escapeHtml(textVal) + '</div>' +
-        '<p class="comment-warning">Sem suporte à atualizações desta aba. Em breve este post será apagado, tente novamente mais tarde.</p>' +
-        '<p class="comment-timer">Este comentário será removido em 10:00</p>';
-    }
-
-    commentsList.insertBefore(item, commentsList.firstChild);
-    document.getElementById('comment-name').value = '';
-    document.getElementById('comment-text').value = '';
-
-    // Bind actions para comentários aprovados
-    if (approved) {
-      bindCommentActions(item);
-    } else {
-      // Countdown e remoção automática
-      var remaining = 600;
-      var timerEl = item.querySelector('.comment-timer');
-      var iv = setInterval(function () {
-        remaining--;
-        if (remaining <= 0) {
-          clearInterval(iv);
-          item.style.transition = 'opacity .6s ease';
-          item.style.opacity = '0';
-          setTimeout(function () { if (item.parentNode) item.parentNode.removeChild(item); }, 700);
-          return;
+    fetch('api.php?action=delete_comment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id: commentId })
+    })
+    .then(function (res) { return res.json(); })
+    .then(function (res) {
+      if (res.success) {
+        if (isReply) {
+          var replyEl = document.getElementById('reply-' + commentId);
+          if (replyEl) {
+            var parentNode = replyEl.parentNode;
+            replyEl.parentNode.removeChild(replyEl);
+            if (parentNode && parentNode.children.length === 0) {
+              var parentCid = parentNode.id.replace('-replies', '');
+              var parentCommentEl = document.getElementById(parentCid);
+              if (parentCommentEl) {
+                var parentBtnDel = parentCommentEl.querySelector('.btn-delete-comment');
+                if (parentBtnDel) parentBtnDel.style.display = '';
+              }
+            }
+          }
+        } else {
+          var item = document.getElementById('c-' + commentId);
+          if (item) {
+            item.style.transition = 'opacity .4s ease';
+            item.style.opacity = '0';
+            setTimeout(function () { if (item.parentNode) item.parentNode.removeChild(item); }, 450);
+          }
         }
-        var m = Math.floor(remaining / 60);
-        var s = remaining % 60;
-        timerEl.textContent = 'Este comentário será removido em ' + m + ':' + (s < 10 ? '0' : '') + s;
-      }, 1000);
-    }
-  });
+      } else {
+        alert(res.message || 'Erro ao excluir comentário.');
+      }
+    })
+    .catch(function (err) {
+      console.error('Erro ao excluir comentário:', err);
+    });
+  }
 
   function bindCommentActions(item) {
     var cid = item.id;
+    var rawId = parseInt(cid.replace('c-', ''));
 
-    // Botão responder
     var btnReply = item.querySelector('.btn-reply-toggle');
     var replyForm = item.querySelector('.reply-form');
     if (btnReply && replyForm) {
       btnReply.addEventListener('click', function () {
+        if (!currentUser) {
+          alert('Você precisa estar logado para responder.');
+          openLoginModal();
+          return;
+        }
         replyForm.classList.toggle('open');
         btnReply.textContent = replyForm.classList.contains('open') ? '↩ Fechar' : '↩ Responder';
       });
 
-      // Cancelar resposta
       replyForm.querySelector('.btn-reply-cancel').addEventListener('click', function () {
         replyForm.classList.remove('open');
         btnReply.textContent = '↩ Responder';
         replyForm.querySelector('textarea').value = '';
       });
 
-      // Enviar resposta — SEM filtro de keyword
       replyForm.querySelector('.btn-reply-submit').addEventListener('click', function () {
         var txt = replyForm.querySelector('textarea').value.trim();
         if (!txt) return;
 
-        var repliesContainer = document.getElementById(cid + '-replies');
-        var replyItem = document.createElement('div');
-        replyItem.className = 'comment-reply-item';
+        fetch('api.php?action=post_comment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ texto: txt, parent_id: rawId })
+         })
+         .then(function (res) { return res.json(); })
+         .then(function (res) {
+           if (res.success && res.data) {
+             addReplyToDOM(res.data.id, rawId, res.data.nome, res.data.texto, res.data.criado_em, res.data.usuario_id);
+             replyForm.querySelector('textarea').value = '';
+             replyForm.classList.remove('open');
+             btnReply.textContent = '↩ Responder';
+           } else {
+             alert(res.message || 'Erro ao publicar resposta.');
+           }
+         })
+         .catch(function (err) {
+           console.error('Erro ao enviar resposta:', err);
+         });
+       });
+     }
 
-        var rNow = new Date();
-        var rTime = rNow.toLocaleDateString('pt-BR') + ' ' +
-                    rNow.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-
-        replyItem.innerHTML =
-          '<div class="comment-reply-author">Anônimo · ' + rTime + '</div>' +
-          '<div class="comment-reply-text">' + escapeHtml(txt) + '</div>';
-
-        repliesContainer.appendChild(replyItem);
-        replyForm.querySelector('textarea').value = '';
-        replyForm.classList.remove('open');
-        btnReply.textContent = '↩ Responder';
-
-        // Esconde o botão apagar pois agora há respostas
-        var btnDel = item.querySelector('.btn-delete-comment');
-        if (btnDel) btnDel.style.display = 'none';
-      });
-    }
-
-    // Botão apagar — só funciona se não houver respostas
-    var btnDel = item.querySelector('.btn-delete-comment');
-    if (btnDel) {
-      btnDel.addEventListener('click', function () {
-        var repliesContainer = document.getElementById(cid + '-replies');
-        if (repliesContainer && repliesContainer.children.length > 0) {
-          btnDel.textContent = '✕ Não é possível apagar (há respostas)';
-          btnDel.style.color = 'var(--text-faint)';
-          setTimeout(function () {
-            btnDel.textContent = '✕ Apagar';
-            btnDel.style.color = '';
-          }, 2500);
-          return;
-        }
-        item.style.transition = 'opacity .4s ease';
-        item.style.opacity = '0';
-        setTimeout(function () { if (item.parentNode) item.parentNode.removeChild(item); }, 450);
-      });
-    }
-  }
+     var btnDel = item.querySelector('.btn-delete-comment');
+     if (btnDel) {
+       btnDel.addEventListener('click', function () {
+         var repliesContainer = document.getElementById(cid + '-replies');
+         if (repliesContainer && repliesContainer.children.length > 0) {
+           btnDel.textContent = '✕ Não é possível apagar (há respostas)';
+           btnDel.style.color = 'var(--text-faint)';
+           setTimeout(function () {
+             btnDel.textContent = '✕ Apagar';
+             btnDel.style.color = '';
+           }, 2500);
+           return;
+         }
+         deleteComment(rawId, false);
+       });
+     }
+   }
 
   /* ── Sub-navegação de Investigações ── */
   document.querySelectorAll('.invest-subnav-btn').forEach(function (btn) {
@@ -1695,13 +1878,35 @@
      ADMIN MODAL — stub, rejeita sempre
   ══════════════════════════════════════════════ */
   var adminModal = document.getElementById('admin-modal');
+  var authMode = 'login';
 
-  document.getElementById('btn-admin-open').addEventListener('click', function () {
+  function openLoginModal() {
+    authMode = 'login';
+    updateAuthModalLabels();
     adminModal.classList.add('active');
     document.getElementById('admin-error').textContent = '';
     document.getElementById('admin-user').value = '';
     document.getElementById('admin-pass').value = '';
-  });
+  }
+
+  function updateAuthModalLabels() {
+    var title = document.getElementById('admin-modal-title');
+    var sub = document.getElementById('admin-modal-sub');
+    var btnSubmit = document.getElementById('btn-admin-submit');
+    var toggleLink = document.getElementById('link-toggle-auth');
+    
+    if (authMode === 'login') {
+      title.textContent = 'Acesso ao Fórum';
+      sub.textContent = '— identificar-se —';
+      btnSubmit.textContent = '[ ENTRAR ]';
+      toggleLink.textContent = 'Não tem uma conta? Cadastre-se';
+    } else {
+      title.textContent = 'Criar Conta';
+      sub.textContent = '— cadastrar-se —';
+      btnSubmit.textContent = '[ CADASTRAR ]';
+      toggleLink.textContent = 'Já tem uma conta? Entrar';
+    }
+  }
 
   function closeAdmin() {
     adminModal.classList.remove('active');
@@ -1715,17 +1920,61 @@
     if (e.target === adminModal) closeAdmin();
   });
 
+  document.getElementById('link-toggle-auth').addEventListener('click', function (e) {
+    e.preventDefault();
+    authMode = authMode === 'login' ? 'register' : 'login';
+    updateAuthModalLabels();
+    document.getElementById('admin-error').textContent = '';
+  });
+
   document.getElementById('btn-admin-submit').addEventListener('click', function () {
     var u = document.getElementById('admin-user').value.trim();
     var p = document.getElementById('admin-pass').value.trim();
     var err = document.getElementById('admin-error');
-    // Sempre rejeita — acesso não liberado
+    
     if (!u || !p) {
       err.textContent = 'Preencha todos os campos.';
-    } else {
-      err.textContent = 'Acesso negado. Credenciais inválidas.';
+      return;
     }
+
+    var endpoint = authMode === 'login' ? 'api.php?action=login' : 'api.php?action=register';
+    
+    fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username: u, password: p })
+    })
+    .then(function (res) { return res.json(); })
+    .then(function (res) {
+      if (res.success) {
+        currentUser = res.user;
+        closeAdmin();
+        updateAuthUI();
+      } else {
+        err.textContent = res.message || 'Erro ao realizar operação.';
+      }
+    })
+    .catch(function (errVal) {
+      console.error('Erro de autenticação:', errVal);
+      err.textContent = 'Erro de rede ou servidor.';
+    });
   });
+
+  function handleLogout() {
+    fetch('api.php?action=logout', { method: 'POST' })
+      .then(function (res) { return res.json(); })
+      .then(function (res) {
+        if (res.success) {
+          currentUser = null;
+          updateAuthUI();
+        }
+      })
+      .catch(function (err) {
+        console.error('Erro ao deslogar:', err);
+      });
+  }
 
   /* ══════════════════════════════════════════════
      DATE FEATURES — comportamentos por data

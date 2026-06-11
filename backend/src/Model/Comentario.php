@@ -14,6 +14,8 @@ final class Comentario
         private readonly string  $criadoEm,
         private readonly ?string $expiraEm = null,
         private readonly ?string $ipHash   = null,
+        private readonly ?int    $usuarioId = null,
+        private readonly ?int    $parentId  = null,
     ) {}
 
     public function getId(): int           { return $this->id; }
@@ -23,4 +25,6 @@ final class Comentario
     public function getCriadoEm(): string  { return $this->criadoEm; }
     public function getExpiraEm(): ?string { return $this->expiraEm; }
     public function getIpHash(): ?string   { return $this->ipHash; }
+    public function getUsuarioId(): ?int   { return $this->usuarioId; }
+    public function getParentId(): ?int    { return $this->parentId; }
 }

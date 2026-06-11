@@ -22,11 +22,9 @@ final class Middleware
     {
         $body = json_decode(file_get_contents('php://input'), true) ?? [];
 
-        $nome  = self::sanitizeString($body['nome'] ?? '', self::MAX_NOME_LENGTH);
         $texto = self::sanitizeString($body['texto'] ?? '', self::MAX_TEXTO_LENGTH);
 
         return [
-            'nome'  => $nome,
             'texto' => $texto,
         ];
     }

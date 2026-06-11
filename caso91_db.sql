@@ -79,26 +79,7 @@ CREATE TABLE IF NOT EXISTS admins (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ── Evento: limpeza automática de comentários expirados ──────
--- MariaDB aceita DELIMITER normalmente via CLI.
--- Se importar via phpMyAdmin, cole apenas o bloco CREATE EVENT
--- diretamente no executor de SQL (sem o DELIMITER).
-DROP EVENT IF EXISTS limpar_comentarios_expirados;
-
-DELIMITER $$
-
-CREATE EVENT limpar_comentarios_expirados
-  ON SCHEDULE EVERY 1 MINUTE
-  COMMENT 'Remove comentarios temporarios expirados'
-  DO
-  BEGIN
-    DELETE FROM comentarios
-    WHERE aprovado = 0
-      AND expira_em IS NOT NULL
-      AND expira_em < NOW();
-  END $$
-
-DELIMITER ;
+-- [REMOVIDO] Evento de limpeza automática de comentários expirados (purgado após desativação de keywords/comentários temporários)
 
 -- ── Dados iniciais: threads de discussão ─────────────────────
 INSERT INTO threads (usuario, handle, iniciais, data_post, texto) VALUES

@@ -24,11 +24,13 @@ final class ComentarioController
 
         $data = array_map(
             fn(Comentario $c): array => [
-                'id'        => $c->getId(),
-                'nome'      => htmlspecialchars($c->getNome(), ENT_QUOTES, 'UTF-8'),
-                'texto'     => htmlspecialchars($c->getTexto(), ENT_QUOTES, 'UTF-8'),
-                'aprovado'  => $c->isAprovado(),
-                'criado_em' => $c->getCriadoEm(),
+                'id'         => $c->getId(),
+                'nome'       => htmlspecialchars($c->getNome(), ENT_QUOTES, 'UTF-8'),
+                'texto'      => htmlspecialchars($c->getTexto(), ENT_QUOTES, 'UTF-8'),
+                'aprovado'   => $c->isAprovado(),
+                'criado_em'  => $c->getCriadoEm(),
+                'usuario_id' => $c->getUsuarioId(),
+                'parent_id'  => $c->getParentId(),
             ],
             $comentarios
         );
@@ -38,29 +40,41 @@ final class ComentarioController
 
     /**
      * Armazena um novo comentario.
-     *
-     * @param array{nome: string, texto: string} $data Dados ja sanitizados pelo Middleware
-     * @return array{success: true, message: string, data: array{id: int, nome: string, texto: string, aprovado: bool, criado_em: string}}
      */
     public function store(array $data): array
     {
-        $nome  = $data['nome'] ?? '';
-        $texto = $data['texto'] ?? '';
+        $nome      = $data['nome'] ?? '';
+        $texto     = $data['texto'] ?? '';
+        $usuarioId = $data['usuario_id'] ?? null;
+        $parentId  = $data['parent_id'] ?? null;
 
-        $comentario = $this->service->criar($nome, $texto);
+        $comentario = $this->service->criar($nome, $texto, $usuarioId, $parentId);
 
         return [
             'success' => true,
-            'message' => $comentario->isAprovado()
-                ? 'Comentario publicado com sucesso!'
-                : 'Comentario enviado para moderacao.',
+            'message' => 'Comentário publicado com sucesso!',
             'data'    => [
-                'id'        => $comentario->getId(),
-                'nome'      => htmlspecialchars($comentario->getNome(), ENT_QUOTES, 'UTF-8'),
-                'texto'     => htmlspecialchars($comentario->getTexto(), ENT_QUOTES, 'UTF-8'),
-                'aprovado'  => $comentario->isAprovado(),
-                'criado_em' => $comentario->getCriadoEm(),
+                'id'         => $comentario->getId(),
+                'nome'       => htmlspecialchars($comentario->getNome(), ENT_QUOTES, 'UTF-8'),
+                'texto'      => htmlspecialchars($comentario->getTexto(), ENT_QUOTES, 'UTF-8'),
+                'aprovado'   => $comentario->isAprovado(),
+                'criado_em'  => $comentario->getCriadoEm(),
+                'usuario_id' => $comentario->getUsuarioId(),
+                'parent_id'  => $comentario->getParentId(),
             ],
+        ];
+    }
+
+    /**
+     * Exclui um comentário.
+     */
+    public function destroy(int $id, int $currentUsuarioId): array
+    {
+        $this->service->deletar($id, $currentUsuarioId);
+
+        return [
+            'success' => true,
+            'message' => 'Comentário excluído com sucesso!'
         ];
     }
 }
